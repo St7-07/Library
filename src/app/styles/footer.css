@@ -1,0 +1,18 @@
+.footerDiv{
+    background: #053768;
+    color: white;
+
+
+    height: 150px;
+    bottom: 0;
+    width: 100%;
+
+    -webkit-box-shadow: -1px -8px 6px -1px rgba(0,0,0,0.37);
+    -moz-box-shadow: -1px -8px 6px -1px rgba(0,0,0,0.37);
+    box-shadow: -1px -8px 6px -1px rgba(0,0,0,0.37);
+}
+
+.logoUCR {
+    height: 100px;
+    margin: 10px;
+}
