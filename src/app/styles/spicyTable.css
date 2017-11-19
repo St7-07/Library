@@ -17,7 +17,7 @@
     padding: 0 20px;
     border: none;
     border-top: 1px solid #ddd;
-    word-break: break-all;
+    /* word-break: break-all; */
     vertical-align: middle;
   }
   
@@ -121,6 +121,7 @@
     float: left;
     text-align: left;
     cursor: pointer;
+    visibility: hidden
   }
   
   .spicy-datatableoptions-sizepicker--selectfield {
