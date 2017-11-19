@@ -4,7 +4,7 @@ import { SubMenu } from "./SubMenu";
 
 export const Content = (props) => {
 
-    return (
+    let contentHtml = (
         <div className="contentDiv container">
             <div className="row">
                 <div className="col-xs-12">
@@ -12,9 +12,10 @@ export const Content = (props) => {
             </div>
 
             <div className="row">
-                <SubMenu />
+                <SubMenu subMenuType={props.sectionType}/>
             </div>
-
         </div>
-    )
+    );
+
+    return contentHtml;
 }

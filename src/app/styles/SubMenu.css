@@ -6,7 +6,6 @@
 .grids_1_of_3{
 	padding: 4%;
     text-align:center;
-    
 }
 .grid_1_of_3{
 	display: block;
@@ -16,10 +15,58 @@
 .grid_1_of_3:first-child {
 	margin-left: 0;
 }
+
+
+.grids_1_of_4{
+	padding: 0%;
+    text-align:center;
+}
+
+.grid_1_of_4{
+	display: inline-block;
+	float:none;
+	margin-left: 0%;
+}
+
+.grid_1_of_4:first-child {
+	margin-left: 80px;
+	margin-right: 250px;
+}
+
 .images_1_of_3 {
 	width: 17%;
 }
-.images_1_of_3 img {
+
+.images_1_of_4 {
+   margin-top: 6%;
+   width: 150px;
+   height: 150px;
+}
+
+.images_1_of_4 :hover img {
+	-webkit-transform: scale(1.3);
+	transform: scale(1.3);
+}
+
+.images_1_of_4 img {
+	cursor:pointer; cursor: hand;
+	border-radius: 50%;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	-o-border-radius: 50%;
+	padding: 6px;
+	background: #D5D5D5;
+
+	width: 100%;
+	height: 100%;
+	
+	-webkit-box-shadow: 15px 15px 19px -10px rgba(0,0,0,1);
+	-moz-box-shadow: 15px 15px 19px -10px rgba(0,0,0,1);
+	box-shadow: 15px 15px 19px -10px rgba(0,0,0,1);
+}
+
+.images_1_of_3 img  {
+	cursor:pointer; cursor: hand;
 	border-radius: 50%;
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
@@ -27,17 +74,18 @@
 	padding: 6px;
     background: #D5D5D5;
 
+	width: 30%;
+	height: 100%;
     -webkit-box-shadow: 15px 15px 19px -10px rgba(0,0,0,1);
     -moz-box-shadow: 15px 15px 19px -10px rgba(0,0,0,1);
     box-shadow: 15px 15px 19px -10px rgba(0,0,0,1);
 }
 
-.images_1_of_3 :hover {
+.images_1_of_3 :hover img {
 
-	border: solid 5px;
-	border-color: #ffcc00;
+	-webkit-transform: scale(1.3);
+	transform: scale(1.3);
 
-    background: #D5D5D5;
 }
 
 .images_1_of_3  h3{
@@ -51,7 +99,39 @@
 	letter-spacing: -1px;
 	text-shadow: 0 1px 0 whiteSmoke;
 }
+
 .images_1_of_3  p  {
+	color: #575757;
+	line-height: 1.8em;
+	font-size:0.8925em;
+}
+
+.images_1_of_4  h3{
+	color: #555555;
+	text-decoration:none;
+	font-family: 'Quattrocento Sans', sans-serif;
+	margin-top: 0.3em;
+	margin-left: 0.2em;
+	margin-bottom: 0.4em;
+	font-size: 1.5em;
+	font-weight: normal;
+	line-height: 1.8em;
+	letter-spacing: -1px;
+	text-shadow: 0 1px 0 whiteSmoke;
+}
+
+
+.images_1_of_4  a{
+	text-decoration:none;
+}
+
+
+.images_1_of_4  :hover a{
+	text-decoration:none;
+}
+
+
+.images_1_of_4  p  {
 	color: #575757;
 	line-height: 1.8em;
 	font-size:0.8925em;

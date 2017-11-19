@@ -2,6 +2,8 @@
     background: #053768;
     color: white;
 
+    border-bottom: solid 6px;
+    border-bottom-color: #ffcc00;
 
     height: 150px;
     bottom: 0;

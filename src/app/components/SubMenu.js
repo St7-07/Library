@@ -1,27 +1,76 @@
 import React from "react";
 import "../styles/SubMenu.css";
 
+import Table from "../components/Table"
+import { Button } from "./Button";
+
 export const SubMenu = (props) => {
 
-    return (
-        <div className="row">
-            <div className="col-xs-12 col-md-offset-2">
-                <div className="grids_1_of_3">
-                    <div className="grid_1_of_3 images_1_of_3">
-                        <a href="#"><img src="images/Prestar.png" /></a>
-                        <h3>Crear nuevo</h3>
+    let type = props.subMenuType;
+    let subMenuHTML;
+
+    switch (type) {
+        case "Prestamos":
+            subMenuHTML = (
+                <div className="row">
+                    <div className="col-xs-12 col-md-offset-2">
+                        <Button buttonType={"Prestar"} />
+                        <Button buttonType={"Renovar"} />
+                        <Button buttonType={"Devolver"} />
                     </div>
-                    <div className="grid_1_of_3 images_1_of_3">
-                        <a href="#"><img src="images/renovar.png" /></a>
-                        <h3>Renovar</h3>
-                    </div>
-                    <div className="grid_1_of_3 images_1_of_3">
-                        <a href="#"><img src="images/devolver.png" /></a>
-                        <h3>Devolver</h3>
-                    </div>
-                    <div className="clear"></div>
                 </div>
-            </div>
-        </div>
-    )
+            );
+            break;
+
+        case "Solicitantes":
+            subMenuHTML = (
+                <div className="row">
+                    <div className="row">
+                        <Table tableType="students"/>
+                    </div>
+                    <div className="col-xs-12 col-md-offset-2">
+                        <Button buttonType={"añadirSolicitante"} />
+                        <Button buttonType={"listarSolicitante"} />
+                        <Button buttonType={"Moroso"} />
+                    </div>
+                </div>
+            );
+            break;
+
+        case "Audiovisuales":
+            subMenuHTML = (
+                <div className="row">
+                    <div className="col-xs-12 col-md-offset-2">
+                        <Button buttonType={"añadirAudio"} />
+                        <Button buttonType={"listaAudio"} />
+                    </div>
+                </div>
+            );
+            break;
+
+        case "Historial":
+            subMenuHTML = (
+                <div className="row">
+                    <div className="col-xs-12 col-md-offset-2">
+                    </div>
+                </div>
+            );
+            break;
+
+        case "Estadisticas":
+            subMenuHTML = (
+                <div className="row">
+                    <div className="col-xs-12 col-md-offset-2">
+
+                    </div>
+                </div>
+            );
+            break;
+
+        default:
+            break;
+    }
+
+
+    return subMenuHTML;
 }

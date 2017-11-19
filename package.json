@@ -4,10 +4,16 @@
   "private": true,
   "scripts": {
     "start": "npm run build:prod",
-    "build": "webpack -d && copy src\\index.html dist\\index.html && webpack-dev-server --content-base src\\ --inline --hot",
+    "react": "npm run build",
+    "build": "webpack -d && copy src\\index.html dist\\index.html && webpack-dev-server --content-base src\\ --inline --hot && node app.js",
     "build:prod": "webpack -p && copy src\\index.html dist\\index.html && node app.js"
   },
+  "repository" : { 
+    "type" : "git",
+    "url" : "https://github.com/npm/npm.git"
+  },
   "dependencies": {
+    "axios": "^0.17.1",
     "body-parser": "~1.18.2",
     "cookie-parser": "~1.4.3",
     "css-loader": "^0.28.7",
@@ -23,6 +29,7 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
     "serve-favicon": "~2.4.5",
+    "spicy-datatable": "^0.5.0",
     "style-loader": "^0.19.0"
   },
   "devDependencies": {

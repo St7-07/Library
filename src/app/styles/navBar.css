@@ -20,7 +20,7 @@ a{text-decoration:none;}
 .underline{	padding-bottom:5px;	border-bottom: 1px solid #eee; margin:0 0 20px 0;}/* Add 5px bottom padding and a underline */
 nav.vertical ul li{	display:block;}/* vertical menu */
 nav.horizontal ul li{	display: inline-block;}/* horizontal menu */
-img{max-width:30%;}
+
 /*end reset*/
 body {
 	background-color: #f6f6f6;
@@ -43,8 +43,9 @@ ol, ul {
 .header{
 	padding:2% 4%;
 }
-.logo{
-	float: left;
+.logo img{
+
+	width: 30%;
 }
 
 .divHeader{
@@ -236,10 +237,4 @@ ol, ul {
 	}
 }
 
-label {
-    display: inline-block;
-    max-width: 100%;
-    margin-bottom: 5px;
-    font-weight: 700;
-    font-size: 1.2em;
-}
+
