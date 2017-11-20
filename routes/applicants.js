@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var Student = require('../models/Student');
 var Person = require('../models/Person');
-
+var Clerk = require('../models/Clerk');
 const DB_Connnection = require('../DB_Connnection').db_connection;
 const sql = require('../DB_Connnection').sql;
 
@@ -158,8 +158,46 @@ router.get('/clerks', function(req, res, next) {
 Create and save a clerk
 */
 router.post('/clerk', function(req, res, next) {
-  res.send("You are creating:" + req.body.name);
-  //call model and then validate and save to db
-});
+let clerk = req.body;
+let validateClerk = new Clerk(clerk.ID,clerk.department,clerk.position)   
+let applicant = req.body;
+//This is the applicant for the person object
+let person = new Person(applicant.identification, applicant.name, applicant.lastname,
+              applicant.email, applicant.tel, applicant.cel, applicant.expireDate,
+              applicant.districtID, applicant.signals, applicant.locationID); 
 
+ DB_Connnection.then(pool => {
+      return pool.request()
+        .input('identification',sql.NVarChar(50), person.identification)
+        .input('name', sql.NVarChar(50),person.name)
+        .input('lastname', sql.NVarChar(50), person.lastname)
+        .input('email', sql.NVarChar(50), person.email)
+        .input('tel', sql.NVarChar(15), person.tel)
+        .input('cel', sql.NVarChar(15), person.cel)
+        .input('expireDate', sql.DateTime, person.expireDate)
+        .input('ID_district', sql.SmallInt, person.districtID)
+        .input('signals', sql.NVarChar(50), person.signals)
+        .input('locationID', sql.SmallInt, person.locationID)
+        .input('position', sql.NVarChar(50), validateClerk.career)
+        .input('department', sql.VarChar(50), validateClerk.studentID)
+        .output('ID', sql.Int)
+        .execute('createClerk');
+      }).then(result => {
+          res.send("User created: " + result.output);
+      }).catch(err => {
+          res.send('Fallo al ejecutar procedimiento.' + err);
+     });
+  });
+
+  router.delete('/clerk/:id', function(req, res, next) {
+    DB_Connnection.then(pool => {
+      return pool.request()
+        .input('ID', sql.Int, req.params.id)
+        .execute('deleteClerk');
+    }).then(result => {
+        res.send("Clerk deleted: " + req.params.id);
+    }).catch(err => {
+        res.send("Clerk couldn't be deleted");
+    });
+});
 module.exports = router;
