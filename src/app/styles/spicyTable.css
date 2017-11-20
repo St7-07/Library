@@ -3,7 +3,6 @@
     overflow: scroll;
     padding: 0;
     margin: 0 auto;
-    background: #fff;
     font-size: 0.875rem;
     text-align: left;
     border-spacing: 0;
@@ -62,7 +61,6 @@
     list-style: none;
     display: inline-block;
     position: relative;
-    background: #fff;
     margin: 0;
     padding: 0;
     -webkit-touch-callout: none;
@@ -79,7 +77,6 @@
     cursor: pointer;
     display: inline-block;
     float: left;
-    color: #ccc;
     height: 2.5rem;
     width: 2.5rem;
     line-height: 2.5rem;
@@ -94,7 +91,6 @@
   
   .spicy-datatable-pagination-list .spicy-datatable-pagination-button.active {
     background: #77cdd8;
-    color: #fff;
   }
   
   .spicy-datatable-pagination-list .spicy-datatable-pagination-button:hover {
