@@ -5,7 +5,7 @@ import { connect } from "react-redux"
 import { User } from "../components/User";
 import { Main } from "../components/Main";
 import { Footer } from "../components/Footer";
-import { Content } from "../components/Content";
+import Content from "../components/Content";
 
 import NavBar from "../components/NavBar";
 import LogIn from "../components/Login";
@@ -24,7 +24,8 @@ class App extends React.Component {
                 return (
                     <div id="admin" className="container-flow" style={{ display: "none" }}>
                         <NavBar onClick={this.props.setSection} section={this.props.sectionReducer.actualSection} />
-                        <Content sectionType={this.props.sectionReducer.actualSection} />
+                        <Content sectionType={this.props.sectionReducer.actualSection} 
+                        subcontentType={this.props.sectionReducer.subcontent}  />
                         <Footer />
                     </div>
                 );
@@ -34,7 +35,8 @@ class App extends React.Component {
                 return (
                     <div id="admin" className="container-flow" style={{ display: "none" }}>
                         <NavBar onClick={this.props.setSection} section={this.props.sectionReducer.actualSection} />
-                        <Content sectionType={this.props.sectionReducer.actualSection} />
+                        <Content sectionType={this.props.sectionReducer.actualSection}
+                        subcontentType={this.props.sectionReducer.subcontent} />
                         <Footer />
                     </div>
                 );

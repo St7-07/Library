@@ -1,21 +1,53 @@
 import React from "react";
 import "../styles/content.css";
-import { SubMenu } from "./SubMenu";
+import  SubMenu  from "./SubMenu";
+import ApplicantForm from "../containers/ApplicantForm";
+import TableHandler from "../containers/TableHandler";
 
-export const Content = (props) => {
+class Content extends React.Component {
 
-    let contentHtml = (
-        <div className="contentDiv container">
-            <div className="row">
-                <div className="col-xs-12">
+    render(){
+        let subContent;
+        
+        
+        switch(this.props.subcontentType){
+            case "applicantForm":
+            subContent= <ApplicantForm function="CREATE" />
+            break;
+            case "applicantTable":
+            subContent= <TableHandler/>
+            break;
+            case "tableDefaulters":
+            subContent= <TableHandler/>
+            break;
+        }
+
+        let contentHtml = (
+            <div className="contentDiv container">
+                <div className="row">
+                    <div className="col-xs-12">
+                        {subContent}
+                        
+                    </div>
+                </div>
+    
+                <div className="row">
+                    <SubMenu subMenuType={this.props.sectionType}/>
                 </div>
             </div>
+        );
 
-            <div className="row">
-                <SubMenu subMenuType={props.sectionType}/>
-            </div>
-        </div>
-    );
+        return(
+            <div>{contentHtml}</div>
+        )
+    }
 
-    return contentHtml;
+
+    
+    // switch(state.subcontent){
+
+    // }
+
 }
+
+export default Content;
