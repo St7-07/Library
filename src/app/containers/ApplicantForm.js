@@ -24,8 +24,7 @@ class ApplicantForm extends React.Component {
                         <div className="col-sm-2">
                             <div className="form-group">
                                 <label for="identification">Cedula:</label>
-                                <input type="text" className="form-control input-sm" id="identification" name="identification"
-                                     value={this.props.applicant.identification}/>
+                                <input type="text" className="form-control input-sm" id="identification" name="identification"/>
                             </div>
                             <div className="form-group">
                                 <label for="name">Nombre:</label>

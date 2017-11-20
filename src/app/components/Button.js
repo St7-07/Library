@@ -38,7 +38,7 @@ export const Button = (props) => {
         case "Moroso":
             buttonHtml = (
                 <div className="grid_1_of_3 images_1_of_3">
-                    <a href="#"><img src="images/morosos.jpg" /></a>
+                    <a href="#"><img src="images/morosos.jpg" onClick={() => props.clicked("tableDefaulters")}/></a>
                     <h3>&nbsp;Morosos</h3>
                 </div>
             );
@@ -65,7 +65,7 @@ export const Button = (props) => {
         case "añadirSolicitante":
             buttonHtml = (
                 <div className="grid_1_of_3 images_1_of_3">
-                    <a href="#"><img src="images/añadirSolicitante.png" /></a>
+                    <a href="#"><img src="images/añadirSolicitante.png" onClick={() => props.clicked("applicantForm")} /></a>
                     <h3>&nbsp;Añadir </h3>
                 </div>
             );
@@ -83,7 +83,7 @@ export const Button = (props) => {
         case "listarSolicitante":
             buttonHtml = (
                 <div className="grid_1_of_3 images_1_of_3">
-                    <a href="#"><img src="images/listarSolicitante.png" /></a>
+                    <a href="#"><img src="images/listarSolicitante.png" onClick={() => props.clicked("applicantTable")}/></a>
                     <h3>&nbsp;Listar</h3>
                 </div>
             );
