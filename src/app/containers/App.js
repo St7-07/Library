@@ -84,7 +84,7 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(setAge(age));
         },
         setSection: (section) => {
-
+            
             dispatch(setSection(section));
         },
         setType: (type, name) => {
