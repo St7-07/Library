@@ -2,7 +2,6 @@
     bottom: 0;
 }
 
-
 .grids_1_of_3{
 	padding: 4%;
     text-align:center;
@@ -29,8 +28,8 @@
 }
 
 .grid_1_of_4:first-child {
-	margin-left: 80px;
-	margin-right: 250px;
+	margin-left: 10%;
+	margin-right: 30%;
 }
 
 .images_1_of_3 {
@@ -39,8 +38,8 @@
 
 .images_1_of_4 {
    margin-top: 6%;
-   width: 150px;
-   height: 150px;
+   width: 25%;
+   height: 50%;
 }
 
 .images_1_of_4 :hover img {

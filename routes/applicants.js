@@ -5,6 +5,7 @@ var Person = require('../models/Person');
 
 const DB_Connnection = require('../DB_Connnection').db_connection;
 const sql = require('../DB_Connnection').sql;
+const config = require('../DB_Connnection').config;
 
 /* Get people listing.
 */
@@ -22,12 +23,15 @@ router.get('/', function(req, res, next) {
 /* GET students listing.
 */
 router.get('/students', function(req, res, next) {
+   
   //res.writeHead(200,{'Content-Type':'application/json'});
   DB_Connnection.then(pool => {
+    console.log("conecto");
     return pool.request().execute('showStudents');
   }).then(result => {
       res.send(result.recordsets[0]);
   }).catch(err => {
+    console.log(err);
       res.send('Fallo al ejecutar procedimiento.' + err);
   });
 });

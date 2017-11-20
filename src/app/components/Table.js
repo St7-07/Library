@@ -1,14 +1,13 @@
 import React, {Component} from 'react';
 import SpicyDatatable from 'spicy-datatable';
 import "../styles/spicyTable.css";
+
 import axios from 'axios';
-import Modal from './Modal'
 
 class Table extends Component {
 
     state = {
-        loadedData : null,
-        selectedData: null
+        loadedData : null
     }
 
     dataRouteHandler = () => {
@@ -43,9 +42,6 @@ class Table extends Component {
             case 'students':
              columns =
                     [{
-                        key: 'button',
-                             label: '',
-                        },{
                         key: 'id',
                              label: 'Cedula',
                            }, 
@@ -255,12 +251,11 @@ class Table extends Component {
                         phoneHome:row.cel,
                         career: row.career,
                         location: row.location,
-                        validDate:row.expireDate,
-                        address: row.address,
-                        onClickHandler: this.optionSelectedHandler
+                        date:row.expireDate,
+                        address: row.address
                     }
                 });
-                console.log(this.state.loadedData[0].expireDate);
+                console.log(this.state.rows);
                 break;
                 
                 case 'clerks':
@@ -275,7 +270,7 @@ class Table extends Component {
                         department:row.department,
                         position:row.position,
                         location: row.location,
-                        validDate: row.expireDate,
+                        date: row.expireDate,
                         address: row.address
                     }
                 });
@@ -329,14 +324,6 @@ class Table extends Component {
         return rows;
     }
 
-    //la opcion de onClickHandler que trae spicy por defecto envia un event, un row y el index
-    //Es solo de recibirlos como params en la function handler
-    //Hace que el state sea toda la info de la row (como objeto) y muestra el modal
-    optionSelectedHandler = (event, row, index) => {
-        this.setState({selectedData:row});
-        $('#myModal').modal('show');
-    }
-
     componentDidMount(){
         let route = this.dataRouteHandler();
         if(!this.state.loadedData)  {
@@ -345,14 +332,12 @@ class Table extends Component {
                 this.setState({loadedData:response.data});
             });
         }
-
-        
     }
 
    
 
     render(){
-       
+
         const key = 'tableTest';
 
         const config ={
@@ -361,20 +346,11 @@ class Table extends Component {
             nextPageLabel: '->',
             previousPageLabel: '<-',
             itemsPerPageLabel: 'Numero de entradas',
-            entryCountLabels: ['Mostrando', 'a','de','entradas'],
-            itemsPerPageOptions: [5]
+            entryCountLabels: ['Mostrando', 'a','de','entradas']
         }
 
         let columns = this.columnsHandler();
         let rows= this.rowsHandler();
-        let modal = null;
-
-        //Este if hace que si el state es nulo(no se han seleccionado datos) no cargue ningún modal 
-        if(this.state.selectedData){
-            modal = <Modal
-                    selectedData = {this.state.selectedData}
-                    />
-        }
         
         return (
             <div className='row'>
@@ -386,7 +362,6 @@ class Table extends Component {
                     config={config}
                     />
                 </div>
-                {modal}
             </div>
         );
     }

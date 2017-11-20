@@ -38,7 +38,7 @@ export const Button = (props) => {
         case "Moroso":
             buttonHtml = (
                 <div className="grid_1_of_3 images_1_of_3">
-                    <a href="#"><img src="images/morosos.jpg" onClick={() => props.clicked("tableDefaulters")}/></a>
+                    <a href="#"><img src="images/morosos.jpg" /></a>
                     <h3>&nbsp;Morosos</h3>
                 </div>
             );
@@ -65,7 +65,7 @@ export const Button = (props) => {
         case "añadirSolicitante":
             buttonHtml = (
                 <div className="grid_1_of_3 images_1_of_3">
-                    <a href="#"><img src="images/añadirSolicitante.png" onClick={() => props.clicked("applicantForm")} /></a>
+                    <a href="#"><img src="images/añadirSolicitante.png" /></a>
                     <h3>&nbsp;Añadir </h3>
                 </div>
             );
@@ -83,7 +83,7 @@ export const Button = (props) => {
         case "listarSolicitante":
             buttonHtml = (
                 <div className="grid_1_of_3 images_1_of_3">
-                    <a href="#"><img src="images/listarSolicitante.png" onClick={() => props.clicked("applicantTable")}/></a>
+                    <a href="#"><img src="images/listarSolicitante.png" /></a>
                     <h3>&nbsp;Listar</h3>
                 </div>
             );
@@ -109,9 +109,9 @@ export const Button = (props) => {
                         </label>
                         <label>
                             Contraseña:
-                        <input type="text"   className="form-control" name="password" id="password"  />
+                        <input type="password"   className="form-control" name="password" id="passwordUser"  />
                         </label>
-                        <input type="submit" onClick={() => props.hideLogIn("NormalUser","Sebastian") } className="btn btn-primary" value="Log In" />
+                        <input type="submit" onClick={() => props.hideLogIn("NormalUser") } className="btn btn-primary" value="Log In" />
                     </div>
                     <a id="administrator">  <img src="images/administrador1.0.png"  onClick={() => hideButton("administrator")} />    <h3>&nbsp;&nbsp;Administrador</h3></a>
                  
@@ -127,7 +127,7 @@ export const Button = (props) => {
                     <div id="administratorForm">
                         <label>
                             Contraseña:
-                        <input className="form-control" type="text" name="password" />
+                        <input className="form-control" type="password" name="passwordAdmin" id="passwordAdmin"/>
                         </label>
                         <input type="submit" onClick={() => props.hideLogIn("Administrator") } className="btn btn-primary" value="Log In" />
                     </div>
