@@ -3,6 +3,7 @@ import "../styles/SubMenu.css";
 
 import Table from "../components/Table"
 import { Button } from "./Button";
+import ApplicantForm from "../containers/ApplicantForm";
 
 export const SubMenu = (props) => {
 
@@ -13,6 +14,9 @@ export const SubMenu = (props) => {
         case "Prestamos":
             subMenuHTML = (
                 <div className="row">
+                    <div className="row">
+                        <ApplicantForm function="CREATE"/>
+                    </div>
                     <div className="col-xs-12 col-md-offset-2">
                         <Button buttonType={"Prestar"} />
                         <Button buttonType={"Renovar"} />
