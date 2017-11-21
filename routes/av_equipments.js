@@ -46,11 +46,11 @@ router.get('/categorys', function (req, res, next) {
 });
 
 // insert a new category 
-router.put('/category',function (req, res, next){
+router.post('/category',function (req, res, next){
 let category = req.body;
     DB_Connection.then(pool =>{
 return pool.request().
-input('identification',sql.NVarChar(50), person.identification).
+input('identification',sql.NVarChar(50), category.category).
 output('ID',sql.INT).
 execute('createCategory');
 }).then(result =>{
@@ -66,12 +66,12 @@ function popullateAv_equipment(pool, req) {
     //This is the applicant for the person object
     let validateEquipment = new Av_Equipment(av_equipment.model, av_equipment.brand , av_equipment.category,
         av_equipment.notes,av_equipment.barcode);
-    pool.input('model',sql.NVarChar(50), validateEquipment.model)
-        .input('brand', sql.NVarChar(50),validateEquipment.brand)
-        .input('name', sql.NVarChar(50), validateEquipment.category)
-        .input('', sql.NVarChar(50), validateEquipment.notes)
-        .input('tel', sql.NVarChar(15), validateEquipment.barcode)
-        .input('cel', sql.NVarChar(15), validateEquipment.cel)
+    pool.input('model',sql.Int, av_equipment.model)
+        .input('brand', sql.Int,av_equipment.brand)
+        .input('name', sql.Int, av_equipment.category)
+        .input('notes', sql.NVarChar(50), validateEquipment.notes)
+        .input('barcode', sql.NVarChar(10), validateEquipment.barcode)
+        .input('id_state', sql.SmallInt, av_equipment.id_state)
 };
 //insert an av_equipment
 router.post('/av_equipment', function(req, res, next) {
@@ -88,15 +88,16 @@ router.post('/av_equipment', function(req, res, next) {
           res.send('Fallo al ejecutar procedimiento.' + err);
      });
   });
-  
+
 // modify an av_equipment
-  router.put('/av_equipment', function(req, res, next) {
+  router.put('/av_equipment/:id', function(req, res, next) {
     let ID = req.body.ID;
     //Send to database the person validating data
     DB_Connnection.then(pool => {
        let poolRequest = pool.request();
        popullateAv_equipment(poolRequest, req);
-        return poolRequest.execute('update_av_equipment');
+        return poolRequest.input('ID', sql.Int, ID)
+        .execute('update_av_equipment');
       }).then(result => {
           res.send("av_equipment updated: " + result.output);
       }).catch(err => {
