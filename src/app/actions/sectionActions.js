@@ -3,7 +3,7 @@ export function setSection(section) {
         type: "SET_SECTION",
         payload: section
     };
-}
+} 
 
 export function setSubcontent(subcontent) {
     return {

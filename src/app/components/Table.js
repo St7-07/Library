@@ -8,10 +8,12 @@ class Table extends Component {
 
     state = {
         loadedData : null,
-        selectedData: null
+        selectedData: null,
+
     }
 
     dataRouteHandler = () => {
+        console.log("Sends: "+this.props.tableType);
         let route = '';
         switch(this.props.tableType){
             case 'students':
@@ -19,7 +21,7 @@ class Table extends Component {
             break;
 
             case 'clerks':
-            route = 'aplicants/clerks';
+            route = 'applicants/clerks';
             break;
 
             case 'equipments':
@@ -78,10 +80,6 @@ class Table extends Component {
                             label: 'Carrera',
                             },
                             {
-                            key: 'location',
-                            label: 'Sede/Recinto',
-                            },
-                            {
                             key: 'validDate',
                             label: 'Fecha validez',
                             },
@@ -119,10 +117,6 @@ class Table extends Component {
                   {
                     key: 'position',
                     label: 'Posicion',
-                  },
-                  {
-                    key: 'sede',
-                    label: 'Sede/Recinto',
                   },
                   {
                     key: 'validDate',
@@ -254,7 +248,6 @@ class Table extends Component {
                         phone:row.tel,
                         phoneHome:row.cel,
                         career: row.career,
-                        location: row.location,
                         validDate:row.expireDate,
                         address: row.address,
                         onClickHandler: this.optionSelectedHandler
@@ -268,13 +261,12 @@ class Table extends Component {
                     return{
                         id: row.identification,
                         name:row.name,
-                        lastName: row.lastname,
+                        lastname: row.lastname,
                         email: row.email,
                         phone:row.tel,
                         phoneHome:row.cel,
                         department:row.department,
                         position:row.position,
-                        location: row.location,
                         validDate: row.expireDate,
                         address: row.address
                     }
@@ -338,7 +330,9 @@ class Table extends Component {
     }
 
     componentDidMount(){
+        
         let route = this.dataRouteHandler();
+        console.log("Route"+route)
         if(!this.state.loadedData)  {
             axios.get('http://localhost:8080/'+ route)
             .then(response => {
@@ -347,6 +341,20 @@ class Table extends Component {
         }
 
         
+    }
+
+    componentDidUpdate(prevState){
+
+        
+        
+        if(prevState.tableType !== this.props.tableType){
+            let route = this.dataRouteHandler();
+            console.log("Entra:"+route);
+            axios.get('http://localhost:8080/'+ route)
+            .then(response => {
+                this.setState({loadedData:response.data});
+            });
+        }
     }
 
    

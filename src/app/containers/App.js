@@ -2,8 +2,6 @@ import React from "react";
 import { connect } from "react-redux"
 
 //Components 
-import { User } from "../components/User";
-import { Main } from "../components/Main";
 import { Footer } from "../components/Footer";
 import Content from "../components/Content";
 
@@ -86,7 +84,7 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(setAge(age));
         },
         setSection: (section) => {
-            
+
             dispatch(setSection(section));
         },
         setType: (type, name) => {

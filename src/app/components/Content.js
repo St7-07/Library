@@ -4,9 +4,10 @@ import  SubMenu  from "./SubMenu";
 import ApplicantForm from "../containers/ApplicantForm";
 import TableHandler from "../containers/TableHandler";
 
-class Content extends React.Component {
 
+class Content extends React.Component {
     render(){
+        console.log("Content rendered");        
         let subContent;
         
         
@@ -19,6 +20,9 @@ class Content extends React.Component {
             break;
             case "tableDefaulters":
             subContent= <TableHandler/>
+            break;
+            case "updateApplicant":
+            subContent= <ApplicantForm function="UPDATE"/>
             break;
         }
 
@@ -39,15 +43,8 @@ class Content extends React.Component {
 
         return(
             <div>{contentHtml}</div>
-        )
+        );
     }
-
-
-    
-    // switch(state.subcontent){
-
-    // }
-
 }
 
 export default Content;
