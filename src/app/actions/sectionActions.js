@@ -4,3 +4,10 @@ export function setSection(section) {
         payload: section
     };
 } 
+
+export function setSubcontent(subcontent) {
+    return {
+        type: "SET_SUBCONTENT",
+        payload: subcontent
+    };
+}

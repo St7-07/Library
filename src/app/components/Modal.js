@@ -1,5 +1,7 @@
 import React from 'react';
-
+import {setSubcontent} from "../actions/sectionActions";
+import { connect } from "react-redux";
+import axios from 'axios';
 const Modal = (props) => {
     return(
         <div>
@@ -8,7 +10,7 @@ const Modal = (props) => {
                 <div className="modal-content">
                     <div className="list-group">
                         <a href="#" className="list-group-item" 
-                        onClick={() => clickHandler("update",props.selectedData)}>Editar</a>
+                        onClick={() => setSubcontent("updateApplicant")}>Editar</a>
                         <a href="#" className="list-group-item"
                         onClick={() => clickHandler("delete",props.selectedData)}>Eliminar</a>
                         <a href="#" className="list-group-item"
@@ -30,10 +32,17 @@ const Modal = (props) => {
 function clickHandler(optionSelected, selectedData){
     switch(optionSelected){
         case "update":
-        //Ya aquí la idea es enviar los datos al form
-        console.log(selectedData.name);
+        $('#myModal').modal('hide');
+        
+        // console.log(selectedData.name);
         break;
         case "delete":
+            let id = selectedData.studentId;
+            axios.delete('http://localhost:8080/applicants/student/'+id)
+            .then(response =>{
+                
+
+            })
         break;
         case "showLoans":
         break;
@@ -42,4 +51,19 @@ function clickHandler(optionSelected, selectedData){
     }
 }
 
-export default Modal;
+const mapStateToProps = (state) => {
+    return {
+        sectionReducer: state.sectionReducer
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setSubcontent: (type) => {
+            dispatch(setSubcontent(type));
+        }
+
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Modal);

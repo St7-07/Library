@@ -1,16 +1,19 @@
 import React, {Component} from 'react';
 import SpicyDatatable from 'spicy-datatable';
 import "../styles/spicyTable.css";
-
 import axios from 'axios';
+import Modal from './Modal'
 
 class Table extends Component {
 
     state = {
-        loadedData : null
+        loadedData : null,
+        selectedData: null,
+
     }
 
     dataRouteHandler = () => {
+        console.log("Sends: "+this.props.tableType);
         let route = '';
         switch(this.props.tableType){
             case 'students':
@@ -18,7 +21,7 @@ class Table extends Component {
             break;
 
             case 'clerks':
-            route = 'aplicants/clerks';
+            route = 'applicants/clerks';
             break;
 
             case 'equipments':
@@ -42,6 +45,9 @@ class Table extends Component {
             case 'students':
              columns =
                     [{
+                        key: 'button',
+                             label: '',
+                        },{
                         key: 'id',
                              label: 'Cedula',
                            }, 
@@ -72,10 +78,6 @@ class Table extends Component {
                             {
                             key: 'career',
                             label: 'Carrera',
-                            },
-                            {
-                            key: 'location',
-                            label: 'Sede/Recinto',
                             },
                             {
                             key: 'validDate',
@@ -115,10 +117,6 @@ class Table extends Component {
                   {
                     key: 'position',
                     label: 'Posicion',
-                  },
-                  {
-                    key: 'sede',
-                    label: 'Sede/Recinto',
                   },
                   {
                     key: 'validDate',
@@ -250,12 +248,12 @@ class Table extends Component {
                         phone:row.tel,
                         phoneHome:row.cel,
                         career: row.career,
-                        location: row.location,
-                        date:row.expireDate,
-                        address: row.address
+                        validDate:row.expireDate,
+                        address: row.address,
+                        onClickHandler: this.optionSelectedHandler
                     }
                 });
-                console.log(this.state.rows);
+                console.log(this.state.loadedData[0].expireDate);
                 break;
                 
                 case 'clerks':
@@ -263,14 +261,13 @@ class Table extends Component {
                     return{
                         id: row.identification,
                         name:row.name,
-                        lastName: row.lastname,
+                        lastname: row.lastname,
                         email: row.email,
                         phone:row.tel,
                         phoneHome:row.cel,
                         department:row.department,
                         position:row.position,
-                        location: row.location,
-                        date: row.expireDate,
+                        validDate: row.expireDate,
                         address: row.address
                     }
                 });
@@ -324,9 +321,35 @@ class Table extends Component {
         return rows;
     }
 
+    //la opcion de onClickHandler que trae spicy por defecto envia un event, un row y el index
+    //Es solo de recibirlos como params en la function handler
+    //Hace que el state sea toda la info de la row (como objeto) y muestra el modal
+    optionSelectedHandler = (event, row, index) => {
+        this.setState({selectedData:row});
+        $('#myModal').modal('show');
+    }
+
     componentDidMount(){
+        
         let route = this.dataRouteHandler();
+        console.log("Route"+route)
         if(!this.state.loadedData)  {
+            axios.get('http://localhost:8080/'+ route)
+            .then(response => {
+                this.setState({loadedData:response.data});
+            });
+        }
+
+        
+    }
+
+    componentDidUpdate(prevState){
+
+        
+        
+        if(prevState.tableType !== this.props.tableType){
+            let route = this.dataRouteHandler();
+            console.log("Entra:"+route);
             axios.get('http://localhost:8080/'+ route)
             .then(response => {
                 this.setState({loadedData:response.data});
@@ -337,7 +360,7 @@ class Table extends Component {
    
 
     render(){
-
+       
         const key = 'tableTest';
 
         const config ={
@@ -346,11 +369,20 @@ class Table extends Component {
             nextPageLabel: '->',
             previousPageLabel: '<-',
             itemsPerPageLabel: 'Numero de entradas',
-            entryCountLabels: ['Mostrando', 'a','de','entradas']
+            entryCountLabels: ['Mostrando', 'a','de','entradas'],
+            itemsPerPageOptions: [5]
         }
 
         let columns = this.columnsHandler();
         let rows= this.rowsHandler();
+        let modal = null;
+
+        //Este if hace que si el state es nulo(no se han seleccionado datos) no cargue ningún modal 
+        if(this.state.selectedData){
+            modal = <Modal
+                    selectedData = {this.state.selectedData}
+                    />
+        }
         
         return (
             <div className='row'>
@@ -362,6 +394,7 @@ class Table extends Component {
                     config={config}
                     />
                 </div>
+                {modal}
             </div>
         );
     }
