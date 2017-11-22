@@ -6,10 +6,10 @@ const input = (props) => {
 
     switch(props.elementType) {
         case('input'):
-            inputElement = <input 
+            inputElement = (<input 
                                 className="form-control input-sm"
                                 {...props.elementConfig}
-                                value={props.value}/>
+                                value={props.value}/>);
         break;
         case('select'):
                 inputElement = (
@@ -23,6 +23,10 @@ const input = (props) => {
                 );
         break;
         default:
+        inputElement = (<input 
+            className="form-control input-sm"
+            {...props.elementConfig}
+            value={props.value}/>);
 
     }
 

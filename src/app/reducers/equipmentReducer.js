@@ -1,25 +1,25 @@
 const initState = {
     id_AV:'',
     form: {
-        barcode : this.inputElement('text', 'Nombre', '', "barcode"),
-        notes: this.inputElement('text', 'Notas', '', 'notes'),
+        barcode : inputElement('text', 'Nombre', '', "barcode"),
+        notes: inputElement('text', 'Notas', '', 'notes'),
 
-        category : this.selectElement( [
+        category : selectElement( [
                     {value:'1', displayValue: 'Laptop'},
                     {value:'2', displayValue: 'Video Beam'}]
                     ,'','category'),
 
-        model : this.selectElement( [
+        model : selectElement( [
                     {value:'1', displayValue: '12321'},
                     {value:'2', displayValue: 'fsdfsd'}]
                      ,'','model'),
 
-        brand : this.selectElement( [
+        brand : selectElement( [
                    {value:'1', displayValue: 'VAIO'},
                    {value:'2', displayValue: 'Apple'}]
                     ,'','brand'),
 
-        state : this.selectElement( [
+        state : selectElement( [
                     {value:'1', displayValue: 'Prestada'},
                     {value:'2', displayValue: 'Disponible'}]
                     ,'','state')
@@ -39,7 +39,7 @@ function inputElement( type, placeholder, value, name) {
     };
 }
 
-function selectElement( options, value, name) {
+ function selectElement( options, value, name) {
     return {
         elementType: 'select',
         elementConfig: {
