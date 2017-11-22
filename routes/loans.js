@@ -1,13 +1,17 @@
 var express = require('express');
 var router = express.Router();
-var Loan = require('../models/Loan');
 
-const DB_Connection = require('../DB_Connnection');
-const sql = require('../DB_Connnection');
+const db_connection = require('../DB_Connnection').db_connection;
+const sql = require('../DB_Connnection').sql;
+const config = require('../DB_Connnection').config;
 
-router.get('/loans', function (req, res, next) {
-    DB_Connection.then(pool => {
-        return pool.request().execute('show_loan');
+let Loan = require('../models/Loan');
+
+
+
+router.get('/', function (req, res, next) {
+    db_Connection.then(pool => {
+        return pool.request().execute('showLoans');
     }).then(result => {
         res.send(result.recordsets[0]);
     }).catch(err => {
@@ -18,7 +22,7 @@ router.get('/loans', function (req, res, next) {
 router.post('/loan', function (req, res, next) {
     let loan = req.body;
     let validateLoan = new Loan(loan.loanDate, loan.returnDate, loan.returnedDate, loan.state);
-    DB_Connection.then(pool => {
+    db_Connection.then(pool => {
         return pool.request().
             input('id_user', sql.SmallInt, loan.userId).
             input('loanDate', sql.DateTime, validateLoan.loanDate).
@@ -38,7 +42,7 @@ router.post('/loan', function (req, res, next) {
 //ask if you can do tha shit nigga
 router.put('/loan/:returnedDate', function (req, res, next) {
     let returnedDate = req.body.date;
-    DB_Connection.then(pool => {
+    db_Connection.then(pool => {
         return pool.request().
             input('returnedDate', sql.DateTime, new Date(returnedDate)).
             output('ID', sql.INT).
@@ -50,3 +54,5 @@ router.put('/loan/:returnedDate', function (req, res, next) {
         res.send('fallo al ejecutar el procedimiento ' + err)
     });
 });
+
+module.exports = router;

@@ -1,4 +1,4 @@
-module.export = function(model,brand,id_category,notes,barcode)
+module.exports = function(model,brand,category,notes,barcode,state)
 {
 this.model =model;
 this.brand = brand;

@@ -42,7 +42,11 @@ function popullatePersonPool(pool, req) {
     let person = new Person(applicant.identification, applicant.name, applicant.lastname,
                   applicant.email, applicant.tel, applicant.cel, applicant.expireDate,
                   applicant.districtID, applicant.signals, applicant.locationID);
-    pool.input('identification',sql.NVarChar(50), person.identification)
+                  console.log(person.expireDate);
+                  console.log(person.identification);
+                  console.log(person.name);
+                  console.log(person.cel);
+    pool.input('identification',sql.Int, person.identification)
         .input('name', sql.NVarChar(50),person.name)
         .input('lastname', sql.NVarChar(50), person.lastname)
         .input('email', sql.NVarChar(50), person.email)
@@ -50,11 +54,9 @@ function popullatePersonPool(pool, req) {
         .input('cel', sql.NVarChar(15), person.cel)
         .input('expireDate', sql.DateTime, person.expireDate)
         .input('ID_district', sql.SmallInt, person.district)
-        .input('signals', sql.NVarChar(50), person.signals)
+        .input('signals', sql.NVarChar(10), person.signals)
         .input('locationID', sql.SmallInt, person.locationID);
 };
-
-
   /*
   Create and save a student
   */
@@ -65,8 +67,8 @@ function popullatePersonPool(pool, req) {
     DB_Connnection.then(pool => {
        let poolRequest = pool.request();
         popullatePersonPool(poolRequest, req);
-        return poolRequest.input('career', sql.NVarChar(50), validatedStudent.career)
-            .input('studentID', sql.VarChar(10), validatedStudent.studentID)
+        return poolRequest.input('studentID', sql.VarChar(10), validatedStudent.studentID)
+            .input('career', sql.NVarChar(50), validatedStudent.career)
             .output('ID', sql.Int)
             .execute('createStudent');
       }).then(result => {
