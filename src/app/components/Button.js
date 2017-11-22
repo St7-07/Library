@@ -74,7 +74,7 @@ export const Button = (props) => {
         case "añadirAudio":
             buttonHtml = (
                 <div className="grid_1_of_3 images_1_of_3">
-                    <a href="#"><img src="images/añadirAudioVisual.png" /></a>
+                    <a href="#"><img src="images/añadirAudioVisual.png"  onClick={() => props.clicked("añadirAudio")}/></a>
                     <h3>&nbsp;Añadir</h3>
                 </div>
             );

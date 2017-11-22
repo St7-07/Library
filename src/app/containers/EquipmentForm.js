@@ -34,7 +34,7 @@ class EquipmentForm extends React.Component {
                     {/* <form> falta onSubmit */}
                     <form>
                         <div className="col-sm-2">
-                            {formElementsArray.map(formElement => ( 
+                        {formElementsArray.map(formElement => ( 
                                 <Input 
                                     key={formElement.id}
                                     elementType={formElement.config.elementType}

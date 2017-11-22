@@ -1,7 +1,7 @@
 import React from 'react';
-import classes from './Input.css';
+import './Input.css';
 
-const input = (props) => {
+ export const Input = (props) => {
     let inputElement = null;
 
     switch(props.elementType) {
