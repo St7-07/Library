@@ -47,7 +47,7 @@ export const Button = (props) => {
         case "Historial":
             buttonHtml = (
                 <div className="grid_1_of_3 images_1_of_3">
-                    <a href="#"><img src="images/historial.png" /></a>
+                    <a href="#"><img src="images/historial.png" onClick={() => props.clicked("tableLoans")}/></a>
                     <h3>&nbsp;Historial</h3>
                 </div>
             );
