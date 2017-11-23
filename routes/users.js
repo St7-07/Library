@@ -86,5 +86,18 @@ router.post('/validate', function(req, res, next) {
       res.send('Fallo al ejecutar procedimiento.' + err);
   });
 });
+//restore password
+router.post('/restorePassword', function(req, res, next) {
+  db_connection.then(pool => {
+    return pool.request()
+    .input('usernameName',sql.NVarChar(50), req.body.username )
+    .output('pass', sql.NVarChar(50), "")
+    .execute('returnPass');
+  }).then(result => {
+      res.send(result.output);
+  }).catch(err => {
+      res.send('Fallo al ejecutar procedimiento.' + err);
+  });
+});
 
 module.exports = router;
