@@ -6,9 +6,10 @@ import logInReducer from "./reducers/logInReducer";
 import applicantReducer from "./reducers/applicantReducer";
 import tableReducer from './reducers/tableReducer';
 import { applyMiddleware } from "redux";
+import equipmentReducer from "./reducers/equipmentReducer"
 
 export default createStore(
-    combineReducers({sectionReducer, logInReducer, applicantReducer,tableReducer}), {},
+    combineReducers({sectionReducer, logInReducer, applicantReducer,tableReducer, equipmentReducer}), {},
     applyMiddleware(thunk)
  );
  

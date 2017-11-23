@@ -3,14 +3,16 @@ import "../styles/content.css";
 import SubMenu from "./SubMenu";
 import ApplicantForm from "../containers/ApplicantForm";
 import TableHandler from "../containers/TableHandler";
-
+import EquipmentForm from "../containers/EquipmentForm";
 
 class Content extends React.Component {
 
     render() {
         console.log("Content rendered");
         let subContent;
-        switch (this.props.subcontentType) {
+        
+        console.log(this.props.subcontentType + " tipo de subcontenido******************");
+        switch(this.props.subcontentType){
             case "applicantForm":
                 subContent = <ApplicantForm function="CREATE" />
                 break;
@@ -21,8 +23,11 @@ class Content extends React.Component {
                 subContent = <TableHandler />
                 break;
             case "updateApplicant":
-                subContent = <ApplicantForm function="UPDATE" />
-                break;
+            subContent= <ApplicantForm function="UPDATE"/>
+            break;
+            case "añadirAudio":
+            subContent= <EquipmentForm function="CREATE"/>
+            break;
         }
 
 

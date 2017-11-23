@@ -1,7 +1,7 @@
-export function setSection(section) {
+export function setSection(section,subcontent) {
     return {
         type: "SET_SECTION",
-        payload: section
+        payload: {section,subcontent}
     };
 } 
 

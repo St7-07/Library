@@ -11,6 +11,7 @@ import LogIn from "../components/Login";
 import { setName } from "../actions/userActions";
 import { setSection } from "../actions/sectionActions";
 import { setType } from "../actions/logInActions";
+import { setSubcontent } from "../actions/sectionActions";
 
 
 
@@ -98,9 +99,9 @@ const mapDispatchToProps = (dispatch) => {
         setAge: (age) => {
             dispatch(setAge(age));
         },
-        setSection: (section) => {
-
+        setSection: (section,subcontent) => {
             dispatch(setSection(section));
+            dispatch(setSubcontent(subcontent));
         },
         setType: (type, name) => {
             dispatch(setType(type, name));
