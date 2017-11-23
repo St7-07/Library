@@ -46,7 +46,6 @@ class EquipmentForm extends React.Component {
         updatedFormElement.value = event.target.value;
         updatedform[inputIdentifier] = updatedFormElement;
         this.setState({form: updatedform});
-        console.log("Enrtree");
     }
 
     render() {
@@ -82,7 +81,6 @@ class EquipmentForm extends React.Component {
                     </form>
                 </div>
             </div>
-
         );
     }
 
