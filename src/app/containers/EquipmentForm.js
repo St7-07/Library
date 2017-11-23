@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 
 import "../styles/Form.css";
 import {Input, InputElement, SelectElement,InputChangedHandler} from "../components/FormsUI/Input";
+import axios from 'axios';
 
 class EquipmentForm extends React.Component {
 
@@ -37,6 +38,27 @@ class EquipmentForm extends React.Component {
     }
 
  
+    onSubmitHandler = (event) => {
+        event.preventDefault();
+        const formData = {};
+        for (let formElementIdentifier in this.state.form) {
+            formData[formElementIdentifier] = this.state.form[formElementIdentifier].value;
+        }
+        switch (this.props.function) {
+            case 'CREATE':
+                axios.post('http://localhost:8080/av_equipments/av_equipment', formData)
+                    .then(response => {
+                        alert('Equipo Creado' + response);
+                    });
+            break;
+            case 'EDIT':
+                axios.put('http://localhost:8080/av_equipments/av_equipment/'+ formData)
+                    .then(response => {
+                        alert('Equipo Actualizado' + response);
+                    });
+            break;
+        }
+    }
 
     render() {
         const formElementsArray = [];
@@ -51,7 +73,7 @@ class EquipmentForm extends React.Component {
             <div className="formSpace">
                 <div className="row">
                     {/* <form> falta onSubmit */}
-                    <form>
+                    <form onSubmit={(event) => this.onSubmitHandler(event)}>
                         <div className="col-sm-2">
                         {formElementsArray.map(formElement => ( 
                                 <Input 
@@ -64,9 +86,9 @@ class EquipmentForm extends React.Component {
                                 />
                             ))}
                                                         
-                        <div className="col-sm-4">
-                            <button type="submit" className="btn btn-primary">{(this.props.function === 'CREATE')?"Crear":"Actualizar"}</button>
-                        </div>  
+                            <div className="col-sm-4">
+                                <button type="submit" className="btn btn-primary">{(this.props.function === 'CREATE')?"Crear":"Actualizar"}</button>
+                            </div>  
                         </div>
                     </form>
                 </div>

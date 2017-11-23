@@ -98,7 +98,7 @@ function popullateAv_equipment(pool, req) {
     //This is the applicant for the person object
     let validateEquipment = new Av_Equipment(av_equipment.model, av_equipment.brand , av_equipment.category,
         av_equipment.notes,av_equipment.barcode,av_equipment.state);
-        console.log(validateEquipment.category);
+        console.log(validateEquipment.barcode);
     pool.input('barcode',sql.NVarChar(50), validateEquipment.barcode)
         .input('id_category', sql.Int,validateEquipment.category)
         .input('id_brand', sql.Int,validateEquipment.brand)
