@@ -36,8 +36,27 @@
     height: 150px;
 }
 
+.pukDiv{
+    display: none; 
+}
+
 .administratorDiv{
     width: 150px;
     height: 150px;
     margin-bottom: 25px;
+}
+
+ .labelError {
+
+    display: none; 
+    color: red;
+}
+
+#forgotPassword {
+    cursor:pointer; 
+    cursor: hand;
+}
+
+#forgotPassword:hover{
+    color:#053768;
 }
