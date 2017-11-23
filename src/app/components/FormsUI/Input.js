@@ -61,3 +61,15 @@ export const SelectElement =(options, value, name, label) => {
         value:value
     };
 }
+
+export const InputChangedHandler = (event, inputIdentifier, state) => {
+    const updatedform = {
+        ...state.form
+    }
+    const updatedFormElement = {
+        ...updatedform[inputIdentifier]
+    }
+    updatedFormElement.value = event.target.value;
+    updatedform[inputIdentifier] = updatedFormElement;
+    return updatedform;
+}

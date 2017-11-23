@@ -2,7 +2,7 @@ import React from "react";
 import {connect} from 'react-redux';
 
 import "../styles/Form.css";
-import {Input, InputElement, SelectElement} from "../components/FormsUI/Input";
+import {Input, InputElement, SelectElement,InputChangedHandler} from "../components/FormsUI/Input";
 
 class EquipmentForm extends React.Component {
 
@@ -36,17 +36,7 @@ class EquipmentForm extends React.Component {
         };
     }
 
-    inputChangedHandler = (event, inputIdentifier) => {
-        const updatedform = {
-            ...this.state.form
-        }
-        const updatedFormElement = {
-            ...updatedform[inputIdentifier]
-        }
-        updatedFormElement.value = event.target.value;
-        updatedform[inputIdentifier] = updatedFormElement;
-        this.setState({form: updatedform});
-    }
+ 
 
     render() {
         const formElementsArray = [];
@@ -70,7 +60,7 @@ class EquipmentForm extends React.Component {
                                     elementConfig={formElement.config.elementConfig}
                                     value={formElement.config.value}
                                     label={formElement.config.label}
-                                    changed={(event) => this.inputChangedHandler(event, formElement.id)}
+                                    changed={(event) => this.setState({form: InputChangedHandler(event, formElement.id, this.state)})}
                                 />
                             ))}
                                                         
