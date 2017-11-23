@@ -17,11 +17,14 @@ class Content extends React.Component {
                 subContent = <ApplicantForm function="CREATE" />
                 break;
             case "applicantTable":
-                subContent = <TableHandler setApplicant={this.props.setApplicant} />
+                subContent = <TableHandler tableType='students' />
                 break;
             case "tableDefaulters":
                 subContent = <TableHandler />
                 break;
+            case "tableAV":
+                subContent = <TableHandler tableType='av_equipment'/>
+            break;
             case "updateApplicant":
             subContent= <ApplicantForm function="UPDATE"/>
             break;

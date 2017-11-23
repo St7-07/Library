@@ -26,8 +26,13 @@ class TableHandler extends Component {
     }
 
     switchTableType() {
-        let tableType = <Table tableType={this.props.tableReducer.dataType} setApplicant={this.props.setApplicant}/>
+        console.log(this.props.tableType)
+        let tableType = <Table tableType={this.props.tableReducer.dataType}/>
         return tableType
+    }
+
+    componentWillMount(){
+        this.props.setDataType(this.props.tableType);
     }
 };
 

@@ -56,7 +56,7 @@ export const Button = (props) => {
         case "listaAudio":
             buttonHtml = (
                 <div className="grid_1_of_3 images_1_of_3">
-                    <a href="#"><img src="images/listaAudioVisual.png" /></a>
+                    <a href="#"><img src="images/listaAudioVisual.png" onClick={() => props.clicked("tableAV")}/></a>
                     <h3>&nbsp;Listar</h3>
                 </div>
             );
