@@ -23,8 +23,8 @@ class Table extends Component {
             route = 'applicants/clerks';
             break;
 
-            case 'equipments':
-                route = 'equipments';
+            case 'av_equipment':
+                route = 'av_equipments';
             break;
 
             case 'loans':
@@ -127,10 +127,10 @@ class Table extends Component {
                   }];
             break;
 
-            case 'equipments':
+            case 'av_equipment':
                columns =
                     [{
-                        key: 'productId',
+                        key: 'barcode',
                         label: 'Codigo de barra',
                     },
                     {
@@ -144,10 +144,6 @@ class Table extends Component {
                     {
                         key: 'model',
                         label: 'Modelo',
-                    },
-                    {
-                        key: 'loanTime',
-                        label: 'Tiempo de Prestamo',
                     },
                     {
                         key: 'state',
@@ -272,15 +268,14 @@ class Table extends Component {
                 });
                 break;
 
-                case 'equipments':
+                case 'av_equipment':
                 rows = this.state.loadedData.map(row => {
                     return{
-                        productId: row.productId,
+                        barcode: row.barcode,
                         category:row.category,
-                        brand: row.brand,
-                        model: row.model,
-                        loanTime: row.loanTime,
-                        state: row.state
+                        brand: row.brandType,
+                        model: row.Model,
+                        state: row.stateType
                     }
                 }); 
                 break;
@@ -328,20 +323,22 @@ class Table extends Component {
         $('#myModal').modal('show');
     }
 
-    componentDidMount(){ 
-        let route = this.dataRouteHandler();
-        console.log("Route"+route)
-        if(!this.state.loadedData)  {
-            axios.get('http://localhost:8080/'+ route)
-            .then(response => {
-                this.setState({loadedData:response.data});
-            });
-        }
+    // componentDidMount(){ 
+    //     let route = this.dataRouteHandler();
+    //     console.log("Route"+route)
+    //     if(!this.state.loadedData)  {
+    //         axios.get('http://localhost:8080/'+ route)
+    //         .then(response => {
+    //             this.setState({loadedData:response.data});
+    //         });
+    //     }
 
         
-    }
+    // }
 
     componentDidUpdate(prevState){
+        console.log("HIZO UPDATE TABLE...Prev: "+prevState.tableType
+    +" Table type: "+this.props.tableType)
         if(prevState.tableType !== this.props.tableType){
             let route = this.dataRouteHandler();
             console.log("Entra:"+route);
