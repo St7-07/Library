@@ -47,8 +47,8 @@ class SubMenu extends React.Component{
                 subMenuHTML = (
                     <div className="row">
                         <div className="col-xs-12 col-md-offset-2">
-                            <Button buttonType={"añadirAudio"}  />
-                            <Button buttonType={"listaAudio"} />
+                            <Button buttonType={"añadirAudio"}  clicked={this.props.setSubcontent} />
+                            <Button buttonType={"listaAudio"}  clicked={this.props.setSubcontent} />
                         </div>
                     </div>
                 );

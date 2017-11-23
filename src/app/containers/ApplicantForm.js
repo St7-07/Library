@@ -9,7 +9,9 @@ import "../styles/Form.css";
 class ApplicantForm extends React.Component {
 
     render() {
+        console.log(this.props.applicant);
         return (
+           
             <div className="formSpace">
                 <div className="row">
                     <div className="btn-group">
@@ -24,11 +26,11 @@ class ApplicantForm extends React.Component {
                         <div className="col-sm-2">
                             <div className="form-group">
                                 <label for="identification">Cedula:</label>
-                                <input type="text" className="form-control input-sm" id="identification" name="identification"/>
+                                <input type="text" className="form-control input-sm" id="identification" name="identification" />
                             </div>
                             <div className="form-group">
                                 <label for="name">Nombre:</label>
-                                <input type="text" className="form-control input-sm" id="name" name="name"/>
+                                <input type="text" className="form-control input-sm" id="name" name="name" />
                             </div>
                             <div className="form-group">
                                 <label for="lastname">Apellidos:</label>
@@ -87,9 +89,7 @@ class ApplicantForm extends React.Component {
     }
 
     componentWillMount() {
-        if(this.props.function !== 'CREATE') {
-            this.props.applicant = editApplicant;
-        }
+     
     }
 
     chooseApplicantForm() {

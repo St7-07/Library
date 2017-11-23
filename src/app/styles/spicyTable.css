@@ -6,6 +6,10 @@
   font-size: 0.875rem;
   text-align: left;
   border-spacing: 0;
+
+  -webkit-box-shadow: 0px 6px 6px -1px rgba(0,0,0,0.37);
+	-moz-box-shadow: 0px 6px 6px -1px rgba(0,0,0,0.37);
+	box-shadow: 0px 6px 6px -1px rgba(0,0,0,0.37);
 }
 
 .spicy-datatable > tbody > tr > td,
@@ -26,6 +30,7 @@
 
 .spicy-datatable > tbody > tr:hover {
   background: #77cdd8;
+  color: white;
 }
 
 .spicy-datatable > thead > tr > th {
@@ -34,6 +39,7 @@
 
 .spicy-datatable > tbody > .spicy-datatable--selected-row {
   background: #77cdd8;
+  color: white;
 }
 
 /*
@@ -44,17 +50,27 @@
   text-align: left;
   font-size: 12px;
   padding: 0 20px;
+  width: 25%;
+  margin-top: 2%;
 }
 
 /*
-  === PAGINATION SETTINGS ===
+  === PAGINATION SETTINGS ===   
 */
 
+.optionsButton{
+  margin-left: 8.5%;
+}
+
 .spicy-datatable-pagination-root {
-  width: 100%;
+  width: 25%;
   position: relative;
   margin: 1rem auto;
   overflow: auto;
+
+  -webkit-box-shadow: 0px 6px 6px -1px rgba(0,0,0,0.37);
+	-moz-box-shadow: 0px 6px 6px -1px rgba(0,0,0,0.37);
+	box-shadow: 0px 6px 6px -1px rgba(0,0,0,0.37);
 }
 
 .spicy-datatable-pagination-list {
@@ -87,10 +103,12 @@
 
 .spicy-datatable-pagination-list .spicy-datatable-pagination-button-elipsis:hover {
   background: #fff !important;
+  color: white;
 }
 
 .spicy-datatable-pagination-list .spicy-datatable-pagination-button.active {
   background: #77cdd8;
+  color: white;
 }
 
 .spicy-datatable-pagination-list .spicy-datatable-pagination-button:hover {

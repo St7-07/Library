@@ -9,7 +9,6 @@ class Table extends Component {
     state = {
         loadedData : null,
         selectedData: null,
-
     }
 
     dataRouteHandler = () => {
@@ -243,7 +242,7 @@ class Table extends Component {
                         id: row.identification,
                         name:row.name,
                         lastname: row.lastname,
-                        studentId: row.studentId,
+                        studentId: row.studentLicense,
                         email: row.email,
                         phone:row.tel,
                         phoneHome:row.cel,
@@ -329,8 +328,7 @@ class Table extends Component {
         $('#myModal').modal('show');
     }
 
-    componentDidMount(){
-        
+    componentDidMount(){ 
         let route = this.dataRouteHandler();
         console.log("Route"+route)
         if(!this.state.loadedData)  {
@@ -344,9 +342,6 @@ class Table extends Component {
     }
 
     componentDidUpdate(prevState){
-
-        
-        
         if(prevState.tableType !== this.props.tableType){
             let route = this.dataRouteHandler();
             console.log("Entra:"+route);
@@ -357,12 +352,19 @@ class Table extends Component {
         }
     }
 
-   
+    
+    refresh() {
+         let route = this.dataRouteHandler();
+            console.log("Entra:"+route);
+            axios.get('http://localhost:8080/'+ route)
+            .then(response => {
+                this.setState({loadedData:response.data});
+            });
+    }
 
     render(){
        
         const key = 'tableTest';
-
         const config ={
             searchLabel: 'Buscar:',
             searchPlaceholder: ' ',
@@ -381,7 +383,8 @@ class Table extends Component {
         if(this.state.selectedData){
             modal = <Modal
                     selectedData = {this.state.selectedData}
-                    />
+                    refresh = {this.refresh.bind(this)}
+                   />          
         }
         
         return (
