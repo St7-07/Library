@@ -10,6 +10,7 @@ var users = require('./routes/users');
 var applicants = require('./routes/applicants');
 var loans = require('./routes/loans');
 var av_equipment = require('./routes/av_equipments');
+var delinquencies = require('./routes/delinquencies');
 var app = express();
 
 // uncomment after placing your favicon in /public
@@ -28,7 +29,7 @@ app.use('/users', users);
 app.use('/applicants', applicants);
 app.use('/av_equipments', av_equipment);
 app.use('/loans', loans);
-
+app.use('/delinquencies', delinquencies);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
