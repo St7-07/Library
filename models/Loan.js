@@ -1,6 +1,8 @@
-module.exports = function(loanDate,returnDate,returnedDate , state){
-    this.loanDate=new Date(loanDate);
-    this.returnDate=new Date(returnDate);
-    this.returnedDate =new Date(returnedDate);
-    this.state = state;
+module.exports = function(startDate,finishDate ){
+    this.startDate=new Date(startDate);
+    this.finishDate=new Date(finishDate);
     }
+
+    module.exports = function(){
+      
+        }
