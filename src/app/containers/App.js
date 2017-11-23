@@ -13,20 +13,39 @@ import { setSection } from "../actions/sectionActions";
 import { setType } from "../actions/logInActions";
 
 
+
 class App extends React.Component {
 
     render() {
         console.log("renderApp");
         switch (this.props.logInReducer.typeUser) {
             case "Administrator":
-                return (
-                    <div id="admin" className="container-flow" style={{ display: "none" }}>
-                        <NavBar onClick={this.props.setSection} section={this.props.sectionReducer.actualSection} />
-                        <Content sectionType={this.props.sectionReducer.actualSection} 
-                        subcontentType={this.props.sectionReducer.subcontent}  />
-                        <Footer />
-                    </div>
-                );
+                if (this.props.sectionReducer.subcontent == "updateApplicant") {
+
+                    //crear objeto usando el applicantReducer para despues enviarlo como prop applicantData
+
+                    return (
+                        <div id="admin" className="container-flow" style={{ display: "none" }}>
+                            <NavBar onClick={this.props.setSection} section={this.props.sectionReducer.actualSection} />
+                            <Content sectionType={this.props.sectionReducer.actualSection}
+                                subcontentType={this.props.sectionReducer.subcontent}
+                            //applicantData={}
+                            />
+                            <Footer />
+                        </div>
+                    );
+                } else {
+                    return (
+                        <div id="admin" className="container-flow" style={{ display: "none" }}>
+                            <NavBar onClick={this.props.setSection} section={this.props.sectionReducer.actualSection} />
+                            <Content sectionType={this.props.sectionReducer.actualSection}
+                                subcontentType={this.props.sectionReducer.subcontent}
+                            />
+                            <Footer />
+                        </div>
+                    );
+                }
+
                 break;
 
             case "NormalUser":
@@ -34,7 +53,7 @@ class App extends React.Component {
                     <div id="admin" className="container-flow" style={{ display: "none" }}>
                         <NavBar onClick={this.props.setSection} section={this.props.sectionReducer.actualSection} />
                         <Content sectionType={this.props.sectionReducer.actualSection}
-                        subcontentType={this.props.sectionReducer.subcontent} />
+                            subcontentType={this.props.sectionReducer.subcontent} />
                         <Footer />
                     </div>
                 );
@@ -47,10 +66,6 @@ class App extends React.Component {
                 );
                 break;
         }
-
-
-
-
     }
 
     componentDidUpdate() {
@@ -71,7 +86,7 @@ class App extends React.Component {
 const mapStateToProps = (state) => {
     return {
         sectionReducer: state.sectionReducer,
-        logInReducer: state.logInReducer
+        logInReducer: state.logInReducer,
     };
 };
 
@@ -89,7 +104,8 @@ const mapDispatchToProps = (dispatch) => {
         },
         setType: (type, name) => {
             dispatch(setType(type, name));
-        }
+        },
+ 
 
     };
 };

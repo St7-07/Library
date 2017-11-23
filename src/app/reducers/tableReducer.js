@@ -1,7 +1,8 @@
 const initState = {
     dataType: "students",
     loadedData : null,
-    selectedData: null
+    selectedData: null,
+    numberRows: 0
 };
 
 const tableReducer = (state = initState, action) => {
@@ -12,6 +13,12 @@ const tableReducer = (state = initState, action) => {
                 dataType : action.payload
             }
         break;
+        case 'CHANGE_ROW_NUMBER':
+        state= {
+            ...state,
+            numberRows : action.payload
+        }
+    break;
     }
     return state;
 }

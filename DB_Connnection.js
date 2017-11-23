@@ -1,10 +1,10 @@
 const sql = require('mssql');
 
 const config = {
-    user: 'sa',
+    user: 'dba',
     password: 'root',
     server: 'localhost\\MSSQLSERVER2016', // You can use 'localhost\\instance' to connect to named instance
-    database: 'Biblioteca'
+    database: 'Biblioteca(Production)'
    
 }
 

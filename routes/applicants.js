@@ -135,13 +135,15 @@ router.get('/students', function(req, res, next) {
 
 router.delete('/student/:id', function(req, res, next) {
     DB_Connnection.then(pool => {
+      console.log(req.params.id);
       return pool.request()
-        .input('ID', sql.Int, req.params.id)
+        .input('studentLicense', sql.NVarChar, req.params.id)
         .execute('deleteStudent');
     }).then(result => {
         res.send("Student deleted: " + req.params.id);
     }).catch(err => {
-        res.send("Student couldn't be deleted");
+
+        res.send(err);
     });
 });
 
