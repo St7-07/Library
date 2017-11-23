@@ -154,7 +154,12 @@ class Table extends Component {
 
             case 'loans':
             columns=
-                [{
+                [
+                    {
+                        key: 'barcode',
+                        label: 'Codigo de Barras',
+                    },
+                    {
                     key: 'id',
                     label: 'Cedula',
                 },
@@ -165,18 +170,6 @@ class Table extends Component {
                 {
                     key: 'lastname',
                     label: 'Apellidos',
-                },
-                {
-                    key: 'productId',
-                    label: 'Codigo de Barras',
-                },
-                {
-                    key: 'category',
-                    label: 'Categoria',
-                },
-                {
-                    key: 'model',
-                    label: 'Modelo',
                 },
                 {
                     key: 'loanDate',
@@ -195,7 +188,13 @@ class Table extends Component {
 
             case 'defaulters':
             columns =
-                [{
+                [
+
+                {
+                    key: 'barcode',
+                    label: 'Codigo de Barras',
+                },
+                {
                     key: 'id',
                     label: 'Cedula',
                 },
@@ -208,20 +207,24 @@ class Table extends Component {
                     label: 'Apellidos',
                 },
                 {
-                    key: 'productCode',
-                    label: 'Codigo de Barras',
-                },
-                {
-                    key: 'category',
-                    label: 'Categoria',
+                    key: 'delqDate',
+                    label: 'Fecha Creación',
                 },
                 {
                     key: 'numDays',
                     label: 'Numero de dias',
                 },
                 {
-                    key: 'date',
-                    label: 'Fecha',
+                    key: 'loanStartDate',
+                    label: 'Inicio Prestamo',
+                },
+                {
+                    key: 'loanFinishDate',
+                    label: 'Fecha Fin Prestamo',
+                },
+                {
+                    key: 'loanReturnedDate',
+                    label: 'Fecha Entrega Prestamo',
                 }];
             break;
         }
@@ -238,7 +241,6 @@ class Table extends Component {
                         id: row.identification,
                         name:row.name,
                         lastname: row.lastname,
-                        studentId: row.studentLicense,
                         email: row.email,
                         phone:row.tel,
                         phoneHome:row.cel,
@@ -283,15 +285,13 @@ class Table extends Component {
                 case 'loans':
                 rows = this.state.loadedData.map(row => {
                     return{
-                        id: row.id,
+                        id: row.identification,
                         name:row.name,
                         lastName: row.lastName,
                         studentId: row.carnet,
-                        productId: row.productId,
-                        category:row.category,
-                        model: row.model,
-                        loanDate: row.loanDate,
-                        returnDate: row.returnDate,
+                        productId: row.barcode,
+                        loanDate: row.loanStartDate,
+                        returnDate: row.loanFinishDate,
                         returnedDate: row.returnedDate
                     }
                 });
@@ -303,10 +303,13 @@ class Table extends Component {
                         id: row.id,
                         name:row.name,
                         lastName: row.lastName,
-                        productCode: row.productId,
+                        barcode: row.barcode,
                         category: row.category,
                         numDays: row.numDays,
-                        date: row.date
+                        delqDate: row.date,
+                        loanStartDate: row.loanStartDate,
+                        loanFinishDate: row.loanFinishDate,
+                        loanReturnedDate: loanReturnedDate
                     }
                 });
                 break;

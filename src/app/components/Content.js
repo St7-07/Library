@@ -20,10 +20,13 @@ class Content extends React.Component {
                 subContent = <TableHandler tableType='students' />
                 break;
             case "tableDefaulters":
-                subContent = <TableHandler />
+                subContent = <TableHandler tableType='defaulters'/>
                 break;
             case "tableAV":
                 subContent = <TableHandler tableType='av_equipment'/>
+            break;
+            case "tableLoans":
+            subContent = <TableHandler tableType='loans'/>
             break;
             case "updateApplicant":
             subContent= <ApplicantForm function="UPDATE"/>

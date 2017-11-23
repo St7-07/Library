@@ -8,8 +8,17 @@ import "../styles/Form.css";
 
 class ApplicantForm extends React.Component {
 
+    constructor(props){
+        super();
+        this.state = {
+            ...props.applicant
+        }
+    }
+
     render() {
-        console.log(this.props.applicant);
+
+        console.log("state local: *** " );
+        console.log(this.state );
         return (
            
             <div className="formSpace">
