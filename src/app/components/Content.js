@@ -8,17 +8,20 @@ import EquipmentForm from "../containers/EquipmentForm";
 class Content extends React.Component {
 
     render() {
-        console.log("Content rendered");
+  
         let subContent;
         
-        console.log(this.props.subcontentType + " tipo de subcontenido******************");
+
         switch(this.props.subcontentType){
             case "applicantForm":
                 subContent = <ApplicantForm function="CREATE" />
                 break;
-            case "applicantTable":
+            case "studentsTable":
                 subContent = <TableHandler tableType='students' />
                 break;
+            case "clerksTable":
+                subContent = <TableHandler tableType='clerks' />
+            break;
             case "tableDefaulters":
                 subContent = <TableHandler tableType='defaulters'/>
                 break;
