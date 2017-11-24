@@ -12,6 +12,7 @@ import {setSubcontent} from "../actions/sectionActions";
 
 class TableHandler extends Component {
 
+
     render() {
 
         let applicantsButtons = null;

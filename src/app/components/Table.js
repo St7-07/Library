@@ -288,9 +288,9 @@ class Table extends Component {
                     return{
                         id: row.identification,
                         name:row.name,
-                        lastName: row.lastName,
+                        lastname: row.lastname,
                         studentId: row.carnet,
-                        productId: row.barcode,
+                        barcode: row.barcode,
                         loanDate: row.loanStartDate,
                         returnDate: row.loanFinishDate,
                         returnedDate: row.returnedDate
