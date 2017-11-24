@@ -1,112 +1,138 @@
 import React from "react";
-import {connect} from 'react-redux';
-
-import {StudentForm} from '../components/StudentForm';
-import {ClerkForm} from '../components/ClerkForm';
+import { connect } from 'react-redux';
+import { Input, InputElement, SelectElement, InputChangedHandler } from '../components/FormsUI/Input';
+import { StudentForm } from '../components/StudentForm';
+import { ClerkForm } from '../components/ClerkForm';
 
 import "../styles/Form.css";
+
 
 class ApplicantForm extends React.Component {
 
     constructor(props){
         super();
+        
         this.state = {
-            ...props.applicant
+            ...props.applicant,
+            form: {
+                //cedula nombre , mail , telefono , celular
+                identification: InputElement('text', 'Cedula', '', "identification", "Cedula"),
+                name: InputElement('text', 'Nombre', '', 'name', "Nombre"),
+                lastname: InputElement('text', 'Apellido', '', "lastname", "Apellido"),
+                email: InputElement('email', 'Email', '', 'email', "email"),
+                tel: InputElement('email', 'Telefono', '', "tel", "Telefono"),
+                cel: InputElement('text', 'Celular', '', 'cel', "Celular"),
+
+            },
+            //fecha expiracion , distrito , otras senales , sede o recinto
+            form2: {
+                expireDate: InputElement('date', 'Fecha Expiracion', '', "expireDate", 'Fecha Expiracion'),
+                ID_district: SelectElement([
+                    { value: '1', displayValue: 'San Roque' },
+                    { value: '2', displayValue: 'Carrillos' },
+                    { value: '3', displayValue: 'Tacares' },
+                    { value: '4', displayValue: 'Los Angeles' }]
+                    , '', 'ID_district', "Distrito"),
+
+                signals: InputElement('text', 'Otras senales', '', 'signals', "Otras Senales"),
+
+                location: SelectElement([
+                    { value: '1', displayValue: 'Tacares' },
+                    { value: '2', displayValue: 'San Ramon' },
+                    { value: '3', displayValue: 'Alajuela' },
+                    { value: '4', displayValue: 'Rodrigo' }]
+                    , '', 'location', "Recinto"),
+
+            },
+           
         }
     }
 
     render() {
 
-        console.log("state local: *** " );
-        console.log(this.state );
+        console.log("state local: *** ");
+        console.log(this.state);
+
+        const formElementsArray = [];
+        for (let key in this.state.form) { //Creates an array to loop through an object attributes
+            formElementsArray.push({
+                id: key, //left side of attribute
+                config: this.state.form[key] //right side attribute
+            });
+        }
+
+        const formElementsArray2 = [];
+        for (let key in this.state.form2) { //Creates an array to loop through an object attributes
+            formElementsArray2.push({
+                id: key, //left side of attribute
+                config: this.state.form2[key] //right side attribute
+            });
+        }
+
+
         return (
-           
+
             <div className="formSpace">
                 <div className="row">
                     <div className="btn-group">
                         <button type="button" className="btn btn-primary" onClick={() => this.props.onChangeApplicantType('STUDENT')}>Estudiante</button>
                         <button type="button" className="btn btn-primary" onClick={() => this.props.onChangeApplicantType('CLERK')}>Funcionario</button>
                     </div>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <form action={(this.props.applicant.applicantType === 'STUDENT')?"/applicants/student":"/applicants/clerk"} 
-                            method={(this.props.function === 'CREATE')?"POST":"PUT"}>
+                    <br />
+                    <br />
+                    <br />
+                    <form action={(this.props.applicant.applicantType === 'STUDENT') ? "/applicants/student" : "/applicants/clerk"}
+                        method={(this.props.function === 'CREATE') ? "POST" : "PUT"}>
+                        {/* Here goes the student or clerk form */}
                         <div className="col-sm-2">
-                            <div className="form-group">
-                                <label for="identification">Cedula:</label>
-                                <input type="text" className="form-control input-sm" id="identification" name="identification" />
-                            </div>
-                            <div className="form-group">
-                                <label for="name">Nombre:</label>
-                                <input type="text" className="form-control input-sm" id="name" name="name" />
-                            </div>
-                            <div className="form-group">
-                                <label for="lastname">Apellidos:</label>
-                                <input type="text" className="form-control input-sm" id="lastname" name="lastname"/>
-                            </div>
-                            <div className="form-group">
-                                <label for="email">Email:</label>
-                                <input type="email" className="form-control input-sm" id="email" name="email"/>
-                            </div>
-                            <div className="form-group">
-                                <label for="tel">Telefono:</label>
-                                <input type="text" className="form-control input-sm" id="tel" name="tel"/>
-                            </div>
-                            <div className="form-group">
-                                <label for="cel">Celular:</label>
-                                <input type="text" className="form-control input-sm" id="cel" name="cel"/>
-                            </div>
+                            {formElementsArray.map(formElement => (
+                                <div>
+
+                                    <Input
+                                        key={formElement.id}
+                                        elementType={formElement.config.elementType}
+                                        elementConfig={formElement.config.elementConfig}
+                                        value={formElement.config.value}
+                                        label={formElement.config.label}
+                                        changed={(event) => this.setState({ form: InputChangedHandler(event, formElement.id, this.state) })}
+                                    />
+                                </div>
+                            ))}
                         </div>
-                            
                         <div className="col-sm-2">
-                                <div className="form-group">
-                                    <label for="expireDate">Fecha Expiración:</label>
-                                    <input type="date" className="form-control input-sm" id="expireDate" name="expireDate"/>
+                            {formElementsArray2.map(formElement => (
+                                <div>
+                                    <Input
+                                        key={formElement.id}
+                                        elementType={formElement.config.elementType}
+                                        elementConfig={formElement.config.elementConfig}
+                                        value={formElement.config.value}
+                                        label={formElement.config.label}
+                                        changed={(event) => this.setState({ form: InputChangedHandler(event, formElement.id, this.state) })}
+                                    />
                                 </div>
-                                <div className="form-group">
-                                    <label for="districtID">Distrito:</label>
-                                    <select class="form-control" id="districtID" name="districtID">
-                                        <option value='1'>San Roque</option>
-                                        <option value='2'>Carrillos</option>
-                                        <option value='3'>Tacares</option>
-                                        <option value='4'>Los Angeles</option>
-                                    </select>
-                                </div>
-                                <div className="form-group">
-                                    <label for="signals">Otras Señales:</label>
-                                    <input type="text" className="form-control input-sm" id="signals" name="signals"/>
-                                </div>
-                                <div className="form-group">
-                                    <label for="locationID">Sede o Recinto:</label>
-                                    <select class="form-control" id="locationID" name="locationID">
-                                        <option value='1'>Tacares</option>
-                                        <option value='2'>San Ramon</option>
-                                        <option value='3'>Alajuela</option>
-                                        <option value='4'>Rodrigo Facio</option>
-                                    </select>
-                                </div>
-                                {/* Here goes the student or clerk form */}
-                                { this.chooseApplicantForm() } 
-                            <button type="submit" className="btn btn-primary">{(this.props.function === 'CREATE')?"Crear":"Actualizar"}</button>
+                            ))}
+                            {/* this shit chooses the tipe if clerk or student */}
+                             {this.chooseApplicantForm()}
                         </div>
+                       
+                        <button type="submit" className="btn btn-primary">{(this.props.function === 'CREATE') ? "Crear" : "Actualizar"}</button>
+                       
                     </form>
-            </div>
+                </div>
             </div>
 
         );
     }
-
-    componentWillMount() {
-     
-    }
+     componentWillMount() { 
+     }
 
     chooseApplicantForm() {
         let formSection;
-        if(this.props.applicant.applicantType === 'STUDENT') {
-            formSection = (<StudentForm/>);
+        if (this.props.applicant.applicantType === 'STUDENT') {
+            formSection = (<StudentForm />);
         } else {
-            formSection = (<ClerkForm/>);
+            formSection = (<ClerkForm />);
         }
         return formSection;
     }
@@ -119,11 +145,11 @@ const mapStateToProps = (state) => {
     };
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        onChangeApplicantType: (applicantType) => dispatch({type: "CHANGE_APPLICANT_TYPE", payload: applicantType})
-    };
-};
+ const mapDispatchToProps = (dispatch) => {
+     return {
+         onChangeApplicantType: (applicantType) => dispatch({type: "CHANGE_APPLICANT_TYPE", payload: applicantType})
+     };
+ };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ApplicantForm);
+ export default connect(mapStateToProps, mapDispatchToProps)(ApplicantForm);
 
