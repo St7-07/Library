@@ -3,19 +3,17 @@ var router = express.Router();
 
 const db_connection = require('../DB_Connnection').db_connection;
 const sql = require('../DB_Connnection').sql;
-const config = require('../DB_Connnection').config;
 
 let Loan = require('../models/Loan');
 
-
-
 router.get('/', function (req, res, next) {
-    db_Connection.then(pool => {
+    db_connection.then(pool => {
+        console.log("conecto");
         return pool.request().execute('showLoans');
     }).then(result => {
         res.send(result.recordsets[0]);
     }).catch(err => {
-        res.send('fallo al mostrar equipo' + err);
+        res.send('fallo al mostrar morosidades' + err);
     });
 });
 //insert a new Loan
