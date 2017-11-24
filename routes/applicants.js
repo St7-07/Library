@@ -9,16 +9,60 @@ const config = require('../DB_Connnection').config;
 
 /* Get people listing.
 */
-router.get('/', function(req, res, next) {
+router.get('/states', function(req, res, next) {
   //res.writeHead(200,{'Content-Type':'application/json'});
   DB_Connnection.then(pool => {
-    return pool.request().execute('showPeople');
+    return pool.request().execute('showStates');
   }).then(result => {
       res.send(result.recordsets[0]);
   }).catch(err => {
       res.send('Fallo al ejecutar procedimiento.' + err);
   });
 });
+//get states
+router.get('/', function(req, res, next) {
+    //res.writeHead(200,{'Content-Type':'application/json'});
+    DB_Connnection.then(pool => {
+      return pool.request().execute('showPeople');
+    }).then(result => {
+        res.send(result.recordsets[0]);
+    }).catch(err => {
+        res.send('Fallo al ejecutar procedimiento.' + err);
+    });
+  });
+//get district
+  router.get('/districts', function(req, res, next) {
+    //res.writeHead(200,{'Content-Type':'application/json'});
+    DB_Connnection.then(pool => {
+      return pool.request().execute('showDistricts');
+    }).then(result => {
+        res.send(result.recordsets[0]);
+    }).catch(err => {
+        res.send('Fallo al ejecutar procedimiento.' + err);
+    });
+  });
+//get cities
+  router.get('/cities', function(req, res, next) {
+    //res.writeHead(200,{'Content-Type':'application/json'});
+    DB_Connnection.then(pool => {
+      return pool.request().execute('showCities');
+    }).then(result => {
+        res.send(result.recordsets[0]);
+    }).catch(err => {
+        res.send('Fallo al ejecutar procedimiento.' + err);
+    });
+  });
+//get locations 
+  router.get('/locations', function(req, res, next) {
+    //res.writeHead(200,{'Content-Type':'application/json'});
+    DB_Connnection.then(pool => {
+      return pool.request().execute('showLocations');
+    }).then(result => {
+        res.send(result.recordsets[0]);
+    }).catch(err => {
+        res.send('Fallo al ejecutar procedimiento.' + err);
+    });
+  });
 
 /* GET students listing.
 */
