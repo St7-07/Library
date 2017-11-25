@@ -90,7 +90,7 @@ router.post('/validate', function(req, res, next) {
 router.post('/restorePassword', function(req, res, next) {
   db_connection.then(pool => {
     return pool.request()
-    .input('usernameName',sql.NVarChar(50), req.body.username )
+    .input('userName',sql.NVarChar(50), req.body.username )
     .output('pass', sql.NVarChar(50), "")
     .execute('returnPass');
   }).then(result => {
