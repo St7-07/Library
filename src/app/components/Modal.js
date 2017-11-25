@@ -8,11 +8,13 @@ import { setApplicant } from "../actions/applicantActions";
 class Modal extends Component {
 
     render() {
-        return (
-            <div>
-                <div className="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id='myModal'>
-                    <div className="modal-dialog modal-sm" role="document">
-                        <div className="modal-content">
+
+        let modal;
+
+        switch(this.props.type){
+            case "students":
+            case  "clerks" :
+                modal = 
                             <div className="list-group">
                                 <a href="#" className="list-group-item"
                                     onClick={() => this.props.setSubcontent("updateApplicant", this.props.selectedData)}>Editar</a>
@@ -23,11 +25,44 @@ class Modal extends Component {
                                 <a href="#" className="list-group-item"
                                     onClick={() => clickHandler("showDefaulters", this.props.selectedData)}>Ver Prestamos</a>
                             </div>
+            break;
+            case "av_equipment":
+                modal = 
+                        <div className="list-group">
+                            <a href="#" className="list-group-item"
+                                onClick={() => this.props.setSubcontent("updateApplicant", this.props.selectedData)}>Editar</a>
+                            <a href="#" className="list-group-item"
+                                onClick={() => clickHandler("delete", this.props.selectedData, this.props.refresh.bind(this))}>Eliminar</a>
                         </div>
+            break;
+            case "loans":
+                modal = 
+                <div className="list-group">
+                    <a href="#" className="list-group-item"
+                        onClick={() => clickHandler("delete", this.props.selectedData, this.props.refresh.bind(this))}>Eliminar</a>
+                    <a href="#" className="list-group-item"
+                        onClick={() => clickHandler("applicantInfo", this.props.selectedData, this.props.refresh.bind(this))}>Ver info solicitante</a>
+                </div>
+            break;
+            case "defaulters":
+                modal = 
+                <div className="list-group">
+                    <a href="#" className="list-group-item"
+                        onClick={() => clickHandler("delete", this.props.selectedData, this.props.refresh.bind(this))}>Eliminar</a>
+                    <a href="#" className="list-group-item"
+                        onClick={() => clickHandler("applicantInfo", this.props.selectedData, this.props.refresh.bind(this))}>Ver info solicitante</a>
+                </div>
+            break;
+        }
+        return (
+            <div className="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" 
+            aria-labelledby="mySmallModalLabel" id='myModal'>
+                <div className="modal-dialog modal-sm" role="document">
+                    <div className="modal-content">
+                        {modal}
                     </div>
                 </div>
-            </div>
-
+            </div> 
         )
     }
 
@@ -54,6 +89,8 @@ function clickHandler(optionSelected, selectedData, refresh) {
         case "showLoans":
             break;
         case "showDefaulters":
+            break;
+        case "applicantInfo":
             break;
     }
 }
