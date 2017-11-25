@@ -49,6 +49,17 @@ router.get('/categories', function (req, res, next) {
     });
 });
 
+router.get('/states', function (req, res, next) {
+    db_connection.then(pool => {
+        
+        return pool.request().execute('showAV_State');
+    }).then(result => {
+        res.send(result.recordsets[0]);
+    }).catch(err => {
+        res.send('fallo al mostrar equipo' + err);
+    });
+});
+
 // insert a new category 
 router.post('/category',function (req, res, next){
 let category = req.body.category;

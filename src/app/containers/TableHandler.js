@@ -5,33 +5,46 @@ import Table from '../components/Table';
 
 import { setDataType } from '../actions/tableActions';
 
+import {Button} from "../components/Button";
+import {setSubcontent} from "../actions/sectionActions";
+
 
 
 class TableHandler extends Component {
 
+
     render() {
+
+        let applicantsButtons = null;
+        if (this.props.tableType === "students" 
+            || this.props.tableType === "clerks"){
+                applicantsButtons = <div className="btn-group optionsButton">
+                <button type="button" className="btn btn-primary"
+                    onClick={() => this.props.setSubcontent("studentsTable")}>Estudiante</button>
+                <button type="button" className="btn btn-primary"
+                    onClick={() => this.props.setSubcontent("clerksTable")}>Funcionario</button>
+                </div>
+        }
+
         console.log("did render" + this.props.tableReducer.dataType)
         return (
             <div>
-                <div className="btn-group optionsButton">
-                    <button type="button" className="btn btn-primary"
-                        onClick={() => this.props.setDataType('students')}>Estudiante</button>
-                    <button type="button" className="btn btn-primary"
-                        onClick={() => this.props.setDataType('clerks')}>Funcionario</button>
-                </div>
+                {applicantsButtons}
                 {this.switchTableType()}
             </div>
         );
 
     }
 
+
     switchTableType() {
-        console.log(this.props.tableType)
-        let tableType = <Table tableType={this.props.tableReducer.dataType}/>
+        console.log()
+        let tableType = <Table tableType={this.props.tableType}/>
         return tableType
     }
 
     componentWillMount(){
+        console.log("ENTRE A componentWillMount()")
         this.props.setDataType(this.props.tableType);
     }
 };
@@ -52,6 +65,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         setApplicant: (type, name) => {
             dispatch(setApplicant(type, name));
+        },
+        setSubcontent: (type) => {
+            dispatch(setSubcontent(type));
         }
 
     }

@@ -32,7 +32,7 @@ class Table extends Component {
             break;
 
             case 'defaulters':
-                route ='defaulters';
+                route ='delinquencies';
             break;
         }
         return route;
@@ -223,7 +223,7 @@ class Table extends Component {
                     label: 'Fecha Fin Prestamo',
                 },
                 {
-                    key: 'loanReturnedDate',
+                    key: 'returnedDate',
                     label: 'Fecha Entrega Prestamo',
                 }];
             break;
@@ -239,6 +239,7 @@ class Table extends Component {
                 rows = this.state.loadedData.map(row => {
                     return{
                         id: row.identification,
+                        studentId: row.studentLicense,
                         name:row.name,
                         lastname: row.lastname,
                         email: row.email,
@@ -287,9 +288,9 @@ class Table extends Component {
                     return{
                         id: row.identification,
                         name:row.name,
-                        lastName: row.lastName,
+                        lastname: row.lastname,
                         studentId: row.carnet,
-                        productId: row.barcode,
+                        barcode: row.barcode,
                         loanDate: row.loanStartDate,
                         returnDate: row.loanFinishDate,
                         returnedDate: row.returnedDate
@@ -300,16 +301,16 @@ class Table extends Component {
                 case 'defaulters':
                 rows = this.state.loadedData.map(row => {
                     return{
-                        id: row.id,
+                        id: row.identification,
                         name:row.name,
-                        lastName: row.lastName,
+                        lastname: row.lastname,
                         barcode: row.barcode,
                         category: row.category,
                         numDays: row.numDays,
-                        delqDate: row.date,
+                        delqDate: row.delqdDate,
                         loanStartDate: row.loanStartDate,
                         loanFinishDate: row.loanFinishDate,
-                        loanReturnedDate: loanReturnedDate
+                        returnedDate: row.returnedDate
                     }
                 });
                 break;
@@ -326,30 +327,31 @@ class Table extends Component {
         $('#myModal').modal('show');
     }
 
-    // componentDidMount(){ 
-    //     let route = this.dataRouteHandler();
-    //     console.log("Route"+route)
-    //     if(!this.state.loadedData)  {
-    //         axios.get('http://localhost:8080/'+ route)
-    //         .then(response => {
-    //             this.setState({loadedData:response.data});
-    //         });
-    //     }
-
-        
-    // }
-
-    componentDidUpdate(prevState){
-        console.log("HIZO UPDATE TABLE...Prev: "+prevState.tableType
-    +" Table type: "+this.props.tableType)
-        if(prevState.tableType !== this.props.tableType){
-            let route = this.dataRouteHandler();
-            console.log("Entra:"+route);
+    componentDidMount(){ 
+        let route = this.dataRouteHandler();
+        console.log("Route"+route)
+        if(!this.state.loadedData)  {
             axios.get('http://localhost:8080/'+ route)
             .then(response => {
                 this.setState({loadedData:response.data});
             });
         }
+
+        
+    }
+
+    componentDidUpdate(prevState,prevProps){
+        console.log("HIZO UPDATE TABLE...Prev: "+prevState.tableType
+        +" Table type: "+this.props.tableType+" Prev prop state..:")
+        console.log(prevProps.tableType);
+            if(prevState.tableType !== this.props.tableType){
+                let route = this.dataRouteHandler();
+                console.log("Entra:"+route);
+                axios.get('http://localhost:8080/'+ route)
+                .then(response => {
+                    this.setState({loadedData:response.data});
+                });
+            }
     }
 
     

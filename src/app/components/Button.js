@@ -83,7 +83,7 @@ export const Button = (props) => {
         case "listarSolicitante":
             buttonHtml = (
                 <div className="grid_1_of_3 images_1_of_3">
-                    <a href="#"><img src="images/listarSolicitante.png" onClick={() => props.clicked("applicantTable")}/></a>
+                    <a href="#"><img src="images/listarSolicitante.png" onClick={() => props.clicked("studentsTable")}/></a>
                     <h3>&nbsp;Listar</h3>
                 </div>
             );
