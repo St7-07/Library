@@ -4,7 +4,7 @@ import SubMenu from "./SubMenu";
 import ApplicantForm from "../containers/ApplicantForm";
 import TableHandler from "../containers/TableHandler";
 import EquipmentForm from "../containers/EquipmentForm";
-
+import LoanForm from "../containers/LoanForm";
 class Content extends React.Component {
 
     render() {
@@ -36,6 +36,9 @@ class Content extends React.Component {
             break;
             case "añadirAudio":
             subContent= <EquipmentForm function="CREATE"/>
+            break;
+            case "añadirPrestamo": 
+            subContent= <LoanForm function="CREATE"/>
             break;
         }
 
