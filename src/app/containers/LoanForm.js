@@ -11,7 +11,6 @@ class LoanForm extends React.Component {
         this.state =
             {
                 form: {
-
                     barcode: InputElement('text', 'Barcode', '', "barcode","barcode"),
                     studentLicense: InputElement('text', 'Carnet', '', 'studentLicense', 'Carnet'),
                     endDate: InputElement('date','fecha', '', "endDate",'Fecha Devolucion'),
@@ -40,6 +39,29 @@ class LoanForm extends React.Component {
                     .then(response => {
                         alert('prestamo Actualizado' + response);
                     });
+            break;
+        }
+    }
+
+    formTypeHandler = () =>{
+        switch(this.props.function){
+            case "CREATE":
+                this.setState({form: {
+                    barcode: InputElement('text', 'Barcode', '', "barcode","barcode"),
+                    studentLicense: InputElement('text', 'Carnet', '', 'studentLicense', 'Carnet'),
+                    endDate: InputElement('date','fecha', '', "endDate",'Fecha Devolucion'),
+                }});
+            break;
+            case "EDIT":
+                this.setState({form: {
+                    barcode: InputElement('text', 'Barcode', '', "barcode","barcode"),
+                    endDate: InputElement('date','fecha', '', "endDate",'Fecha Devolucion'),
+                }});
+            break;
+            case "RETURN":
+                this.setState({form: {
+                    barcode: InputElement('text', 'Barcode', '', "barcode","barcode")
+                }});
             break;
         }
     }
