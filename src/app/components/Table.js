@@ -342,7 +342,7 @@ class Table extends Component {
 
     componentDidUpdate(prevState,prevProps){
         console.log("HIZO UPDATE TABLE...Prev: "+prevState.tableType
-        +" Table type: "+this.props.tableType+" Prev prop state..:")
+        +"Table type: "+this.props.tableType+" Prev prop state..:")
         console.log(prevProps.tableType);
             if(prevState.tableType !== this.props.tableType){
                 let route = this.dataRouteHandler();

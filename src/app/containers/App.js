@@ -18,7 +18,7 @@ import { setSubcontent } from "../actions/sectionActions";
 class App extends React.Component {
 
     render() {
-        console.log("renderApp");
+       
         switch (this.props.logInReducer.typeUser) {
             case "Administrator":
                 if (this.props.sectionReducer.subcontent == "updateApplicant") {

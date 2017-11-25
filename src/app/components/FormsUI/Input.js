@@ -20,7 +20,6 @@ import './Input.css';
                             {option.displayValue}
                         </option>
                     ))}
-                    
                 </select>
                 );
         break;

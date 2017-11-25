@@ -28,6 +28,7 @@ const applicantReducer = (state = initState, action) => {
                 ...state,
                 applicantType: action.payload
             }
+            return state;
             break;
         case "SET_APPLICANT_INFO":
             if (state.applicantType == "STUDENT") {
@@ -46,7 +47,7 @@ const applicantReducer = (state = initState, action) => {
                     locationID: 0,
                     //Student attributes
                     career: action.payload.career,
-                    studentID: action.payload.phoneHome,
+                    studentID: action.payload.studentId,
                     //Clerk attributes
                     clerkID: 0,
                     department: "",
