@@ -41,6 +41,7 @@ router.get('/', function(req, res, next) {
         res.send('Fallo al ejecutar procedimiento.' + err);
     });
   });
+  
 //get cities
   router.get('/cities', function(req, res, next) {
     //res.writeHead(200,{'Content-Type':'application/json'});
@@ -52,6 +53,7 @@ router.get('/', function(req, res, next) {
         res.send('Fallo al ejecutar procedimiento.' + err);
     });
   });
+
 //get locations 
   router.get('/locations', function(req, res, next) {
     //res.writeHead(200,{'Content-Type':'application/json'});

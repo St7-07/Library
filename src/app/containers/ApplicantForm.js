@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
-import { Input, InputElement, SelectElement, InputChangedHandler } from '../components/FormsUI/Input';
+import { Input, InputElement, SelectElement, InputChangedHandler, InputChangedHandlerForm2 } from '../components/FormsUI/Input';
 import { StudentForm } from '../components/StudentForm';
 import { ClerkForm } from '../components/ClerkForm';
 import axios from "axios";
@@ -83,18 +83,23 @@ class ApplicantForm extends React.Component {
             && (this.state.form.category.elementConfig.options.length == 1)) {
 
             let categories = this.state.loadedCategories.map(category => {
+             
                 return {
                     value: category.id_category,
                     displayValue: category.category
                 }
             });
+
+            //problemas con el id
             let districs = this.state.loadedDistricts.map(district => {
+                console.log("id category: " + district.id_district);
                 return {
                     value: district.id_district,
                     displayValue: district.DistrictName
                 }
             });
 
+                //poblemas con el id
             let locations = this.state.loadedLocations.map(location => {
                 return {
                     value: location.id_location,
@@ -116,7 +121,6 @@ class ApplicantForm extends React.Component {
                 email: InputElement('email', 'Email', '', 'email', "email"),
                 tel: InputElement('email', 'Telefono', '', "tel", "Telefono"),
                 cel: InputElement('text', 'Celular', '', 'cel', "Celular"),
-
             },
             form2: {
                 expireDate: InputElement('date', 'Fecha Expiracion', '', "expireDate", 'Fecha Expiracion'),
@@ -193,11 +197,11 @@ class ApplicantForm extends React.Component {
                                         elementConfig={formElement.config.elementConfig}
                                         value={formElement.config.value}
                                         label={formElement.config.label}
-                                        changed={(event) => this.setState({ form: InputChangedHandler(event, formElement.id, this.state) })}
+                                        changed={(event) => this.setState({ form2: InputChangedHandlerForm2(event, formElement.id, this.state) })}
                                     />
                                 </div>
                             ))}
-                            {/* this shit chooses the tipe if clerk or student */}
+                            {/* this shit chooses the tipe of clerk or student */}
                             {this.chooseApplicantForm()}
                         </div>
 

@@ -73,3 +73,15 @@ export const InputChangedHandler = (event, inputIdentifier, state) => {
     updatedform[inputIdentifier] = updatedFormElement;
     return updatedform;
 }
+
+export const InputChangedHandlerForm2 = (event, inputIdentifier, state) => {
+    const updatedform = {
+        ...state.form2
+    }
+    const updatedFormElement = {
+        ...updatedform[inputIdentifier]
+    }
+    updatedFormElement.value = event.target.value;
+    updatedform[inputIdentifier] = updatedFormElement;
+    return updatedform;
+}
