@@ -74,20 +74,19 @@ class EquipmentForm extends React.Component {
             });
         }
 
-        // IMPORTANTE!!! FALTA REST API DE STATE Y MODEL ES POR INPUT
-        // if(!this.state.loadedStates){
-        //     axios.get('http://localhost:8080/av_equipments/states')
-        //     .then(response =>{
-        //         this.setState({loadedCategories:response.data});
-        //     });
-        // }
+        if(!this.state.loadedStates){
+            axios.get('http://localhost:8080/av_equipments/states')
+            .then(response =>{
+                this.setState({loadedStates:response.data});
+            });
+        }
         
     }
 
     populateSelects(){
         if(this.state.loadedCategories 
             && this.state.loadedBrands
-            // && this.state.loadedStates
+            && this.state.loadedStates
             && (this.state.form.category.elementConfig.options.length == 1) ){
 
             let categories = this.state.loadedCategories.map(category =>{
@@ -104,30 +103,28 @@ class EquipmentForm extends React.Component {
                 }
             });
 
-            this.changeFormState(categories,brands);
+            let states = this.state.loadedStates.map(state =>{
+                return{
+                    value: state.id_state,
+                    displayValue: state.stateType
+                }
+            });
+
+            this.changeFormState(categories,brands,states);
             
             
         }
     }
 
 
-    changeFormState(categories, brands){
+    changeFormState(categories, brands,states){
         this.setState({form : {
             barcode : InputElement('text', 'Nombre', '', "barcode", "Codigo Barras"),
             notes: InputElement('text', 'Notas', '', 'notes', "Notas"),
             category : SelectElement(categories,'', 'category','Categoria'),
-            
-                    model : SelectElement( [
-                                {value:'1', displayValue: '12321'},
-                                {value:'2', displayValue: 'fsdfsd'}]
-                                 ,'','model', "Modelo"),
-            
-                    brand : SelectElement( brands,'','brand', "Marca"),
-            
-                    state : SelectElement( [
-                                {value:'1', displayValue: 'Prestada'},
-                                {value:'2', displayValue: 'Disponible'}]
-                                ,'','state', "Estado")
+            model : InputElement('text', 'Modelo', '', "model", "Modelo"),
+            brand : SelectElement( brands,'','brand', "Marca"),
+            state : SelectElement(states,'','state', "Estado")
         }});
         
     }
