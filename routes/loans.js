@@ -36,10 +36,10 @@ router.post('/loan', function (req, res, next) {
 });
 
 //Return loan item
-router.put('/loan/:barcode', function (req, res, next) {
+router.put('/loan/', function (req, res, next) {
     db_Connection.then(pool => {
         return pool.request().
-            input('barcode', sql.Nvarchar(50), req.params.barcode).
+            input('barcode', sql.Nvarchar(50), req.body.barcode).
             execute('returnLoan');
     }).then(result => {
         res.send('equipment returned succesffuly' + result.output);
