@@ -31,7 +31,7 @@ export default class NavBar extends React.Component {
 
                                             <div className='cssmenu'>
                                                 <ul>
-                                                    <li className="active"><a onClick={() => this.props.onClick("Prestamos")}><span>Prestamos</span></a></li>
+                                                    <li className="active"><a onClick={() => this.props.onClick("Prestamos","loanForm")}><span>Prestamos</span></a></li>
                                                     <li><a onClick={() => this.props.onClick("Solicitantes","applicantForm")}><span>Solicitantes</span></a></li>
                                                     <li><a onClick={() => this.props.onClick("Audiovisuales","añadirAudio")}><span>Audiovisuales</span></a></li>
                                                     <li><a onClick={() => this.props.onClick("Historial", "tableLoans")}><span>Historial</span></a></li>
@@ -65,7 +65,7 @@ export default class NavBar extends React.Component {
 
                                             <div className='cssmenu'>
                                                 <ul>
-                                                    <li><a onClick={() => this.props.onClick("Prestamos")}><span>Prestamos</span></a></li>
+                                                    <li><a onClick={() => this.props.onClick("Prestamos","loanForm")}><span>Prestamos</span></a></li>
                                                     <li className="active"><a onClick={() => this.props.onClick("Solicitantes","applicantForm")}><span>Solicitantes</span></a></li>
                                                     <li><a onClick={() => this.props.onClick("Audiovisuales","añadirAudio")}><span>Audiovisuales</span></a></li>
                                                     <li><a onClick={() => this.props.onClick("Historial", "tableLoans")}><span>Historial</span></a></li>
@@ -99,7 +99,7 @@ export default class NavBar extends React.Component {
 
                                             <div className='cssmenu'>
                                                 <ul>
-                                                    <li><a onClick={() => this.props.onClick("Prestamos")}><span>Prestamos</span></a></li>
+                                                    <li><a onClick={() => this.props.onClick("Prestamos","loanForm")}><span>Prestamos</span></a></li>
                                                     <li><a onClick={() => this.props.onClick("Solicitantes","applicantForm")}><span>Solicitantes</span></a></li>
                                                     <li className="active"><a onClick={() => this.props.onClick("Audiovisuales","añadirAudio")}><span>Audiovisuales</span></a></li>
                                                     <li><a onClick={() => this.props.onClick("Historial", "tableLoans")}><span>Historial</span></a></li>
@@ -133,7 +133,7 @@ export default class NavBar extends React.Component {
 
                                             <div className='cssmenu'>
                                                 <ul>
-                                                    <li><a onClick={() => this.props.onClick("Prestamos")}><span>Prestamos</span></a></li>
+                                                    <li><a onClick={() => this.props.onClick("Prestamos","loanForm")}><span>Prestamos</span></a></li>
                                                     <li><a onClick={() => this.props.onClick("Solicitantes","applicantForm")}><span>Solicitantes</span></a></li>
                                                     <li><a onClick={() => this.props.onClick("Audiovisuales","añadirAudio")}><span>Audiovisuales</span></a></li>
                                                     <li className="active"><a onClick={() => this.props.onClick("Historial", "tableLoans")}><span>Historial</span></a></li>
@@ -167,7 +167,7 @@ export default class NavBar extends React.Component {
 
                                             <div className='cssmenu'>
                                                 <ul>
-                                                    <li><a onClick={() => this.props.onClick("Prestamos")}><span>Prestamos</span></a></li>
+                                                    <li><a onClick={() => this.props.onClick("Prestamos","loanForm")}><span>Prestamos</span></a></li>
                                                     <li><a onClick={() => this.props.onClick("Solicitantes","applicantForm")}><span>Solicitantes</span></a></li>
                                                     <li><a onClick={() => this.props.onClick("Audiovisuales","añadirAudio")}><span>Audiovisuales</span></a></li>
                                                     <li><a onClick={() => this.props.onClick("Historial", "tableLoans")}><span>Historial</span></a></li>

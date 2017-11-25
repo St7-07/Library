@@ -12,7 +12,7 @@ class LoanForm extends React.Component {
             {
                 form: {
 
-                    barcode: InputElement('text', 'Nombre', '', "barcode","barcode"),
+                    barcode: InputElement('text', 'Barcode', '', "barcode","barcode"),
                     studentLicense: InputElement('text', 'Carnet', '', 'studentLicense', 'Carnet'),
                     endDate: InputElement('date','fecha', '', "endDate",'Fecha Devolucion'),
                 }

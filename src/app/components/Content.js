@@ -37,7 +37,7 @@ class Content extends React.Component {
             case "añadirAudio":
             subContent= <EquipmentForm function="CREATE"/>
             break;
-            case "añadirPrestamo": 
+            case "loanForm": 
             subContent= <LoanForm function="CREATE"/>
             break;
         }

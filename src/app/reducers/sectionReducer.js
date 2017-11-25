@@ -1,7 +1,7 @@
 
 const sectionReducer = (state = {
     actualSection : "Prestamos",
-    subcontent: "applicantForm"
+    subcontent: "loanForm"
 },action) => {
     switch (action.type) {
         case "SET_SECTION":
