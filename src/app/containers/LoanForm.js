@@ -18,6 +18,30 @@ class LoanForm extends React.Component {
                 }
 
             };
+
+
+    }
+
+    onSubmitHandler = (event) => {
+        event.preventDefault();
+        const formData = {};
+        for (let formElementIdentifier in this.state.form) {
+            formData[formElementIdentifier] = this.state.form[formElementIdentifier].value;
+        }
+        switch (this.props.function) {
+            case 'CREATE':
+                axios.post('http://localhost:8080/loans/loan', formData)
+                    .then(response => {
+                        alert('Prestamo Creado' + response);
+                    });
+            break;
+            case 'EDIT':
+                axios.put('http://localhost:8080/loans/loan/'+ formData)
+                    .then(response => {
+                        alert('prestamo Actualizado' + response);
+                    });
+            break;
+        }
     }
 
     render() {
