@@ -266,7 +266,8 @@ class Table extends Component {
                         department:row.department,
                         position:row.position,
                         validDate: row.expireDate,
-                        address: row.address
+                        address: row.address,
+                        onClickHandler: this.optionSelectedHandler
                     }
                 });
                 break;
@@ -278,7 +279,8 @@ class Table extends Component {
                         category:row.category,
                         brand: row.brandType,
                         model: row.Model,
-                        state: row.stateType
+                        state: row.stateType,
+                        onClickHandler: this.optionSelectedHandler
                     }
                 }); 
                 break;
@@ -293,7 +295,8 @@ class Table extends Component {
                         barcode: row.barcode,
                         loanDate: row.loanStartDate,
                         returnDate: row.loanFinishDate,
-                        returnedDate: row.returnedDate
+                        returnedDate: row.returnedDate,
+                        onClickHandler: this.optionSelectedHandler
                     }
                 });
                 break;
@@ -310,7 +313,8 @@ class Table extends Component {
                         delqDate: row.delqdDate,
                         loanStartDate: row.loanStartDate,
                         loanFinishDate: row.loanFinishDate,
-                        returnedDate: row.returnedDate
+                        returnedDate: row.returnedDate,
+                        onClickHandler: this.optionSelectedHandler
                     }
                 });
                 break;
@@ -386,6 +390,7 @@ class Table extends Component {
             modal = <Modal
                     selectedData = {this.state.selectedData}
                     refresh = {this.refresh.bind(this)}
+                    type={this.props.tableType}
                    />          
         }
         

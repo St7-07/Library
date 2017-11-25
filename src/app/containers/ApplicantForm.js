@@ -15,9 +15,6 @@ class ApplicantForm extends React.Component {
         super();
         this.stateInitialization(props);
         console.log("entre");
-
-       
-
     }
 
     getDataForSelects() {
@@ -72,7 +69,7 @@ class ApplicantForm extends React.Component {
                 name: InputElement('text', 'Nombre', '', 'name', "Nombre"),
                 lastname: InputElement('text', 'Apellido', '', "lastname", "Apellido"),
                 email: InputElement('email', 'Email', '', 'email', "email"),
-                tel: InputElement('email', 'Telefono', '', "tel", "Telefono"),
+                tel: InputElement('number', 'Telefono', '', "tel", "Telefono"),
                 cel: InputElement('text', 'Celular', '', 'cel', "Celular"),
             },
             form2: {
@@ -246,6 +243,29 @@ class ApplicantForm extends React.Component {
         this.getDataForSelects();
     }
 
+    onSubmitHandler = (event) => {
+        event.preventDefault();
+        const formData = {};
+        for (let formElementIdentifier in this.state.form) {
+            formData[formElementIdentifier] = this.state.form[formElementIdentifier].value;
+        }
+        let applicantType = ((this.props.applicant.applicantType === 'STUDENT')?'student':'clerk');
+        switch (this.props.function) {
+            case 'CREATE':
+                axios.post('http://localhost:8080/applicants/'+ applicantType, formData)
+                    .then(response => {
+                        alert('Solicitante Creado' + response);
+                    });
+            break;
+            case 'EDIT':
+                axios.put('http://localhost:8080/applicants/'+ applicantType, formData)
+                    .then(response => {
+                        alert('Solicitante Actualizado' + response);
+                    });
+            break;
+        }
+    }
+
     render() {
 
     
@@ -282,8 +302,7 @@ class ApplicantForm extends React.Component {
                     <br />
                     <br />
                     <br />
-                    <form action={(this.props.applicant.applicantType === 'STUDENT') ? "/applicants/student" : "/applicants/clerk"}
-                        method={(this.props.function === 'CREATE') ? "POST" : "PUT"}>
+                    <form onSubmit={(event => this.onSubmitHandler(event))}>
                         {/* Here goes the student or clerk form */}
                         <div className="col-sm-2">
                             {formElementsArray.map(formElement => (
