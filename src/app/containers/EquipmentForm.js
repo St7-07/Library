@@ -15,14 +15,10 @@ class EquipmentForm extends React.Component {
                 notes: InputElement('text', 'Notas', '', 'notes', "Notas"),
         
                 category : SelectElement( [
-                            {value:'1', displayValue: 'Laptop'},
-                            {value:'2', displayValue: 'Video Beam'}]
-                            ,'','category', "Categoria"),
+                                {value:'1', displayValue: 'toDeploy'},]
+                                ,'','category', "Categoria"),
         
-                model : SelectElement( [
-                            {value:'1', displayValue: '12321'},
-                            {value:'2', displayValue: 'fsdfsd'}]
-                             ,'','model', "Modelo"),
+                model : InputElement('text', 'Modelo', '', "model", "Modelo"),
         
                 brand : SelectElement( [
                            {value:'1', displayValue: 'VAIO'},
@@ -33,7 +29,10 @@ class EquipmentForm extends React.Component {
                             {value:'1', displayValue: 'Prestada'},
                             {value:'2', displayValue: 'Disponible'}]
                             ,'','state', "Estado")
-            }   
+            },
+            loadedCategories: null,
+            loadedBrands: null,
+            loadedStates: null
         };
     }
 
@@ -60,14 +59,95 @@ class EquipmentForm extends React.Component {
         }
     }
 
-    render() {
-        const formElementsArray = [];
-        for (let key in this.state.form) { //Creates an array to loop through an object attributes
-            formElementsArray.push({
-                id: key, //left side of attribute
-                config: this.state.form[key] //right side attribute
+    getDataForSelects(){
+        if(!this.state.loadedCategories){
+            axios.get('http://localhost:8080/av_equipments/categories')
+            .then(response =>{
+                this.setState({loadedCategories:response.data});
             });
         }
+
+        if(!this.state.loadedBrands){
+            axios.get('http://localhost:8080/av_equipments/brands')
+            .then(response =>{
+                this.setState({loadedBrands:response.data});
+            });
+        }
+
+        // IMPORTANTE!!! FALTA REST API DE STATE Y MODEL ES POR INPUT
+        // if(!this.state.loadedStates){
+        //     axios.get('http://localhost:8080/av_equipments/states')
+        //     .then(response =>{
+        //         this.setState({loadedCategories:response.data});
+        //     });
+        // }
+        
+    }
+
+    populateSelects(){
+        if(this.state.loadedCategories 
+            && this.state.loadedBrands
+            // && this.state.loadedStates
+            && (this.state.form.category.elementConfig.options.length == 1) ){
+
+            let categories = this.state.loadedCategories.map(category =>{
+                return{
+                    value: category.id_category,
+                    displayValue: category.category
+                }
+            });
+
+            let brands = this.state.loadedBrands.map(brand =>{
+                return{
+                    value: brand.id_brand,
+                    displayValue: brand.brandType
+                }
+            });
+
+            this.changeFormState(categories,brands);
+            
+            
+        }
+    }
+
+
+    changeFormState(categories, brands){
+        this.setState({form : {
+            barcode : InputElement('text', 'Nombre', '', "barcode", "Codigo Barras"),
+            notes: InputElement('text', 'Notas', '', 'notes', "Notas"),
+            category : SelectElement(categories,'', 'category','Categoria'),
+            
+                    model : SelectElement( [
+                                {value:'1', displayValue: '12321'},
+                                {value:'2', displayValue: 'fsdfsd'}]
+                                 ,'','model', "Modelo"),
+            
+                    brand : SelectElement( brands,'','brand', "Marca"),
+            
+                    state : SelectElement( [
+                                {value:'1', displayValue: 'Prestada'},
+                                {value:'2', displayValue: 'Disponible'}]
+                                ,'','state', "Estado")
+        }});
+        
+    }
+
+    componentDidMount(){
+        this.getDataForSelects();
+    }
+
+    render() {
+        this.populateSelects();
+        const formElementsArray = [];
+
+            for (let key in this.state.form) { //Creates an array to loop through an object attributes
+                formElementsArray.push({
+                    id: key, //left side of attribute
+                    config: this.state.form[key] //right side attribute
+                });
+            }
+        
+        
 
         return (
             <div className="formSpace">

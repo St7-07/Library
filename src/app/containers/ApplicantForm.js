@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Input, InputElement, SelectElement, InputChangedHandler } from '../components/FormsUI/Input';
 import { StudentForm } from '../components/StudentForm';
 import { ClerkForm } from '../components/ClerkForm';
+import axios from "axios";
 
 import "../styles/Form.css";
 
@@ -43,10 +44,12 @@ class ApplicantForm extends React.Component {
                     { value: '4', displayValue: 'Rodrigo' }]
                     , '', 'location', "Recinto"),
 
-            },
+            }
            
         }
     }
+
+
 
     render() {
 
