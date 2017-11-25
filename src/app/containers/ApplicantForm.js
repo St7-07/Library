@@ -14,6 +14,7 @@ class ApplicantForm extends React.Component {
     constructor(props) {
         super();
         this.stateInitialization(props);
+        this.lastSection = "";
         console.log("entre");
     }
 
@@ -39,7 +40,6 @@ class ApplicantForm extends React.Component {
         if (this.state.loadedDistricts
             && this.state.loadedLocations
             && (this.state.form2.ID_district.elementConfig.options.length == 1)) {
-
 
             //problemas con el id
             let districs = this.state.loadedDistricts.map(district => {
@@ -83,160 +83,158 @@ class ApplicantForm extends React.Component {
 
     }
 
-    stateInitialization(props){
+    stateInitialization(props) {
         if (props.function === 'CREATE') {
-         
-                        if (props.applicant.applicantType === 'STUDENT') {
-                            this.state = {
-                                form: {
-                                    //cedula nombre , mail , telefono , celular
-                                    identification: InputElement('text', 'Cedula', '', "identification", "Cedula"),
-                                    name: InputElement('text', 'Nombre', '', 'name', "Nombre"),
-                                    lastname: InputElement('text', 'Apellido', '', "lastname", "Apellido"),
-                                    email: InputElement('email', 'Email', '', 'email', "email"),
-                                    tel: InputElement('email', 'Telefono', '', "tel", "Telefono"),
-                                    cel: InputElement('text', 'Celular', '', 'cel', "Celular")
-                                },
-                                //fecha expiracion , distrito , otras senales , sede o recinto
-                                form2: {
-                                    expireDate: InputElement('date', 'Fecha Expiracion', '', "expireDate", 'Fecha Expiracion'),
-                                    ID_district: SelectElement([
-                                        { value: '1', displayValue: 'San Roque' },
-                                        { value: '2', displayValue: 'Carrillos' },
-                                        { value: '3', displayValue: 'Tacares' },
-                                        { value: '4', displayValue: 'Los Angeles' }]
-                                        , '', 'ID_district', "Distrito"),
-            
-                                    signals: InputElement('text', 'Otras senales', '', 'signals', "Otras Senales"),
-                                    location: SelectElement([
-                                        { value: '1', displayValue: 'Tacares' },
-                                        { value: '2', displayValue: 'San Ramon' },
-                                        { value: '3', displayValue: 'Alajuela' },
-                                        { value: '4', displayValue: 'Rodrigo' }]
-                                        , '', 'location', "Recinto"),
-                                    career: InputElement('text', 'Carrera', '', "career", 'Carrera'),
-                                    studentID: InputElement('text', 'Carnet', '', "studentId", 'Carnet Estudiante')
-            
-                                },
-                                loadedDistricts: null,
-                                loadedLocations: null
-                            }
-                        } else {
-                            this.state = {
-                                form: {
-                                    //cedula nombre , mail , telefono , celular
-                                    identification: InputElement('text', 'Cedula', '', "identification", "Cedula"),
-                                    name: InputElement('text', 'Nombre', '', 'name', "Nombre"),
-                                    lastname: InputElement('text', 'Apellido', '', "lastname", "Apellido"),
-                                    email: InputElement('email', 'Email', '', 'email', "email"),
-                                    tel: InputElement('email', 'Telefono', '', "tel", "Telefono"),
-                                    cel: InputElement('text', 'Celular', '', 'cel', "Celular")
-            
-                                },
-                                //fecha expiracion , distrito , otras senales , sede o recinto
-                                form2: {
-                                    expireDate: InputElement('date', 'Fecha Expiracion', '', "expireDate", 'Fecha Expiracion'),
-                                    ID_district: SelectElement([
-                                        { value: '1', displayValue: 'San Roque' },
-                                        { value: '2', displayValue: 'Carrillos' },
-                                        { value: '3', displayValue: 'Tacares' },
-                                        { value: '4', displayValue: 'Los Angeles' }]
-                                        , '', 'ID_district', "Distrito"),
-            
-                                    signals: InputElement('text', 'Otras senales', '', 'signals', "Otras Senales"),
-            
-                                    location: SelectElement([
-                                        { value: '1', displayValue: 'Tacares' },
-                                        { value: '2', displayValue: 'San Ramon' },
-                                        { value: '3', displayValue: 'Alajuela' },
-                                        { value: '4', displayValue: 'Rodrigo' }]
-                                        , '', 'location', "Recinto"),
-                                    department: InputElement('text', 'Departamento', '', "department", 'Departamento'),
-                                    position: InputElement('text', 'Posicion', '', "position", 'Posicion')
-                                },
-                                loadedDistricts: null,
-                                loadedLocations: null
-                            }
-                        }
-            
-                    } else {
-                        if (props.applicant.applicantType === 'STUDENT') {
-                            console.log(props.applicant);
-                            this.state = {
-                                form: {
-                                    //cedula nombre , mail , telefono , celular
-                                    identification: InputElement('text', 'Cedula', props.applicant.identification, "identification", "Cedula"),
-                                    name: InputElement('text', 'Nombre', props.applicant.name, 'name', "Nombre"),
-                                    lastname: InputElement('text', 'Apellido', props.applicant.lastname, "lastname", "Apellido"),
-                                    email: InputElement('email', 'Email', props.applicant.email, 'email', "email"),
-                                    tel: InputElement('email', 'Telefono', props.applicant.tel, "tel", "Telefono"),
-                                    cel: InputElement('text', 'Celular', props.applicant.cel, 'cel', "Celular")
-            
-                                },
-                                //fecha expiracion , distrito , otras senales , sede o recinto
-                                form2: {
-                                    expireDate: InputElement('date', 'Fecha Expiracion', '', "expireDate", 'Fecha Expiracion'),
-                                    ID_district: SelectElement([
-                                        { value: '1', displayValue: 'San Roque' },
-                                        { value: '2', displayValue: 'Carrillos' },
-                                        { value: '3', displayValue: 'Tacares' },
-                                        { value: '4', displayValue: 'Los Angeles' }]
-                                        , '', 'ID_district', "Distrito"),
-            
-                                    signals: InputElement('text', 'Otras senales', '', 'signals', "Otras Senales"),
-            
-                                    location: SelectElement([
-                                        { value: '1', displayValue: 'Tacares' },
-                                        { value: '2', displayValue: 'San Ramon' },
-                                        { value: '3', displayValue: 'Alajuela' },
-                                        { value: '4', displayValue: 'Rodrigo' }]
-                                        , '', 'location', "Recinto"),
-                                    career: InputElement('text', 'Carrera', props.applicant.career, "career", 'Carrera'),
-                                    studentID: InputElement('text', 'Carnet', props.applicant.studentID, "studentID", 'Carnet Estudiante')
-                                },
-                                loadedDistricts: null,
-                                loadedLocations: null
-                            }
-                        } else {
-                            this.state = {
-                                form: {
-                                    //cedula nombre , mail , telefono , celular
-                                    identification: InputElement('text', 'Cedula', props.applicant.identification, "identification", "Cedula"),
-                                    name: InputElement('text', 'Nombre', props.applicant.name, 'name', "Nombre"),
-                                    lastname: InputElement('text', 'Apellido', props.applicant.lastname, "lastname", "Apellido"),
-                                    email: InputElement('email', 'Email', props.applicant.email, 'email', "email"),
-                                    tel: InputElement('email', 'Telefono', props.applicant.tel, "tel", "Telefono"),
-                                    cel: InputElement('text', 'Celular', props.applicant.cel, 'cel', "Celular")
-            
-                                },
-                                //fecha expiracion , distrito , otras senales , sede o recinto
-                                form2: {
-                                    expireDate: InputElement('date', 'Fecha Expiracion', '', "expireDate", 'Fecha Expiracion'),
-                                    ID_district: SelectElement([
-                                        { value: '1', displayValue: 'San Roque' },
-                                        { value: '2', displayValue: 'Carrillos' },
-                                        { value: '3', displayValue: 'Tacares' },
-                                        { value: '4', displayValue: 'Los Angeles' }]
-                                        , '', 'ID_district', "Distrito"),
-            
-                                    signals: InputElement('text', 'Otras senales', '', 'signals', "Otras Senales"),
-            
-                                    location: SelectElement([
-                                        { value: '1', displayValue: 'Tacares' },
-                                        { value: '2', displayValue: 'San Ramon' },
-                                        { value: '3', displayValue: 'Alajuela' },
-                                        { value: '4', displayValue: 'Rodrigo' }]
-                                        , '', 'location', "Recinto"),
-                                    department: InputElement('text', 'Departamento', props.applicant.department, "department", 'Departamento'),
-                                    position: InputElement('text', 'Posicion', props.applicant.position, "position", 'Posicion')
-            
-                                },
-                                loadedDistricts: null,
-                                loadedLocations: null
-                            }
-                        }
-            
-                    }
+
+            if (props.applicant.applicantType === 'STUDENT') {
+                this.state = {
+                    form: {
+                        //cedula nombre , mail , telefono , celular
+                        identification: InputElement('text', 'Cedula', '', "identification", "Cedula"),
+                        name: InputElement('text', 'Nombre', '', 'name', "Nombre"),
+                        lastname: InputElement('text', 'Apellido', '', "lastname", "Apellido"),
+                        email: InputElement('email', 'Email', '', 'email', "email"),
+                        tel: InputElement('email', 'Telefono', '', "tel", "Telefono"),
+                        cel: InputElement('text', 'Celular', '', 'cel', "Celular")
+                    },
+                    //fecha expiracion , distrito , otras senales , sede o recinto
+                    form2: {
+                        expireDate: InputElement('date', 'Fecha Expiracion', '', "expireDate", 'Fecha Expiracion'),
+                        ID_district: SelectElement([
+                            { value: '1', displayValue: 'San Roque' },
+                            { value: '2', displayValue: 'Carrillos' },
+                            { value: '3', displayValue: 'Tacares' },
+                            { value: '4', displayValue: 'Los Angeles' }]
+                            , '', 'ID_district', "Distrito"),
+
+                        signals: InputElement('text', 'Otras senales', '', 'signals', "Otras Senales"),
+                        location: SelectElement([
+                            { value: '1', displayValue: 'Tacares' },
+                            { value: '2', displayValue: 'San Ramon' },
+                            { value: '3', displayValue: 'Alajuela' },
+                            { value: '4', displayValue: 'Rodrigo' }]
+                            , '', 'location', "Recinto"),
+                        career: InputElement('text', 'Carrera', '', "career", 'Carrera'),
+                        studentID: InputElement('text', 'Carnet', '', "studentId", 'Carnet Estudiante')
+
+                    },
+                    loadedDistricts: null,
+                    loadedLocations: null
+                }
+            } else {
+                this.state = {
+                    form: {
+                        //cedula nombre , mail , telefono , celular
+                        identification: InputElement('text', 'Cedula', '', "identification", "Cedula"),
+                        name: InputElement('text', 'Nombre', '', 'name', "Nombre"),
+                        lastname: InputElement('text', 'Apellido', '', "lastname", "Apellido"),
+                        email: InputElement('email', 'Email', '', 'email', "email"),
+                        tel: InputElement('email', 'Telefono', '', "tel", "Telefono"),
+                        cel: InputElement('text', 'Celular', '', 'cel', "Celular")
+
+                    },
+                    //fecha expiracion , distrito , otras senales , sede o recinto
+                    form2: {
+                        expireDate: InputElement('date', 'Fecha Expiracion', '', "expireDate", 'Fecha Expiracion'),
+                        ID_district: SelectElement([
+                            { value: '1', displayValue: 'San Roque' },
+                            { value: '2', displayValue: 'Carrillos' },
+                            { value: '3', displayValue: 'Tacares' },
+                            { value: '4', displayValue: 'Los Angeles' }]
+                            , '', 'ID_district', "Distrito"),
+
+                        signals: InputElement('text', 'Otras senales', '', 'signals', "Otras Senales"),
+
+                        location: SelectElement([
+                            { value: '1', displayValue: 'Tacares' },
+                            { value: '2', displayValue: 'San Ramon' },
+                            { value: '3', displayValue: 'Alajuela' },
+                            { value: '4', displayValue: 'Rodrigo' }]
+                            , '', 'location', "Recinto"),
+                        department: InputElement('text', 'Departamento', '', "department", 'Departamento'),
+                        position: InputElement('text', 'Posicion', '', "position", 'Posicion')
+                    },
+                    loadedDistricts: null,
+                    loadedLocations: null
+                }
+            }
+
+        } else {
+            if (props.applicant.applicantType === 'STUDENT') {
+                console.log(props.applicant);
+                this.state = {
+                    form: {
+                        //cedula nombre , mail , telefono , celular
+                        identification: InputElement('text', 'Cedula', props.applicant.identification, "identification", "Cedula"),
+                        name: InputElement('text', 'Nombre', props.applicant.name, 'name', "Nombre"),
+                        lastname: InputElement('text', 'Apellido', props.applicant.lastname, "lastname", "Apellido"),
+                        email: InputElement('email', 'Email', props.applicant.email, 'email', "email"),
+                        tel: InputElement('email', 'Telefono', props.applicant.tel, "tel", "Telefono"),
+                        cel: InputElement('text', 'Celular', props.applicant.cel, 'cel', "Celular")
+
+                    },
+                    //fecha expiracion , distrito , otras senales , sede o recinto
+                    form2: {
+                        expireDate: InputElement('date', 'Fecha Expiracion', '', "expireDate", 'Fecha Expiracion'),
+                        ID_district: SelectElement([
+                            { value: '1', displayValue: 'San Roque' },
+                            { value: '2', displayValue: 'Carrillos' },
+                            { value: '3', displayValue: 'Tacares' },
+                            { value: '4', displayValue: 'Los Angeles' }]
+                            , '', 'ID_district', "Distrito"),
+
+                        signals: InputElement('text', 'Otras senales', '', 'signals', "Otras Senales"),
+
+                        location: SelectElement([
+                            { value: '1', displayValue: 'Tacares' },
+                            { value: '2', displayValue: 'San Ramon' },
+                            { value: '3', displayValue: 'Alajuela' },
+                            { value: '4', displayValue: 'Rodrigo' }]
+                            , '', 'location', "Recinto"),
+                        career: InputElement('text', 'Carrera', props.applicant.career, "career", 'Carrera'),
+                        studentID: InputElement('text', 'Carnet', props.applicant.studentID, "studentID", 'Carnet Estudiante')
+                    },
+                    loadedDistricts: null,
+                    loadedLocations: null
+                }
+            } else {
+                this.state = {
+                    form: {
+                        //cedula nombre , mail , telefono , celular
+                        identification: InputElement('text', 'Cedula', props.applicant.identification, "identification", "Cedula"),
+                        name: InputElement('text', 'Nombre', props.applicant.name, 'name', "Nombre"),
+                        lastname: InputElement('text', 'Apellido', props.applicant.lastname, "lastname", "Apellido"),
+                        email: InputElement('email', 'Email', props.applicant.email, 'email', "email"),
+                        tel: InputElement('email', 'Telefono', props.applicant.tel, "tel", "Telefono"),
+                        cel: InputElement('text', 'Celular', props.applicant.cel, 'cel', "Celular")
+
+                    },
+                    //fecha expiracion , distrito , otras senales , sede o recinto
+                    form2: {
+                        expireDate: InputElement('date', 'Fecha Expiracion', '', "expireDate", 'Fecha Expiracion'),
+                        ID_district: SelectElement([
+                            { value: '1', displayValue: 'San Roque' },
+                            { value: '2', displayValue: 'Carrillos' },
+                            { value: '3', displayValue: 'Tacares' },
+                            { value: '4', displayValue: 'Los Angeles' }]
+                            , '', 'ID_district', "Distrito"),
+
+                        signals: InputElement('text', 'Otras senales', '', 'signals', "Otras Senales"),
+
+                        location: SelectElement([
+                            { value: '1', displayValue: 'Tacares' },
+                            { value: '2', displayValue: 'San Ramon' },
+                            { value: '3', displayValue: 'Alajuela' },
+                            { value: '4', displayValue: 'Rodrigo' }]
+                            , '', 'location', "Recinto"),
+                        department: InputElement('text', 'Departamento', props.applicant.department, "department", 'Departamento'),
+                        position: InputElement('text', 'Posicion', props.applicant.position, "position", 'Posicion')
+                    },
+                    loadedDistricts: null,
+                    loadedLocations: null
+                }
+            }
+        }
     }
 
     componentDidMount() {
@@ -249,28 +247,30 @@ class ApplicantForm extends React.Component {
         for (let formElementIdentifier in this.state.form) {
             formData[formElementIdentifier] = this.state.form[formElementIdentifier].value;
         }
-        let applicantType = ((this.props.applicant.applicantType === 'STUDENT')?'student':'clerk');
+        let applicantType = ((this.props.applicant.applicantType === 'STUDENT') ? 'student' : 'clerk');
         switch (this.props.function) {
             case 'CREATE':
-                axios.post('http://localhost:8080/applicants/'+ applicantType, formData)
+                axios.post('http://localhost:8080/applicants/' + applicantType, formData)
                     .then(response => {
                         alert('Solicitante Creado' + response);
                     });
-            break;
+                break;
             case 'EDIT':
-                axios.put('http://localhost:8080/applicants/'+ applicantType, formData)
+                axios.put('http://localhost:8080/applicants/' + applicantType, formData)
                     .then(response => {
                         alert('Solicitante Actualizado' + response);
                     });
-            break;
+                break;
         }
     }
 
     render() {
 
-    
-        this.stateInitialization(this.props);
-    
+        if (this.lastSection != this.props.applicant.applicantType) {
+            this.stateInitialization(this.props);
+            this.lastSection = this.props.applicant.applicantType;
+        }
+
         console.log("renderApp asdasdas");
         this.populateSelects();
 
@@ -342,8 +342,7 @@ class ApplicantForm extends React.Component {
 
         );
     }
-    //componentWillMount() {
-    //}
+
 }
 
 const mapStateToProps = (state) => {

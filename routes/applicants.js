@@ -219,8 +219,9 @@ router.put('/clerk', function(req, res, next) {
 // delete clerk ENVIAR la cedula
   router.delete('/clerk/:id', function(req, res, next) {
     DB_Connnection.then(pool => {
+        console.log("id a eliminaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaar" + req.params.id);
       return pool.request()
-        .input('ID', sql.Int, req.params.id)
+        .input('identification', sql.VarChar(50), req.params.id)
         .execute('deleteClerk');
     }).then(result => {
         res.send("Clerk deleted: " + req.params.id);

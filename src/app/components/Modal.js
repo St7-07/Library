@@ -11,65 +11,77 @@ class Modal extends Component {
 
         let modal;
 
-        switch(this.props.type){
+        switch (this.props.type) {
             case "students":
-            case  "clerks" :
-                modal = 
-                            <div className="list-group">
-                                <a href="#" className="list-group-item"
-                                    onClick={() => this.props.setSubcontent("updateApplicant", this.props.selectedData)}>Editar</a>
-                                <a href="#" className="list-group-item"
-                                    onClick={() => clickHandler("delete", this.props.selectedData, this.props.refresh.bind(this))}>Eliminar</a>
-                                <a href="#" className="list-group-item"
-                                    onClick={() => clickHandler("showLoans", this.props.selectedData)}>Ver Morosidades</a>
-                                <a href="#" className="list-group-item"
-                                    onClick={() => clickHandler("showDefaulters", this.props.selectedData)}>Ver Prestamos</a>
-                            </div>
-            break;
+                modal =
+                    <div className="list-group">
+                        <a href="#" className="list-group-item"
+                            onClick={() => this.props.setSubcontent("updateApplicant", this.props.selectedData, this.props.type)}>Editar</a>
+                        <a href="#" className="list-group-item"
+                            onClick={() => clickHandler("delete", this.props.selectedData, this.props.refresh.bind(this),"students")}>Eliminar</a>
+                        <a href="#" className="list-group-item"
+                            onClick={() => clickHandler("showLoans", this.props.selectedData)}>Ver Morosidades</a>
+                        <a href="#" className="list-group-item"
+                            onClick={() => clickHandler("showDefaulters", this.props.selectedData)}>Ver Prestamos</a>
+                    </div>
+                break;
+            case "clerks":
+                modal =
+                    <div className="list-group">
+                        <a href="#" className="list-group-item"
+                            onClick={() => this.props.setSubcontent("updateApplicant", this.props.selectedData, this.props.type)}>Editar</a>
+                        <a href="#" className="list-group-item"
+                            onClick={() => clickHandler("delete", this.props.selectedData, this.props.refresh.bind(this),"clerks")}>Eliminar</a>
+                        <a href="#" className="list-group-item"
+                            onClick={() => clickHandler("showLoans", this.props.selectedData)}>Ver Morosidades</a>
+                        <a href="#" className="list-group-item"
+                            onClick={() => clickHandler("showDefaulters", this.props.selectedData)}>Ver Prestamos</a>
+                    </div>
+                break;
             case "av_equipment":
-                modal = 
-                        <div className="list-group">
-                            <a href="#" className="list-group-item"
-                                onClick={() => this.props.setSubcontent("updateApplicant", this.props.selectedData)}>Editar</a>
-                            <a href="#" className="list-group-item"
-                                onClick={() => clickHandler("delete", this.props.selectedData, this.props.refresh.bind(this))}>Eliminar</a>
-                        </div>
-            break;
+                modal =
+                    <div className="list-group">
+                        <a href="#" className="list-group-item"
+                            onClick={() => this.props.setSubcontent("updateApplicant", this.props.selectedData)}>Editar</a>
+                        <a href="#" className="list-group-item"
+                            onClick={() => clickHandler("delete", this.props.selectedData, this.props.refresh.bind(this))}>Eliminar</a>
+                    </div>
+                break;
             case "loans":
-                modal = 
-                <div className="list-group">
-                    <a href="#" className="list-group-item"
-                        onClick={() => clickHandler("delete", this.props.selectedData, this.props.refresh.bind(this))}>Eliminar</a>
-                    <a href="#" className="list-group-item"
-                        onClick={() => clickHandler("applicantInfo", this.props.selectedData, this.props.refresh.bind(this))}>Ver info solicitante</a>
-                </div>
-            break;
+                modal =
+                    <div className="list-group">
+                        <a href="#" className="list-group-item"
+                            onClick={() => clickHandler("delete", this.props.selectedData, this.props.refresh.bind(this))}>Eliminar</a>
+                        <a href="#" className="list-group-item"
+                            onClick={() => clickHandler("applicantInfo", this.props.selectedData, this.props.refresh.bind(this))}>Ver info solicitante</a>
+                    </div>
+                break;
             case "defaulters":
-                modal = 
-                <div className="list-group">
-                    <a href="#" className="list-group-item"
-                        onClick={() => clickHandler("delete", this.props.selectedData, this.props.refresh.bind(this))}>Eliminar</a>
-                    <a href="#" className="list-group-item"
-                        onClick={() => clickHandler("applicantInfo", this.props.selectedData, this.props.refresh.bind(this))}>Ver info solicitante</a>
-                </div>
-            break;
+                modal =
+                    <div className="list-group">
+                        <a href="#" className="list-group-item"
+                            onClick={() => clickHandler("delete", this.props.selectedData, this.props.refresh.bind(this))}>Eliminar</a>
+                        <a href="#" className="list-group-item"
+                            onClick={() => clickHandler("applicantInfo", this.props.selectedData, this.props.refresh.bind(this))}>Ver info solicitante</a>
+                    </div>
+                break;
         }
         return (
-            <div className="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" 
-            aria-labelledby="mySmallModalLabel" id='myModal'>
+            <div className="modal fade bs-example-modal-sm" tabindex="-1" role="dialog"
+                aria-labelledby="mySmallModalLabel" id='myModal'>
                 <div className="modal-dialog modal-sm" role="document">
                     <div className="modal-content">
                         {modal}
                     </div>
                 </div>
-            </div> 
+            </div>
         )
     }
 
 };
 
 
-function clickHandler(optionSelected, selectedData, refresh) {
+function clickHandler(optionSelected, selectedData, refresh, typeApplicant) {
     switch (optionSelected) {
         case "update":
             $('#myModal').modal('hide');
@@ -78,13 +90,39 @@ function clickHandler(optionSelected, selectedData, refresh) {
 
             break;
         case "delete":
-            let id = selectedData.studentId;
-            axios.delete('http://localhost:8080/applicants/student/' + id)
-                .then(response => {
-                    console.log(response.data);
-                    refresh();
-                    $('#myModal').modal('hide');
-                })
+            let id;
+            switch (typeApplicant) {
+                case "students":
+                    id = selectedData.studentId;
+                    axios.delete('http://localhost:8080/applicants/student/' + id)
+                        .then(response => {
+                            console.log(response.data);
+                            refresh();
+                            $('#myModal').modal('hide');
+                        })
+                    break;
+                case "clerks":
+                    id = selectedData.id;
+                    axios.delete('http://localhost:8080/applicants/clerk/' + id)
+                        .then(response => {
+                            console.log(response.data);
+                            refresh();
+                            $('#myModal').modal('hide');
+                        })
+                    break;
+                case "av_equipment":
+
+                    break;
+                case "loans":
+
+                    break;
+                case "defaulters":
+
+                    break;
+                default:
+                    break;
+            }
+
             break;
         case "showLoans":
             break;
