@@ -176,17 +176,3 @@ class EquipmentForm extends React.Component {
 }
 
 export default EquipmentForm;
-
-// const mapStateToProps = (state) => {
-//     return {
-//         equipment: state.equipmentReducer
-//     };
-// };
-
-// const mapDispatchToProps = (dispatch) => {
-//     return {
-//         //onChangeValue: (value, inputIdentifier) => dispatch({type: "CHANGE_VALUE", payload: {value, inputIdentifier}})
-//     };
-// };
-
-// export default connect(mapStateToProps, mapDispatchToProps)(EquipmentForm);
