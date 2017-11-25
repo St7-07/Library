@@ -30,11 +30,16 @@ export default class LogIn extends React.Component {
                         <label className="labelError" id="errorMessage" >Contraseña o nombre de usuario incorrecto trate de nuevo!</label>
                         <label className="labelError" id="forgotPassword" onClick={() => this.showPuk()}>Se te olvido la contraseña? Recuperara!</label>
                         <div className="pukDiv">
-                            <label>Ingrese el nombre de usuario y el codigo PUK para recuperar la contraseña</label>
-                            <input type="text" className="form-control" name="userName" id="userNamePuk" />
-                            <input type="password" className="form-control" name="password" id="passwordPuk" />
-                            <input type="submit" className="btn btn-primary" value="Recover" onClick={() => this.recoverPassword()} />
-                            <label className="labelError" id="errorMessagePuk" >El PUK ingresado es incorrecto</label>
+                            <div className="pukDivContent">
+                                <label>Ingrese el nombre de usuario y el codigo PUK para recuperar la contraseña</label><br />
+                                <label>Nombre de usuario</label> <input type="text" className="form-control inputPUK" name="userName" id="userNamePuk" /><br />
+                                <label>Codigo PUK</label> <input type="password" className="form-control inputPUK" name="password" id="passwordPuk" /><br />
+                                <input type="submit" className="btn btn-primary" value="Recover" onClick={() => this.recoverPassword()} />
+                                <label className="labelError" id="errorMessagePuk" >El PUK ingresado es incorrecto</label>
+                                <label className="labelError" id="errorMessageUsername" >El usuario ingresado no existe en la base de datos</label>
+                            </div>
+                            <label className="labelPassword">La contraseña de la cuenta solicitada es: </label> <br />
+                            <label className="labelPassword" id="labelPassword" ></label>
                         </div>
                     </div>
                 </div>
@@ -51,15 +56,30 @@ export default class LogIn extends React.Component {
         console.log(userName + " *** " + puk);
         if (puk == "123") {
             console.log("puk correcto");
-            //llama al api con el userName
+            axios.post('http://localhost:8080/users/restorePassword', {
+                username: userName,
+            }).then((response) => {
+                if (response.data.pass === "") {
+                    $(".labelError").hide();
+                    $("#errorMessageUsername").slideDown("slow");
+                } else {
+                    document.getElementById("labelPassword").innerHTML = response.data.pass;
+                    $(".pukDivContent").hide();
+                    $(".labelPassword").show();
+                }
+            })
         } else {
+            $(".labelError").hide();
             $("#errorMessagePuk").slideDown("slow");
+
         }
+
+
     }
 
     showPuk() {
-        $("#errorMessage").slideUp("slow");
-        $("#forgotPassword").slideUp("slow");
+        $("#errorMessage").hide();
+        $("#forgotPassword").hide();
         $(".pukDiv").slideDown("slow");
     }
 
@@ -97,6 +117,7 @@ export default class LogIn extends React.Component {
                     }
                 });
             } else {
+                $(".labelError").hide();
                 $("#errorMessage").slideDown("slow");
                 $("#forgotPassword").slideDown("slow");
             }
