@@ -197,12 +197,12 @@ router.put('/av_equipment/model/:id', function(req, res, next) {
     db_connection.then(pool => {
         console.log(req.params.id);
       return pool.request()
-        .input('barcode', sql.Int, req.params.id)
+        .input('barcode', sql.NVarChar(50), req.params.id)
         .execute('deleteAV_Equipments');
     }).then(result => {
         res.send("av_equipment deleted: " + req.params.id);
     }).catch(err => {
-        res.send("av_equipment couldn't be deleted");
+        res.send(err);
     });
 });
 

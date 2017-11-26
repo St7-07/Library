@@ -42,9 +42,9 @@ class Modal extends Component {
                 modal =
                     <div className="list-group">
                         <a href="#" className="list-group-item"
-                            onClick={() => this.props.setSubcontent("updateApplicant", this.props.selectedData)}>Editar</a>
+                            onClick={() => this.props.setSubcontent("updateEquipment", this.props.selectedData)}>Editar</a>
                         <a href="#" className="list-group-item"
-                            onClick={() => clickHandler("delete", this.props.selectedData, this.props.refresh.bind(this))}>Eliminar</a>
+                            onClick={() => clickHandler("delete", this.props.selectedData, this.props.refresh.bind(this), "av_equipment")}>Eliminar</a>
                     </div>
                 break;
             case "loans":
@@ -99,7 +99,7 @@ function clickHandler(optionSelected, selectedData, refresh, typeApplicant) {
                             console.log(response.data);
                             refresh();
                             $('#myModal').modal('hide');
-                        })
+                        });
                     break;
                 case "clerks":
                     id = selectedData.id;
@@ -108,10 +108,16 @@ function clickHandler(optionSelected, selectedData, refresh, typeApplicant) {
                             console.log(response.data);
                             refresh();
                             $('#myModal').modal('hide');
-                        })
+                        });
                     break;
                 case "av_equipment":
-
+                    id = selectedData.barcode;
+                    axios.delete('http://localhost:8080/av_equipments/av_equipment/' + id)
+                        .then(response => {
+                            console.log(response.data);
+                            refresh();
+                            $('#myModal').modal('hide');
+                        });
                     break;
                 case "loans":
 
@@ -145,8 +151,14 @@ const mapDispatchToProps = (dispatch) => {
         setSubcontent: (type, selectedData) => {
             $('#myModal').modal('hide');
             dispatch(setSubcontent(type));
-            console.log(selectedData);
-            dispatch(setApplicant(type, selectedData));
+            switch (type) {
+                case 'updateApplicant' :
+                    dispatch(setApplicant(type, selectedData));
+                break;
+                case 'updateEquipment':
+                    dispatch( { type: "SET_EQUIPMENT_INFO", payload : selectedData });
+                break;
+            }
         },
     };
 };

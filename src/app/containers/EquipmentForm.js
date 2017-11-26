@@ -9,16 +9,23 @@ class EquipmentForm extends React.Component {
 
     constructor(props) {
         super();
+        const UPDATE = (props.function == 'UPDATE') ? true : false;
         this.state = {
+            old_barcode : (UPDATE) ? props.equipment.barcode: '',
+            old_model : (UPDATE) ? props.equipment.model: '',
+            categoryID:0,
+            brandID:0,
+            stateID:0,
             form: {
-                barcode : InputElement('text', 'Nombre', '', "barcode", "Codigo Barras"),
-                notes: InputElement('text', 'Notas', '', 'notes', "Notas"),
+                barcode : InputElement('text', 'Nombre', (UPDATE)?props.equipment.barcode:''
+                            , "barcode", "Codigo Barras"),
         
                 category : SelectElement( [
                                 {value:'1', displayValue: 'toDeploy'},]
                                 ,'','category', "Categoria"),
         
-                model : InputElement('text', 'Modelo', '', "model", "Modelo"),
+                model : InputElement('text', 'Modelo', (UPDATE)?props.equipment.model:''
+                            , "model", "Modelo"),
         
                 brand : SelectElement( [
                            {value:'1', displayValue: 'VAIO'},
@@ -47,13 +54,18 @@ class EquipmentForm extends React.Component {
             case 'CREATE':
                 axios.post('http://localhost:8080/av_equipments/av_equipment', formData)
                     .then(response => {
-                        alert(response);
+                        alert("Equipo Creado \n Codigo de Barras: " + formData.barcode);
                     });
             break;
-            case 'EDIT':
-                axios.put('http://localhost:8080/av_equipments/av_equipment/'+ formData)
+            case 'UPDATE':
+                let data = {
+                    ...formData,
+                    old_barcode : this.state.old_barcode,
+                    old_model: this.state.old_model
+                };
+                axios.put('http://localhost:8080/av_equipments/av_equipment/'+ data.old_barcode, data)
                     .then(response => {
-                        alert( response);
+                        alert("Equipo Actualizado \n Codigo de Barras: " + formData.barcode);
                     });
             break;
         }
@@ -89,7 +101,10 @@ class EquipmentForm extends React.Component {
             && this.state.loadedStates
             && (this.state.form.category.elementConfig.options.length == 1) ){
 
-            let categories = this.state.loadedCategories.map(category =>{
+            let categories = this.state.loadedCategories.map(category => {
+                if (this.state.categoryID === 0 && category.category === this.props.equipment.category) {
+                    this.state.categoryID = category.id_category;
+                }
                 return{
                     value: category.id_category,
                     displayValue: category.category
@@ -97,6 +112,9 @@ class EquipmentForm extends React.Component {
             });
 
             let brands = this.state.loadedBrands.map(brand =>{
+                if (this.state.brandID === 0 && brand.brandType === this.props.equipment.brand) {
+                    this.state.brandID = brand.id_brand;
+                }
                 return{
                     value: brand.id_brand,
                     displayValue: brand.brandType
@@ -104,27 +122,28 @@ class EquipmentForm extends React.Component {
             });
 
             let states = this.state.loadedStates.map(state =>{
+                if(this.state.stateID === 0 && state.stateType === this.props.equipment.stateID) {
+                    this.state.stateID =  state.id_state;
+                }
                 return{
                     value: state.id_state,
                     displayValue: state.stateType
                 }
             });
-
+            console.log("cat out: " + this.state.categoryID);
             this.changeFormState(categories,brands,states);
-            
-            
+    
         }
     }
 
 
     changeFormState(categories, brands,states){
+        const UPDATE = (this.props.function == 'UPDATE') ? true : false;
         this.setState({form : {
-            barcode : InputElement('text', 'Nombre', '', "barcode", "Codigo Barras"),
-            notes: InputElement('text', 'Notas', '', 'notes', "Notas"),
-            category : SelectElement(categories,'', 'category','Categoria'),
-            model : InputElement('text', 'Modelo', '', "model", "Modelo"),
-            brand : SelectElement( brands,'','brand', "Marca"),
-            state : SelectElement(states,'','state', "Estado")
+            ...this.state.form,
+            category : SelectElement(categories, (UPDATE)?this.state.categoryID:'', 'category','Categoria'),
+            brand : SelectElement( brands,(UPDATE)?this.state.brandID:'','brand', "Marca"),
+            state : SelectElement(states,(UPDATE)?this.state.stateID:'','state', "Estado")
         }});
         
     }
@@ -175,4 +194,15 @@ class EquipmentForm extends React.Component {
 
 }
 
-export default EquipmentForm;
+const mapStateToProps = (state) => {
+    return {
+        equipment: state.equipmentReducer,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(EquipmentForm);
