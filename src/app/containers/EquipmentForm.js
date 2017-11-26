@@ -47,13 +47,13 @@ class EquipmentForm extends React.Component {
             case 'CREATE':
                 axios.post('http://localhost:8080/av_equipments/av_equipment', formData)
                     .then(response => {
-                        alert('Equipo Creado' + response);
+                        alert(response);
                     });
             break;
             case 'EDIT':
                 axios.put('http://localhost:8080/av_equipments/av_equipment/'+ formData)
                     .then(response => {
-                        alert('Equipo Actualizado' + response);
+                        alert( response);
                     });
             break;
         }
