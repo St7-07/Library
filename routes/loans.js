@@ -16,18 +16,28 @@ router.get('/', function (req, res, next) {
         res.send('fallo al mostrar morosidades' + err);
     });
 });
-//insert a new Loan
-router.post('/loan', function (req, res, next) {
+
+function popullateLoanPool(pool, req) { 
     let loan = req.body;
     let validateLoan = new Loan(loan.startDate, loan.finishDate);
-    db_Connection.then(pool => {
-        return pool.request().
-            input('user_id', sql.SmallInt, loan.userId).
-            input('startDate', sql.DateTime, validateLoan.startDate).
-            input('finishDate', sql.DateTime, validateLoan.finishDate).
-            input('AV_id', sql.Int, loan.AV_id).
-            input('people_id', sql.Int, loan.people_id).
-            execute('createLoan');
+    console.log(loan.user_id);
+    console.log(loan.AV_id);
+    console.log(loan.startDate);
+    console.log(loan.finishDate);
+    console.log(loan.people_id);
+    pool.input('user_id', sql.SmallInt, loan.user_Id).
+    input('startDate', sql.DateTime, validateLoan.startDate).
+    input('finishDate', sql.DateTime, validateLoan.finishDate).
+    input('AV_id', sql.Int, loan.AV_id).
+    input('people_id', sql.Int, loan.people_id);
+};
+
+// insert a new Loan
+router.post('/loan', function (req, res, next) {
+    db_connection.then(pool => {
+        let poolRequest = pool.request();
+        popullateLoanPool(poolRequest, req);
+        return poolRequest.execute('createLoan');
     }).then(result => {
         res.send('loan created ' + result.output);
     }).catch(err => {
@@ -35,11 +45,12 @@ router.post('/loan', function (req, res, next) {
     });
 });
 
-//Return loan item
-router.put('/loan/:barcode', function (req, res, next) {
-    db_Connection.then(pool => {
+// //Return loan item
+router.put('/return', function (req, res, next) {
+    console.log('return');
+    db_connection.then(pool => {
         return pool.request().
-            input('barcode', sql.Nvarchar(50), req.params.barcode).
+            input('barcode', sql.VarChar, req.body.barcode).
             execute('returnLoan');
     }).then(result => {
         res.send('equipment returned succesffuly' + result.output);
@@ -47,17 +58,21 @@ router.put('/loan/:barcode', function (req, res, next) {
         res.send('fallo al ejecutar el procedimiento ' + err)
     });
 });
-//renew the loan 
-router.put('/loan/renew', function (req, res, next) {
-    db_Connection.then(pool => {
+
+// //renew the loan 
+router.put('/renew', function (req, res, next) {
+    console.log('renew');
+    db_connection.then(pool => {
         return pool.request().
-            input('loan_id', sql.Int, req.body.loan_id).
+            input('barcode', sql.Int, req.body.barcode).
             input('newFinishDate', sql.DateTime, new Date(req.body.newFinishDate)).
-            execute('returnLoan');
+            execute('renewLoan');
     }).then(result => {
         res.send('equipment renewed succesffuly' + result.output);
     }).catch(err => {
         res.send('fallo al ejecutar el procedimiento ' + err)
     });
 });
+
+
 module.exports = router;

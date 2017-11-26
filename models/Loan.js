@@ -1,8 +1,4 @@
 module.exports = function(startDate,finishDate ){
-    this.startDate=new Date(startDate);
-    this.finishDate=new Date(finishDate);
-    }
-
-    module.exports = function(){
-      
-        }
+    this.startDate= new Date(startDate);
+    this.finishDate= new Date(finishDate);
+    };
