@@ -73,7 +73,6 @@ class EquipmentForm extends React.Component {
     }
 
     renderData() {
-        console.log("RENDERDATA");
         const UPDATE = (this.props.function == 'UPDATE') ? true : false;
 
         axios.get('http://localhost:8080/av_equipments/categories')
@@ -132,86 +131,11 @@ class EquipmentForm extends React.Component {
         });
     }
 
-    getDataForSelects(){
-        if(!this.state.loadedCategories){
-            axios.get('http://localhost:8080/av_equipments/categories')
-            .then(response =>{
-                this.setState({loadedCategories:response.data});
-            });
-        }
-
-        if(!this.state.loadedBrands){
-            axios.get('http://localhost:8080/av_equipments/brands')
-            .then(response =>{
-                this.setState({loadedBrands:response.data});
-            });
-        }
-
-        if(!this.state.loadedStates){
-            axios.get('http://localhost:8080/av_equipments/states')
-            .then(response =>{
-                this.setState({loadedStates:response.data});
-            });
-        }
-    }
-
-    populateSelects(){
-        if(this.state.loadedCategories 
-            && this.state.loadedBrands
-            && this.state.loadedStates
-            && (this.state.form.category.elementConfig.options.length == 1) ){
-
-            let categories = this.state.loadedCategories.map(category => {
-                if (this.state.categoryID === 0 && category.category === this.props.equipment.category) {
-                    this.state.categoryID = category.id_category;
-                }
-                return{
-                    value: category.id_category,
-                    displayValue: category.category
-                }
-            });
-
-            let brands = this.state.loadedBrands.map(brand =>{
-                if (this.state.brandID === 0 && brand.brandType === this.props.equipment.brand) {
-                    this.state.brandID = brand.id_brand;
-                }
-                return{
-                    value: brand.id_brand,
-                    displayValue: brand.brandType
-                }
-            });
-
-            let states = this.state.loadedStates.map(state =>{
-                if(this.state.stateID === 0 && state.stateType === this.props.equipment.stateID) {
-                    this.state.stateID =  state.id_state;
-                }
-                return{
-                    value: state.id_state,
-                    displayValue: state.stateType
-                }
-            });
-            this.changeFormState(categories,brands,states);
-    
-        }
-    }
-
-
-    changeFormState(categories, brands,states){
-        const UPDATE = (this.props.function == 'UPDATE') ? true : false;
-        this.setState({form : {
-            ...this.state.form,
-            category : SelectElement(categories, (UPDATE)?this.state.categoryID:'', 'category','Categoria'),
-            brand : SelectElement( brands,(UPDATE)?this.state.brandID:'','brand', "Marca"),
-            state : SelectElement(states,(UPDATE)?this.state.stateID:'','state', "Estado")
-        }});
-    }
-
-    componentDidMount(){
-        this.getDataForSelects();
+    componentWillMount(){
+       this.renderData();
     }
 
     render() {
-        this.populateSelects();
         const formElementsArray = [];
 
             for (let key in this.state.form) { //Creates an array to loop through an object attributes
@@ -220,9 +144,7 @@ class EquipmentForm extends React.Component {
                     config: this.state.form[key] //right side attribute
                 });
             }
-        
-        
-
+            
         return (
             <div className="formSpace">
                 <div className="row">
