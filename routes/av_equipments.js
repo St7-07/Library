@@ -61,21 +61,21 @@ router.get('/states', function (req, res, next) {
 
 // insert a new category 
 router.post('/category',function (req, res, next){
-let category = req.body.category;
+let category = req.body.value;
     db_connection.then(pool =>{
 return pool.request().
 input('category',sql.NVarChar(50), category).
 execute('createAV_Category');
 }).then(result =>{
-    res.send('category created ' + result.output);
+    res.send(result);
 }).catch(err => {
-    res.send('fallo al ejecutar el procedimiento ' + err)
+    res.send(err)
 });
 });
 
 // insert a new brand 
 router.post('/brand',function (req, res, next){
-    let brand = req.body.brand;
+    let brand = req.body.value;
         db_connection.then(pool =>{
     return pool.request().
     input('brand',sql.NVarChar(50), brand).
