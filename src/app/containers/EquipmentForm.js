@@ -90,7 +90,7 @@ class EquipmentForm extends React.Component {
           
             this.setState({form : {
                 ...this.state.form,
-                category : SelectElement(categories, (UPDATE)?this.state.categoryID:'', 'category','Categoria')
+                category : SelectElement(categories, (UPDATE)?this.state.categoryID:1, 'category','Categoria')
             }});
         });
 
@@ -108,7 +108,7 @@ class EquipmentForm extends React.Component {
             });
             this.setState({form : {
                 ...this.state.form,
-                brand : SelectElement( brands,(UPDATE)?this.state.brandID:'','brand', "Marca")
+                brand : SelectElement( brands,(UPDATE)?this.state.brandID:1,'brand', "Marca")
             }});
         });
 
@@ -126,7 +126,7 @@ class EquipmentForm extends React.Component {
             });
             this.setState({form : {
                 ...this.state.form,
-                state : SelectElement(states,(UPDATE)?this.state.stateID:'','state', "Estado")
+                state : SelectElement(states,(UPDATE)?this.state.stateID:1,'state', "Estado")
             }});
         });
     }
