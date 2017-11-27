@@ -213,8 +213,10 @@ class ApplicantForm extends React.Component {
 
         } else {
             if (props.applicant.applicantType === 'STUDENT') {
-                console.log(props.applicant);
+
+     
                 this.state = {
+                    old : props.applicant.studentID,
                     districtID: 0,
                     locationID: 0,
                     form: {
@@ -229,7 +231,7 @@ class ApplicantForm extends React.Component {
                     },
                     //fecha expiracion , distrito , otras senales , sede o recinto
                     form2: {
-                        expireDate: InputElement('date', 'Fecha Expiracion', '', "expireDate", 'Fecha Expiracion'),
+                        expireDate: InputElement('date', 'Fecha Expiracion',props.applicant.expireDate, "expireDate", 'Fecha Expiracion'),
                         ID_district: SelectElement([
                             { value: '1', displayValue: 'San Roque' },
                             { value: '2', displayValue: 'Carrillos' },
@@ -253,6 +255,7 @@ class ApplicantForm extends React.Component {
                 }
             } else {
                 this.state = {
+                    old : props.applicant.identification,
                     districtID: 0,
                     locationID: 0,
                     form: {
@@ -267,7 +270,7 @@ class ApplicantForm extends React.Component {
                     },
                     //fecha expiracion , distrito , otras senales , sede o recinto
                     form2: {
-                        expireDate: InputElement('date', 'Fecha Expiracion', '', "expireDate", 'Fecha Expiracion'),
+                        expireDate: InputElement('date', 'Fecha Expiracion', props.applicant.expireDate, "expireDate", 'Fecha Expiracion'),
                         ID_district: SelectElement([
                             { value: '1', displayValue: 'San Roque' },
                             { value: '2', displayValue: 'Carrillos' },
@@ -301,20 +304,21 @@ class ApplicantForm extends React.Component {
         for (let formElementIdentifier in this.state.form) {
             formData[formElementIdentifier] = this.state.form[formElementIdentifier].value;
         }
-
         for (let formElementIdentifier in this.state.form2) {
             formData[formElementIdentifier] = this.state.form2[formElementIdentifier].value;
         }
-
+         
         console.log(formData);
-
         let applicantType = ((this.props.applicant.applicantType === 'STUDENT') ? 'student' : 'clerk');
         if (this.props.function === "CREATE") {
             axios.post('http://localhost:8080/applicants/' + applicantType, formData)
                 .then(response => {
                     alert('Solicitante Creado' + response);
+                    console.log("respuesta servidor:           " + response);
                 });
         } else {
+            console.log("old :****************    "  + this.state.old);
+            formData["old"] = this.state.old;
             axios.put('http://localhost:8080/applicants/' + applicantType, formData)
                 .then(response => {
                     alert('Solicitante Actualizado' + response);

@@ -39,9 +39,9 @@ const applicantReducer = (state = initState, action) => {
                     name: action.payload.name,
                     lastname: action.payload.lastname,
                     email: action.payload.email,
-                    tel: action.payload.phoneHome,
+                    tel: action.payload.homePhone,
                     cel: action.payload.phone,
-                    expireDate: action.payload.validDate,
+                    expireDate: (action.payload.validDate.split("/").reverse().join("-")),
                     district: action.payload.district,
                     signals: "",
                     location: action.payload.location,
@@ -54,7 +54,7 @@ const applicantReducer = (state = initState, action) => {
                     position: ""
                 }
             } else {
-                //falta darle la info a repartment y position, no se el nombre de los atributos del payload de ese tipo
+             
                 state = {
                     ...state,
                     ID: 0,
@@ -62,9 +62,9 @@ const applicantReducer = (state = initState, action) => {
                     name: action.payload.name,
                     lastname: action.payload.lastname,
                     email: action.payload.email,
-                    tel: action.payload.phoneHome,
+                    tel: action.payload.homePhone,
                     cel: action.payload.phone,
-                    expireDate: action.payload.validDate,
+                    expireDate:  (action.payload.validDate.split("/").reverse().join("-")),
                     district: action.payload.district,
                     signals: "",
                     location: action.payload.location,
@@ -73,8 +73,8 @@ const applicantReducer = (state = initState, action) => {
                     studentID: "",
                     //Clerk attributes
                     clerkID: 0,
-                    department: "",
-                    position: ""
+                    department: action.payload.department,
+                    position: action.payload.position
                 }
             }
 

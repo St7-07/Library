@@ -16,9 +16,9 @@ class Modal extends Component {
                 modal =
                     <div className="list-group">
                         <a href="#" className="list-group-item"
-                            onClick={() => this.props.setSubcontent("updateApplicant", this.props.selectedData, this.props.type)}>Editar</a>
+                            onClick={() => this.props.setSubcontent("updateApplicant", this.props.selectedData, "STUDENT")}>Editar</a>
                         <a href="#" className="list-group-item"
-                            onClick={() => clickHandler("delete", this.props.selectedData, this.props.refresh.bind(this),"students")}>Eliminar</a>
+                            onClick={() => clickHandler("delete", this.props.selectedData, this.props.refresh.bind(this), "students")}>Eliminar</a>
                         <a href="#" className="list-group-item"
                             onClick={() => clickHandler("showLoans", this.props.selectedData)}>Ver Morosidades</a>
                         <a href="#" className="list-group-item"
@@ -29,9 +29,9 @@ class Modal extends Component {
                 modal =
                     <div className="list-group">
                         <a href="#" className="list-group-item"
-                            onClick={() => this.props.setSubcontent("updateApplicant", this.props.selectedData, this.props.type)}>Editar</a>
+                            onClick={() => this.props.setSubcontent("updateApplicant", this.props.selectedData,  "CLERK")}>Editar</a>
                         <a href="#" className="list-group-item"
-                            onClick={() => clickHandler("delete", this.props.selectedData, this.props.refresh.bind(this),"clerks")}>Eliminar</a>
+                            onClick={() => clickHandler("delete", this.props.selectedData, this.props.refresh.bind(this), "clerks")}>Eliminar</a>
                         <a href="#" className="list-group-item"
                             onClick={() => clickHandler("showLoans", this.props.selectedData)}>Ver Morosidades</a>
                         <a href="#" className="list-group-item"
@@ -148,16 +148,18 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setSubcontent: (type, selectedData) => {
+        setSubcontent: (type, selectedData,applicantType) => {
             $('#myModal').modal('hide');
             dispatch(setSubcontent(type));
             switch (type) {
-                case 'updateApplicant' :
+                case 'updateApplicant':
+                console.log("tipo de applicant: ****" + type);
+                    dispatch({ type: "CHANGE_APPLICANT_TYPE", payload: applicantType });
                     dispatch(setApplicant(type, selectedData));
-                break;
+                    break;
                 case 'updateEquipment':
-                    dispatch( { type: "SET_EQUIPMENT_INFO", payload : selectedData });
-                break;
+                    dispatch({ type: "SET_EQUIPMENT_INFO", payload: selectedData });
+                    break;
             }
         },
     };
