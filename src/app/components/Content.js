@@ -43,6 +43,13 @@ class Content extends React.Component {
             case "loanForm": 
             subContent= <LoanForm function="CREATE"/>
             break;
+            case "renewForm": 
+            subContent= <LoanForm function="EDIT"/>
+            break;
+            case "returnForm": 
+            subContent= <LoanForm function="RETURN"/>
+            break;
+
         }
 
 

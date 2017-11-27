@@ -20,7 +20,7 @@ export const Button = (props) => {
         case "Devolver":
             buttonHtml = (
                 <div className="grid_1_of_3 images_1_of_3">
-                    <a href="#"><img src="images/devolver.png" /></a>
+                    <a href="#"><img src="images/devolver.png" onClick={() => props.clicked("returnForm")}/></a>
                     <h3>&nbsp;Devolver</h3>
                 </div>
             );
@@ -29,7 +29,7 @@ export const Button = (props) => {
         case "Renovar":
             buttonHtml = (
                 <div className="grid_1_of_3 images_1_of_3">
-                    <a href="#"><img src="images/renovar.png" /></a>
+                    <a href="#"><img src="images/renovar.png" onClick={() => props.clicked("renewForm")}/></a>
                     <h3>&nbsp;Renovar</h3>
                 </div>
             );
