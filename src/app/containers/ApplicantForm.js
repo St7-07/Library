@@ -76,11 +76,9 @@ class ApplicantForm extends React.Component {
                 expireDate: InputElement('date', 'Fecha Expiracion', '', "expireDate", 'Fecha Expiracion'),
                 ID_district: SelectElement(districs, '', 'ID_district', "Distrito"),
                 signals: InputElement('text', 'Otras senales', '', 'signals', "Otras Senales"),
-                location: SelectElement(locations, '', 'location', "Recinto"),
-
+                location: SelectElement(locations, '', 'location', "Recinto")
             },
         });
-
     }
 
     stateInitialization(props) {
@@ -94,7 +92,7 @@ class ApplicantForm extends React.Component {
                         name: InputElement('text', 'Nombre', '', 'name', "Nombre"),
                         lastname: InputElement('text', 'Apellido', '', "lastname", "Apellido"),
                         email: InputElement('email', 'Email', '', 'email', "email"),
-                        tel: InputElement('email', 'Telefono', '', "tel", "Telefono"),
+                        tel: InputElement('text', 'Telefono', '', "tel", "Telefono"),
                         cel: InputElement('text', 'Celular', '', 'cel', "Celular")
                     },
                     //fecha expiracion , distrito , otras senales , sede o recinto
@@ -129,7 +127,7 @@ class ApplicantForm extends React.Component {
                         name: InputElement('text', 'Nombre', '', 'name', "Nombre"),
                         lastname: InputElement('text', 'Apellido', '', "lastname", "Apellido"),
                         email: InputElement('email', 'Email', '', 'email', "email"),
-                        tel: InputElement('email', 'Telefono', '', "tel", "Telefono"),
+                        tel: InputElement('text', 'Telefono', '', "tel", "Telefono"),
                         cel: InputElement('text', 'Celular', '', 'cel', "Celular")
 
                     },
@@ -169,7 +167,7 @@ class ApplicantForm extends React.Component {
                         name: InputElement('text', 'Nombre', props.applicant.name, 'name', "Nombre"),
                         lastname: InputElement('text', 'Apellido', props.applicant.lastname, "lastname", "Apellido"),
                         email: InputElement('email', 'Email', props.applicant.email, 'email', "email"),
-                        tel: InputElement('email', 'Telefono', props.applicant.tel, "tel", "Telefono"),
+                        tel: InputElement('text', 'Telefono', props.applicant.tel, "tel", "Telefono"),
                         cel: InputElement('text', 'Celular', props.applicant.cel, 'cel', "Celular")
 
                     },
@@ -205,7 +203,7 @@ class ApplicantForm extends React.Component {
                         name: InputElement('text', 'Nombre', props.applicant.name, 'name', "Nombre"),
                         lastname: InputElement('text', 'Apellido', props.applicant.lastname, "lastname", "Apellido"),
                         email: InputElement('email', 'Email', props.applicant.email, 'email', "email"),
-                        tel: InputElement('email', 'Telefono', props.applicant.tel, "tel", "Telefono"),
+                        tel: InputElement('text', 'Telefono', props.applicant.tel, "tel", "Telefono"),
                         cel: InputElement('text', 'Celular', props.applicant.cel, 'cel', "Celular")
 
                     },
@@ -247,20 +245,24 @@ class ApplicantForm extends React.Component {
         for (let formElementIdentifier in this.state.form) {
             formData[formElementIdentifier] = this.state.form[formElementIdentifier].value;
         }
+
+        for (let formElementIdentifier in this.state.form2) {
+            formData[formElementIdentifier] = this.state.form2[formElementIdentifier].value;
+        }
+
+        console.log(formData);
+
         let applicantType = ((this.props.applicant.applicantType === 'STUDENT') ? 'student' : 'clerk');
-        switch (this.props.function) {
-            case 'CREATE':
-                axios.post('http://localhost:8080/applicants/' + applicantType, formData)
-                    .then(response => {
-                        alert('Solicitante Creado' + response);
-                    });
-                break;
-            case 'EDIT':
-                axios.put('http://localhost:8080/applicants/' + applicantType, formData)
-                    .then(response => {
-                        alert('Solicitante Actualizado' + response);
-                    });
-                break;
+        if(this.props.function === "CREATE") {
+            axios.post('http://localhost:8080/applicants/' + applicantType, formData)
+            .then(response => {
+                alert('Solicitante Creado' + response);
+            });
+        }else{
+            axios.put('http://localhost:8080/applicants/' + applicantType, formData)
+            .then(response => {
+                alert('Solicitante Actualizado' + response);
+            });
         }
     }
 

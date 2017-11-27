@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import "../styles/Form.css";
 import {Input, InputElement, SelectElement,InputChangedHandler} from "../components/FormsUI/Input";
 import axios from 'axios';
+import BootModal  from '../components/FormsUI/BootModal';
 
 class EquipmentForm extends React.Component {
 
@@ -71,36 +72,12 @@ class EquipmentForm extends React.Component {
         }
     }
 
-    getDataForSelects(){
-        if(!this.state.loadedCategories){
-            axios.get('http://localhost:8080/av_equipments/categories')
-            .then(response =>{
-                this.setState({loadedCategories:response.data});
-            });
-        }
+    renderData() {
+        const UPDATE = (this.props.function == 'UPDATE') ? true : false;
 
-        if(!this.state.loadedBrands){
-            axios.get('http://localhost:8080/av_equipments/brands')
-            .then(response =>{
-                this.setState({loadedBrands:response.data});
-            });
-        }
-
-        if(!this.state.loadedStates){
-            axios.get('http://localhost:8080/av_equipments/states')
-            .then(response =>{
-                this.setState({loadedStates:response.data});
-            });
-        }
-        
-    }
-
-    populateSelects(){
-        if(this.state.loadedCategories 
-            && this.state.loadedBrands
-            && this.state.loadedStates
-            && (this.state.form.category.elementConfig.options.length == 1) ){
-
+        axios.get('http://localhost:8080/av_equipments/categories')
+        .then(response =>{
+            this.setState({loadedCategories:response.data});
             let categories = this.state.loadedCategories.map(category => {
                 if (this.state.categoryID === 0 && category.category === this.props.equipment.category) {
                     this.state.categoryID = category.id_category;
@@ -110,7 +87,16 @@ class EquipmentForm extends React.Component {
                     displayValue: category.category
                 }
             });
+          
+            this.setState({form : {
+                ...this.state.form,
+                category : SelectElement(categories, (UPDATE)?this.state.categoryID:'', 'category','Categoria')
+            }});
+        });
 
+        axios.get('http://localhost:8080/av_equipments/brands')
+        .then(response =>{
+            this.setState({loadedBrands:response.data});
             let brands = this.state.loadedBrands.map(brand =>{
                 if (this.state.brandID === 0 && brand.brandType === this.props.equipment.brand) {
                     this.state.brandID = brand.id_brand;
@@ -120,7 +106,15 @@ class EquipmentForm extends React.Component {
                     displayValue: brand.brandType
                 }
             });
+            this.setState({form : {
+                ...this.state.form,
+                brand : SelectElement( brands,(UPDATE)?this.state.brandID:'','brand', "Marca")
+            }});
+        });
 
+        axios.get('http://localhost:8080/av_equipments/states')
+        .then(response =>{
+            this.setState({loadedStates:response.data});
             let states = this.state.loadedStates.map(state =>{
                 if(this.state.stateID === 0 && state.stateType === this.props.equipment.stateID) {
                     this.state.stateID =  state.id_state;
@@ -130,30 +124,18 @@ class EquipmentForm extends React.Component {
                     displayValue: state.stateType
                 }
             });
-            console.log("cat out: " + this.state.categoryID);
-            this.changeFormState(categories,brands,states);
-    
-        }
+            this.setState({form : {
+                ...this.state.form,
+                state : SelectElement(states,(UPDATE)?this.state.stateID:'','state', "Estado")
+            }});
+        });
     }
 
-
-    changeFormState(categories, brands,states){
-        const UPDATE = (this.props.function == 'UPDATE') ? true : false;
-        this.setState({form : {
-            ...this.state.form,
-            category : SelectElement(categories, (UPDATE)?this.state.categoryID:'', 'category','Categoria'),
-            brand : SelectElement( brands,(UPDATE)?this.state.brandID:'','brand', "Marca"),
-            state : SelectElement(states,(UPDATE)?this.state.stateID:'','state', "Estado")
-        }});
-        
-    }
-
-    componentDidMount(){
-        this.getDataForSelects();
+    componentWillMount(){
+       this.renderData();
     }
 
     render() {
-        this.populateSelects();
         const formElementsArray = [];
 
             for (let key in this.state.form) { //Creates an array to loop through an object attributes
@@ -162,9 +144,7 @@ class EquipmentForm extends React.Component {
                     config: this.state.form[key] //right side attribute
                 });
             }
-        
-        
-
+            
         return (
             <div className="formSpace">
                 <div className="row">
@@ -183,10 +163,25 @@ class EquipmentForm extends React.Component {
                             ))}
                                                         
                             <div className="col-sm-4">
+                                <br/>
                                 <button type="submit" className="btn btn-primary">{(this.props.function === 'CREATE')?"Crear":"Actualizar"}</button>
                             </div>  
                         </div>
                     </form>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <BootModal modalID="cat" name="category" label="Categoria" url="av_equipments/category"
+                        renderData={this.renderData.bind(this)}/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <BootModal modalID="brand" name="brand" label="Marca" url="av_equipments/brand"
+                        renderData={this.renderData.bind(this)}/>
                 </div>
             </div>
         );
