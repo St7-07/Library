@@ -42,9 +42,9 @@ const applicantReducer = (state = initState, action) => {
                     tel: action.payload.phoneHome,
                     cel: action.payload.phone,
                     expireDate: action.payload.validDate,
-                    districtID: 0,
+                    district: action.payload.district,
                     signals: "",
-                    locationID: 0,
+                    location: action.payload.location,
                     //Student attributes
                     career: action.payload.career,
                     studentID: action.payload.studentId,
@@ -65,9 +65,9 @@ const applicantReducer = (state = initState, action) => {
                     tel: action.payload.phoneHome,
                     cel: action.payload.phone,
                     expireDate: action.payload.validDate,
-                    districtID: 0,
+                    district: action.payload.district,
                     signals: "",
-                    locationID: 0,
+                    location: action.payload.location,
                     //Student attributes
                     career: "",
                     studentID: "",

@@ -41,7 +41,7 @@ class ApplicantForm extends React.Component {
             && this.state.loadedLocations
             && (this.state.form2.ID_district.elementConfig.options.length == 1)) {
 
-            //problemas con el id
+
             let districs = this.state.loadedDistricts.map(district => {
 
                 return {
@@ -50,7 +50,6 @@ class ApplicantForm extends React.Component {
                 }
             });
 
-            //poblemas con el id
             let locations = this.state.loadedLocations.map(location => {
                 return {
                     value: location.id_location,
@@ -59,6 +58,56 @@ class ApplicantForm extends React.Component {
             });
             this.changeFormState(districs, locations);
         }
+    }
+
+    componentWillMount(){
+        
+     }
+
+    renderData(props) {
+        console.log(props);
+        const UPDATE = (props.function == 'UPDATE') ? true : false;
+
+        axios.get('http://localhost:8080/applicants/districts')
+            .then(response => {
+                this.setState({ loadedDistricts: response.data });
+                let district = this.state.loadedDistricts.map(district => {
+                    if (this.state.districtID === 0 && district.DistrictName === props.applicant.district) {
+                        this.state.districtID = district.id_district;
+                    }
+                    return {
+                        value: district.id_district,
+                        displayValue: district.DistrictName
+                    }
+                });
+                this.setState({
+                    form2: {
+                        ...this.state.form2,
+                        ID_district: SelectElement(district, (UPDATE) ? this.state.districtID : '', 'district', 'Distrito')
+                    }
+                });
+            });
+
+        axios.get('http://localhost:8080/applicants/locations')
+            .then(response => {
+                this.setState({ loadedLocations: response.data });
+                let locations = this.state.loadedLocations.map(location => {
+                    if (this.state.locationID === 0 && location.locationName === props.applicant.location) {
+                        this.state.locationID = location.id_location;
+                    }
+                    return {
+                        value: location.id_location,
+                        displayValue: location.locationName
+                    }
+                });
+                this.setState({
+                    form2: {
+                        ...this.state.form2,
+                        location: SelectElement(locations, (UPDATE) ? this.state.locationID : '', 'location', "Localidad")
+                    }
+                });
+            });
+
     }
 
     changeFormState(districs, locations) {
@@ -79,6 +128,7 @@ class ApplicantForm extends React.Component {
                 location: SelectElement(locations, '', 'location', "Recinto")
             },
         });
+
     }
 
     stateInitialization(props) {
@@ -86,6 +136,8 @@ class ApplicantForm extends React.Component {
 
             if (props.applicant.applicantType === 'STUDENT') {
                 this.state = {
+                    districtID: 0,
+                    locationID: 0,
                     form: {
                         //cedula nombre , mail , telefono , celular
                         identification: InputElement('text', 'Cedula', '', "identification", "Cedula"),
@@ -121,6 +173,8 @@ class ApplicantForm extends React.Component {
                 }
             } else {
                 this.state = {
+                    districtID: 0,
+                    locationID: 0,
                     form: {
                         //cedula nombre , mail , telefono , celular
                         identification: InputElement('text', 'Cedula', '', "identification", "Cedula"),
@@ -161,6 +215,8 @@ class ApplicantForm extends React.Component {
             if (props.applicant.applicantType === 'STUDENT') {
                 console.log(props.applicant);
                 this.state = {
+                    districtID: 0,
+                    locationID: 0,
                     form: {
                         //cedula nombre , mail , telefono , celular
                         identification: InputElement('text', 'Cedula', props.applicant.identification, "identification", "Cedula"),
@@ -197,6 +253,8 @@ class ApplicantForm extends React.Component {
                 }
             } else {
                 this.state = {
+                    districtID: 0,
+                    locationID: 0,
                     form: {
                         //cedula nombre , mail , telefono , celular
                         identification: InputElement('text', 'Cedula', props.applicant.identification, "identification", "Cedula"),
@@ -233,11 +291,9 @@ class ApplicantForm extends React.Component {
                 }
             }
         }
+        this. renderData(props)
     }
 
-    componentDidMount() {
-        this.getDataForSelects();
-    }
 
     onSubmitHandler = (event) => {
         event.preventDefault();
@@ -253,16 +309,16 @@ class ApplicantForm extends React.Component {
         console.log(formData);
 
         let applicantType = ((this.props.applicant.applicantType === 'STUDENT') ? 'student' : 'clerk');
-        if(this.props.function === "CREATE") {
+        if (this.props.function === "CREATE") {
             axios.post('http://localhost:8080/applicants/' + applicantType, formData)
-            .then(response => {
-                alert('Solicitante Creado' + response);
-            });
-        }else{
+                .then(response => {
+                    alert('Solicitante Creado' + response);
+                });
+        } else {
             axios.put('http://localhost:8080/applicants/' + applicantType, formData)
-            .then(response => {
-                alert('Solicitante Actualizado' + response);
-            });
+                .then(response => {
+                    alert('Solicitante Actualizado' + response);
+                });
         }
     }
 
@@ -271,10 +327,10 @@ class ApplicantForm extends React.Component {
         if (this.lastSection != this.props.applicant.applicantType) {
             this.stateInitialization(this.props);
             this.lastSection = this.props.applicant.applicantType;
-        }
+        } 
 
-        console.log("renderApp asdasdas");
-        this.populateSelects();
+      //  console.log("renderApp asdasdas");
+      //  this.populateSelects();
 
         const formElementsArray = [];
         for (let key in this.state.form) { //Creates an array to loop through an object attributes
