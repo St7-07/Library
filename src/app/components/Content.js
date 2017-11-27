@@ -4,30 +4,52 @@ import SubMenu from "./SubMenu";
 import ApplicantForm from "../containers/ApplicantForm";
 import TableHandler from "../containers/TableHandler";
 import EquipmentForm from "../containers/EquipmentForm";
-
+import LoanForm from "../containers/LoanForm";
 class Content extends React.Component {
 
     render() {
-        console.log("Content rendered");
+  
         let subContent;
         
-        console.log(this.props.subcontentType + " tipo de subcontenido******************");
+
         switch(this.props.subcontentType){
             case "applicantForm":
                 subContent = <ApplicantForm function="CREATE" />
                 break;
-            case "applicantTable":
-                subContent = <TableHandler setApplicant={this.props.setApplicant} />
+            case "studentsTable":
+                subContent = <TableHandler tableType='students' />
                 break;
+            case "clerksTable":
+                subContent = <TableHandler tableType='clerks' />
+            break;
             case "tableDefaulters":
-                subContent = <TableHandler />
+                subContent = <TableHandler tableType='defaulters'/>
                 break;
+            case "tableAV":
+                subContent = <TableHandler tableType='av_equipment'/>
+            break;
+            case "tableLoans":
+            subContent = <TableHandler tableType='loans'/>
+            break;
             case "updateApplicant":
             subContent= <ApplicantForm function="UPDATE"/>
             break;
             case "añadirAudio":
             subContent= <EquipmentForm function="CREATE"/>
             break;
+            case "updateEquipment":
+            subContent= <EquipmentForm function="UPDATE"/>
+            break;
+            case "loanForm": 
+            subContent= <LoanForm function="CREATE"/>
+            break;
+            case "renewForm": 
+            subContent= <LoanForm function="EDIT"/>
+            break;
+            case "returnForm": 
+            subContent= <LoanForm function="RETURN"/>
+            break;
+
         }
 
 
@@ -53,5 +75,6 @@ class Content extends React.Component {
 
 
 }
+
 
 export default Content;

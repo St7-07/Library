@@ -11,7 +11,7 @@ export const Button = (props) => {
         case "Prestar":
             buttonHtml = (
                 <div className="grid_1_of_3 images_1_of_3">
-                    <a href="#"><img src="images/Prestar.png" /></a>
+                    <a href="#"><img src="images/Prestar.png" onClick={() => props.clicked("loanForm")}/></a>
                     <h3>&nbsp; Prestar</h3>
                 </div>
             );
@@ -20,7 +20,7 @@ export const Button = (props) => {
         case "Devolver":
             buttonHtml = (
                 <div className="grid_1_of_3 images_1_of_3">
-                    <a href="#"><img src="images/devolver.png" /></a>
+                    <a href="#"><img src="images/devolver.png" onClick={() => props.clicked("returnForm")}/></a>
                     <h3>&nbsp;Devolver</h3>
                 </div>
             );
@@ -29,7 +29,7 @@ export const Button = (props) => {
         case "Renovar":
             buttonHtml = (
                 <div className="grid_1_of_3 images_1_of_3">
-                    <a href="#"><img src="images/renovar.png" /></a>
+                    <a href="#"><img src="images/renovar.png" onClick={() => props.clicked("renewForm")}/></a>
                     <h3>&nbsp;Renovar</h3>
                 </div>
             );
@@ -47,7 +47,7 @@ export const Button = (props) => {
         case "Historial":
             buttonHtml = (
                 <div className="grid_1_of_3 images_1_of_3">
-                    <a href="#"><img src="images/historial.png" /></a>
+                    <a href="#"><img src="images/historial.png" onClick={() => props.clicked("tableLoans")}/></a>
                     <h3>&nbsp;Historial</h3>
                 </div>
             );
@@ -56,7 +56,7 @@ export const Button = (props) => {
         case "listaAudio":
             buttonHtml = (
                 <div className="grid_1_of_3 images_1_of_3">
-                    <a href="#"><img src="images/listaAudioVisual.png" /></a>
+                    <a href="#"><img src="images/listaAudioVisual.png" onClick={() => props.clicked("tableAV")}/></a>
                     <h3>&nbsp;Listar</h3>
                 </div>
             );
@@ -83,7 +83,7 @@ export const Button = (props) => {
         case "listarSolicitante":
             buttonHtml = (
                 <div className="grid_1_of_3 images_1_of_3">
-                    <a href="#"><img src="images/listarSolicitante.png" onClick={() => props.clicked("applicantTable")}/></a>
+                    <a href="#"><img src="images/listarSolicitante.png" onClick={() => props.clicked("studentsTable")}/></a>
                     <h3>&nbsp;Listar</h3>
                 </div>
             );

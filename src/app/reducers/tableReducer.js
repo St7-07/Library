@@ -1,5 +1,5 @@
 const initState = {
-    dataType: "students",
+    dataType: "",
     loadedData : null,
     selectedData: null,
     numberRows: 0

@@ -21,9 +21,9 @@ class SubMenu extends React.Component{
                         <div className="row">
                         </div>
                         <div className="col-xs-12 col-md-offset-2">
-                            <Button buttonType={"Prestar"} />
-                            <Button buttonType={"Renovar"} />
-                            <Button buttonType={"Devolver"} />
+                            <Button buttonType={"Prestar"} clicked={this.props.setSubcontent}/>
+                            <Button buttonType={"Renovar"} clicked={this.props.setSubcontent}/>
+                            <Button buttonType={"Devolver"} clicked={this.props.setSubcontent}/>
                         </div>
                     </div>
                 );

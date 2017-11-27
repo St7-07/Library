@@ -19,8 +19,11 @@
 
     -webkit-box-shadow: 0px 6px 6px -1px rgba(0,0,0,0.37);
 	-moz-box-shadow: 0px 6px 6px -1px rgba(0,0,0,0.37);
-	box-shadow: 0px 6px 6px -1px rgba(0,0,0,0.37);
+    box-shadow: 0px 6px 6px -1px rgba(0,0,0,0.37);
+
 }
+
+
 
 #administratorForm, #userForm{
     display: none;
@@ -36,8 +39,48 @@
     height: 150px;
 }
 
+.pukDiv{
+    display: none; 
+    
+    -webkit-box-shadow: 0px 6px 6px -1px rgba(0,0,0,0.37);
+	-moz-box-shadow: 0px 6px 6px -1px rgba(0,0,0,0.37);
+    box-shadow: 0px 6px 6px -1px rgba(0,0,0,0.37);
+    
+        
+    padding-top: 5%;
+    padding-bottom: 5%;
+    padding-left: 5%;
+}
+
 .administratorDiv{
     width: 150px;
     height: 150px;
     margin-bottom: 25px;
+}
+
+ .labelError {
+
+    display: none; 
+    color: red;
+}
+
+#forgotPassword {
+    cursor:pointer; 
+    cursor: hand;
+}
+
+#forgotPassword:hover{
+    color:#053768;
+}
+
+.labelPassword{
+    display: none; 
+}
+
+#labelPassword {
+    color: red;
+}
+
+.inputPUK{
+    width: 50%;
 }

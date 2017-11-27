@@ -28,6 +28,7 @@ const applicantReducer = (state = initState, action) => {
                 ...state,
                 applicantType: action.payload
             }
+            return state;
             break;
         case "SET_APPLICANT_INFO":
             if (state.applicantType == "STUDENT") {
@@ -38,22 +39,22 @@ const applicantReducer = (state = initState, action) => {
                     name: action.payload.name,
                     lastname: action.payload.lastname,
                     email: action.payload.email,
-                    tel: action.payload.phoneHome,
+                    tel: action.payload.homePhone,
                     cel: action.payload.phone,
-                    expireDate: action.payload.validDate,
-                    districtID: 0,
+                    expireDate: (action.payload.validDate.split("/").reverse().join("-")),
+                    district: action.payload.district,
                     signals: "",
-                    locationID: 0,
+                    location: action.payload.location,
                     //Student attributes
                     career: action.payload.career,
-                    studentID: action.payload.phoneHome,
+                    studentID: action.payload.studentId,
                     //Clerk attributes
                     clerkID: 0,
                     department: "",
                     position: ""
                 }
             } else {
-                //falta darle la info a repartment y position, no se el nombre de los atributos del payload de ese tipo
+             
                 state = {
                     ...state,
                     ID: 0,
@@ -61,19 +62,19 @@ const applicantReducer = (state = initState, action) => {
                     name: action.payload.name,
                     lastname: action.payload.lastname,
                     email: action.payload.email,
-                    tel: action.payload.phoneHome,
+                    tel: action.payload.homePhone,
                     cel: action.payload.phone,
-                    expireDate: action.payload.validDate,
-                    districtID: 0,
+                    expireDate:  (action.payload.validDate.split("/").reverse().join("-")),
+                    district: action.payload.district,
                     signals: "",
-                    locationID: 0,
+                    location: action.payload.location,
                     //Student attributes
                     career: "",
                     studentID: "",
                     //Clerk attributes
                     clerkID: 0,
-                    department: "",
-                    position: ""
+                    department: action.payload.department,
+                    position: action.payload.position
                 }
             }
 

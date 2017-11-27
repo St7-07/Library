@@ -41,6 +41,7 @@ router.get('/', function(req, res, next) {
         res.send('Fallo al ejecutar procedimiento.' + err);
     });
   });
+  
 //get cities
   router.get('/cities', function(req, res, next) {
     //res.writeHead(200,{'Content-Type':'application/json'});
@@ -52,6 +53,7 @@ router.get('/', function(req, res, next) {
         res.send('Fallo al ejecutar procedimiento.' + err);
     });
   });
+
 //get locations 
   router.get('/locations', function(req, res, next) {
     //res.writeHead(200,{'Content-Type':'application/json'});
@@ -85,11 +87,17 @@ function popullatePersonPool(pool, req) {
     //This is the applicant for the person object
     let person = new Person(applicant.identification, applicant.name, applicant.lastname,
                   applicant.email, applicant.tel, applicant.cel, applicant.expireDate,
-                  applicant.districtID, applicant.signals, applicant.locationID);
-                  console.log(person.expireDate);
+                  applicant.ID_district, applicant.signals, applicant.location);
                   console.log(person.identification);
                   console.log(person.name);
+                  console.log(person.lastname);
+                  console.log(person.email);
+                  console.log(person.tel);
                   console.log(person.cel);
+                  console.log(person.expireDate);
+                  console.log(person.districtID);
+                  console.log(applicant.signals);
+                  console.log(applicant.location);
     pool.input('identification',sql.Int, person.identification)
         .input('name', sql.NVarChar(50),person.name)
         .input('lastname', sql.NVarChar(50), person.lastname)
@@ -97,8 +105,8 @@ function popullatePersonPool(pool, req) {
         .input('tel', sql.NVarChar(15), person.tel)
         .input('cel', sql.NVarChar(15), person.cel)
         .input('expireDate', sql.DateTime, person.expireDate)
-        .input('ID_district', sql.SmallInt, person.district)
-        .input('signals', sql.NVarChar(10), person.signals)
+        .input('ID_district', sql.SmallInt, person.districtID)
+        .input('signals', sql.NVarChar(50), person.signals)
         .input('locationID', sql.SmallInt, person.locationID);
 };
 
@@ -108,6 +116,8 @@ function popullatePersonPool(pool, req) {
   router.post('/student', function(req, res, next) {
     let student = req.body;
     let validatedStudent = new Student(student.studentID, student.career);
+    console.log(student.studentID);
+    console.log(student.career);
     //Send to database the person validating data
     DB_Connnection.then(pool => {
        let poolRequest = pool.request();
@@ -123,19 +133,27 @@ function popullatePersonPool(pool, req) {
      });
   });
 //this made the update of the student
+
+
 router.put('/student', function(req, res, next) {
   let ID = req.body.ID;
   let student = req.body;
   let validatedStudent = new Student(student.studentID, student.career);
   //Send to database the person validating data
+  
+// @identification int, @name varchar(50), @lastname varchar(50), @email varchar(50), @tel varchar(15)
+// ,@cel varchar(15), @expireDate datetime, @ID_district smallint, 
+// @signals varchar(50), @locationID smallint,@studentLicense varchar(10), @career varchar(50),@Old_studentLicense varchar(10), @id int output)
+
   DB_Connnection.then(pool => {
      let poolRequest = pool.request();
       popullatePersonPool(poolRequest, req);
-      return poolRequest.input('career', sql.NVarChar(50), validatedStudent.career)
-          .input('studentID', sql.VarChar(10), validatedStudent.studentID)
-          .input('old_idStudent', sql.Int,  student.old_idStudent)
-          .input('id_student', sql.Int, student.id_student)
-          .input('ID', sql.Int, ID)
+    
+      return poolRequest
+          .input('studentLicense', sql.VarChar(10), validatedStudent.studentID)
+          .input('career', sql.NVarChar(50), validatedStudent.career)
+          .input('Old_studentLicense',  sql.VarChar(10),  student.old)
+          .output('id', sql.Int, ID)
           .execute('updateStudents');
     }).then(result => {
         res.send("User updated: " + ID);
@@ -191,21 +209,20 @@ router.post('/clerk', function(req, res, next) {
           res.send('Fallo al ejecutar procedimiento.' + err);
      });
   });
- //update the clerk 
 
+ //update the clerk 
 router.put('/clerk', function(req, res, next) {
   let ID = req.body.ID;
   let clerk = req.body;
-  let validateClerk = new Student(clerk.department, clerk.position);
+  let validateClerk = new Clerk(clerk.department, clerk.position);
   //Send to database the person validating data
   DB_Connnection.then(pool => {
      let poolRequest = pool.request();
       popullatePersonPool(poolRequest, req);
-      return poolRequest.input('department', sql.NVarChar(50), validateClerk.department)
-          .input('position', sql.VarChar(50), validateClerk.position)
-          .input('old_idClerk', sql.Int,  student.old_idStudent)
-          .input('id_Clerk', sql.Int, student.id_student)
-          .input('ID', sql.Int, ID)
+      return poolRequest.input('Department', sql.NVarChar(50), validateClerk.department)
+          .input('Position',sql.VarChar(50), validateClerk.position)
+          .input('Old_identification',sql.VarChar(50), clerk.old)
+          .output('id', sql.Int, ID)
           .execute('updateClerks');
     }).then(result => {
         res.send("clerk updated: " + ID);
@@ -218,7 +235,7 @@ router.put('/clerk', function(req, res, next) {
   router.delete('/clerk/:id', function(req, res, next) {
     DB_Connnection.then(pool => {
       return pool.request()
-        .input('ID', sql.Int, req.params.id)
+        .input('identification', sql.VarChar(50), req.params.id)
         .execute('deleteClerk');
     }).then(result => {
         res.send("Clerk deleted: " + req.params.id);
