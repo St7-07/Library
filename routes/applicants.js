@@ -9,16 +9,60 @@ const config = require('../DB_Connnection').config;
 
 /* Get people listing.
 */
-router.get('/', function(req, res, next) {
+router.get('/states', function(req, res, next) {
   //res.writeHead(200,{'Content-Type':'application/json'});
   DB_Connnection.then(pool => {
-    return pool.request().execute('showPeople');
+    return pool.request().execute('showStates');
   }).then(result => {
       res.send(result.recordsets[0]);
   }).catch(err => {
       res.send('Fallo al ejecutar procedimiento.' + err);
   });
 });
+//get states
+router.get('/', function(req, res, next) {
+    //res.writeHead(200,{'Content-Type':'application/json'});
+    DB_Connnection.then(pool => {
+      return pool.request().execute('showPeople');
+    }).then(result => {
+        res.send(result.recordsets[0]);
+    }).catch(err => {
+        res.send('Fallo al ejecutar procedimiento.' + err);
+    });
+  });
+//get district
+  router.get('/districts', function(req, res, next) {
+    //res.writeHead(200,{'Content-Type':'application/json'});
+    DB_Connnection.then(pool => {
+      return pool.request().execute('showDistricts');
+    }).then(result => {
+        res.send(result.recordsets[0]);
+    }).catch(err => {
+        res.send('Fallo al ejecutar procedimiento.' + err);
+    });
+  });
+//get cities
+  router.get('/cities', function(req, res, next) {
+    //res.writeHead(200,{'Content-Type':'application/json'});
+    DB_Connnection.then(pool => {
+      return pool.request().execute('showCities');
+    }).then(result => {
+        res.send(result.recordsets[0]);
+    }).catch(err => {
+        res.send('Fallo al ejecutar procedimiento.' + err);
+    });
+  });
+//get locations 
+  router.get('/locations', function(req, res, next) {
+    //res.writeHead(200,{'Content-Type':'application/json'});
+    DB_Connnection.then(pool => {
+      return pool.request().execute('showLocations');
+    }).then(result => {
+        res.send(result.recordsets[0]);
+    }).catch(err => {
+        res.send('Fallo al ejecutar procedimiento.' + err);
+    });
+  });
 
 /* GET students listing.
 */
@@ -57,6 +101,7 @@ function popullatePersonPool(pool, req) {
         .input('signals', sql.NVarChar(10), person.signals)
         .input('locationID', sql.SmallInt, person.locationID);
 };
+
   /*
   Create and save a student
   */
@@ -88,8 +133,10 @@ router.put('/student', function(req, res, next) {
       popullatePersonPool(poolRequest, req);
       return poolRequest.input('career', sql.NVarChar(50), validatedStudent.career)
           .input('studentID', sql.VarChar(10), validatedStudent.studentID)
+          .input('old_idStudent', sql.Int,  student.old_idStudent)
+          .input('id_student', sql.Int, student.id_student)
           .input('ID', sql.Int, ID)
-          .execute('updateStudent');
+          .execute('updateStudents');
     }).then(result => {
         res.send("User updated: " + ID);
     }).catch(err => {
@@ -97,7 +144,7 @@ router.put('/student', function(req, res, next) {
    });
 });
 
-//delete an studen ENVIAR EL CARNET
+//delete an student ENVIAR EL CARNET
 router.delete('/student/:id', function(req, res, next) {
     DB_Connnection.then(pool => {
       console.log(req.params.id);
@@ -112,8 +159,7 @@ router.delete('/student/:id', function(req, res, next) {
     });
 });
 
-/* GET clerks listing.
-*/
+
 router.get('/clerks', function(req, res, next) {
   //res.writeHead(200,{'Content-Type':'application/json'});
   DB_Connnection.then(pool => {
@@ -125,49 +171,17 @@ router.get('/clerks', function(req, res, next) {
   });
 });
 
-/*
-Create and save a clerk
-*/
-// router.post('/clerk', function(req, res, next) {
-// let clerk = req.body;
-// let validateClerk = new Clerk(clerk.department,clerk.position)   
-// let applicant = req.body;
-// //This is the applicant for the person object
-// let person = new Person(applicant.identification, applicant.name, applicant.lastname,
-//               applicant.email, applicant.tel, applicant.cel, applicant.expireDate,
-//               applicant.districtID, applicant.signals, applicant.locationID); 
-
-//  DB_Connnection.then(pool => {
-//       return pool.request()
-//         .input('identification',sql.NVarChar(50), person.identification)
-//         .input('name', sql.NVarChar(50),person.name)
-//         .input('lastname', sql.NVarChar(50), person.lastname)
-//         .input('email', sql.NVarChar(50), person.email)
-//         .input('tel', sql.NVarChar(15), person.tel)
-//         .input('cel', sql.NVarChar(15), person.cel)
-//         .input('expireDate', sql.DateTime, person.expireDate)
-//         .input('ID_district', sql.SmallInt, person.districtID)
-//         .input('signals', sql.NVarChar(50), person.signals)
-//         .input('locationID', sql.SmallInt, person.locationID)
-//         .input('department', sql.NVarChar(50), validateClerk.department)
-//         .input('position', sql.VarChar(50), validateClerk.position)
-//         .output('ID', sql.Int)
-//         .execute('createClerk');
-//       }).then(result => {
-//           res.send("User created: " + result.output);
-//       }).catch(err => {
-//           res.send('Fallo al ejecutar procedimiento.' + err);
-//      });
-//   });
 //create the new clerk 
 router.post('/clerk', function(req, res, next) {
     let clerk = req.body;
     let validateClerk = new Clerk(clerk.department, clerk.position);
     //Send to database the person validating data
     DB_Connnection.then(pool => {
+      console.log(validateClerk.department);
+      console.log(validateClerk.position);
        let poolRequest = pool.request();
         popullatePersonPool(poolRequest, req);
-        return poolRequest.input('department', sql.NVarChar(50), validateClerk.position)
+        return poolRequest.input('department', sql.VarChar(50), validateClerk.department)
             .input('position', sql.VarChar(50), validateClerk.position)
             .output('ID', sql.Int)
             .execute('createClerk');
@@ -189,8 +203,10 @@ router.put('/clerk', function(req, res, next) {
       popullatePersonPool(poolRequest, req);
       return poolRequest.input('department', sql.NVarChar(50), validateClerk.department)
           .input('position', sql.VarChar(50), validateClerk.position)
+          .input('old_idClerk', sql.Int,  student.old_idStudent)
+          .input('id_Clerk', sql.Int, student.id_student)
           .input('ID', sql.Int, ID)
-          .execute('updateClerk');
+          .execute('updateClerks');
     }).then(result => {
         res.send("clerk updated: " + ID);
     }).catch(err => {
