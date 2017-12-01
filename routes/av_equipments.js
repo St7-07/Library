@@ -113,7 +113,7 @@ function popullateAv_equipment(pool, req) {
     pool.input('barcode',sql.NVarChar(50), validateEquipment.barcode)
         .input('id_category', sql.Int,validateEquipment.category)
         .input('id_brand', sql.Int,validateEquipment.brand)
-        .input('id_model', sql.Int, validateEquipment.model)
+        .input('model', sql.NVarChar(50), validateEquipment.model)
         .input('id_state', sql.Int, validateEquipment.state)
 };
 

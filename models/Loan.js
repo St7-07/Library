@@ -1,7 +1,7 @@
 module.exports = function(type,hour){
     let today = new Date();
     let dd = today.getDate();
-    let mm = today.getMonth(); //January is 0!
+    let mm = today.getMonth()+1; //January is 0!
     let yyyy = today.getFullYear();
     let hh = today.getHours();
     let mn = today.getMinutes();
