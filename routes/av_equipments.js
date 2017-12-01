@@ -108,9 +108,15 @@ function popullateAv_equipment(pool, req) {
     let validateEquipment = new Av_Equipment(av_equipment.model, av_equipment.brand , av_equipment.category,
         av_equipment.barcode,av_equipment.state);
     pool.input('barcode',sql.NVarChar(50), validateEquipment.barcode)
+<<<<<<< HEAD
         .input('id_category', sql.Int, validateEquipment.category)
         .input('id_brand', sql.Int, validateEquipment.brand)
         .input('model', sql.VarChar(30), validateEquipment.model)
+=======
+        .input('id_category', sql.Int,validateEquipment.category)
+        .input('id_brand', sql.Int,validateEquipment.brand)
+        .input('model', sql.NVarChar(50), validateEquipment.model)
+>>>>>>> NodeBranch
         .input('id_state', sql.Int, validateEquipment.state)
 };
 
