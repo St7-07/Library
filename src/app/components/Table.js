@@ -301,7 +301,7 @@ class Table extends Component {
                             barcode: row.barcode,
                             category: row.category,
                             brand: row.brandType,
-                            model: row.Model,
+                            model: row.model,
                             state: row.stateType,
                             onClickHandler: this.optionSelectedHandler
                         }
