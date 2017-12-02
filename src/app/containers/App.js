@@ -21,38 +21,24 @@ class App extends React.Component {
        
         switch (this.props.logInReducer.typeUser) {
             case "Administrator":
-                if (this.props.sectionReducer.subcontent == "updateApplicant") {
-
-                    //crear objeto usando el applicantReducer para despues enviarlo como prop applicantData
-
+              
                     return (
                         <div id="admin" className="container-flow" style={{ display: "none" }}>
-                            <NavBar onClick={this.props.setSection} section={this.props.sectionReducer.actualSection} />
-                            <Content sectionType={this.props.sectionReducer.actualSection}
-                                subcontentType={this.props.sectionReducer.subcontent}
-                            //applicantData={}
-                            />
-                            <Footer />
-                        </div>
-                    );
-                } else {
-                    return (
-                        <div id="admin" className="container-flow" style={{ display: "none" }}>
-                            <NavBar onClick={this.props.setSection} section={this.props.sectionReducer.actualSection} />
+                            <NavBar onClick={this.props.setSection} section={this.props.sectionReducer.actualSection}  typeUser={this.props.logInReducer.typeUser} 
+                             userName={this.props.logInReducer.name}/>
                             <Content sectionType={this.props.sectionReducer.actualSection}
                                 subcontentType={this.props.sectionReducer.subcontent}
                             />
                             <Footer />
                         </div>
                     );
-                }
-
                 break;
 
             case "NormalUser":
                 return (
                     <div id="admin" className="container-flow" style={{ display: "none" }}>
-                        <NavBar onClick={this.props.setSection} section={this.props.sectionReducer.actualSection} />
+                        <NavBar onClick={this.props.setSection} section={this.props.sectionReducer.actualSection}  typeUser={this.props.logInReducer.typeUser} 
+                         userName={this.props.logInReducer.name} />
                         <Content sectionType={this.props.sectionReducer.actualSection}
                             subcontentType={this.props.sectionReducer.subcontent} />
                         <Footer />
@@ -77,13 +63,6 @@ class App extends React.Component {
 
 }
 
-
-
-// <Main changerUsername={() => this.props.setName("Anna")}/>
-// User username={this.props.user.name}/>
-//   <NavBar onClick={this.props.setSection} section={this.props.sectionReducer.actualSection}/>
-//<Content sectionType={this.props.sectionReducer.actualSection}/>
-//<Footer/>
 const mapStateToProps = (state) => {
     return {
         sectionReducer: state.sectionReducer,

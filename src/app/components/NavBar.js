@@ -7,11 +7,16 @@ export default class NavBar extends React.Component {
     constructor(props) {
         super();
     }
-
+//reminder para sebastian(IO), se puede editar los 5 case si uso la misma tecnica para estadisticas!! dejar para despues no hay tiempo 
     render() {
-
+        console.log(this.props.userName);
+        let userName = this.props.userName;
+        let typeUser = this.props.typeUser;
         let type = this.props.section;
         let subMenuHTML;
+
+        let statistics = (type === "Estadisticas") ? (<li className="active"><a onClick={() => this.props.onClick("Estadisticas")}><span>Estadisticas</span></a></li>) 
+        : (<li><a onClick={() => this.props.onClick("Estadisticas")}><span>Estadisticas</span></a></li>)  ;
 
         switch (type) {
             case "Prestamos":
@@ -28,14 +33,14 @@ export default class NavBar extends React.Component {
                                             <div className="clear"></div>
                                         </div>
                                         <div className='h_btm'>
-
                                             <div className='cssmenu'>
                                                 <ul>
-                                                    <li className="active"><a onClick={() => this.props.onClick("Prestamos","loanForm")}><span>Prestamos</span></a></li>
-                                                    <li><a onClick={() => this.props.onClick("Solicitantes","applicantForm")}><span>Solicitantes</span></a></li>
-                                                    <li><a onClick={() => this.props.onClick("Audiovisuales","añadirAudio")}><span>Audiovisuales</span></a></li>
+                                                    <li className="active"><a onClick={() => this.props.onClick("Prestamos", "loanForm")}><span>Prestamos</span></a></li>
+                                                    <li><a onClick={() => this.props.onClick("Solicitantes", "applicantForm")}><span>Solicitantes</span></a></li>
+                                                    <li><a onClick={() => this.props.onClick("Audiovisuales", "añadirAudio")}><span>Audiovisuales</span></a></li>
                                                     <li><a onClick={() => this.props.onClick("Historial", "tableLoans")}><span>Historial</span></a></li>
-                                                    <li><a onClick={() => this.props.onClick("Estadisticas")}><span>Estadisticas</span></a></li>                                                                                               
+                                                    {(typeUser === "Administrator") ? statistics : ""}
+                                                    <li><span><img id="imgUser" src={(typeUser === "Administrator") ? "../images/administrador1.0.png" : "../images/normalUser2.0.png"} />{userName}</span></li>
                                                 </ul>
                                             </div>
                                             <div className="clear"></div>
@@ -65,11 +70,12 @@ export default class NavBar extends React.Component {
 
                                             <div className='cssmenu'>
                                                 <ul>
-                                                    <li><a onClick={() => this.props.onClick("Prestamos","loanForm")}><span>Prestamos</span></a></li>
-                                                    <li className="active"><a onClick={() => this.props.onClick("Solicitantes","applicantForm")}><span>Solicitantes</span></a></li>
-                                                    <li><a onClick={() => this.props.onClick("Audiovisuales","añadirAudio")}><span>Audiovisuales</span></a></li>
+                                                    <li><a onClick={() => this.props.onClick("Prestamos", "loanForm")}><span>Prestamos</span></a></li>
+                                                    <li className="active"><a onClick={() => this.props.onClick("Solicitantes", "applicantForm")}><span>Solicitantes</span></a></li>
+                                                    <li><a onClick={() => this.props.onClick("Audiovisuales", "añadirAudio")}><span>Audiovisuales</span></a></li>
                                                     <li><a onClick={() => this.props.onClick("Historial", "tableLoans")}><span>Historial</span></a></li>
-                                                    <li><a onClick={() => this.props.onClick("Estadisticas")}><span>Estadisticas</span></a></li>
+                                                    {(typeUser === "Administrator") ? statistics : ""}
+                                                    <li><span><img id="imgUser" src={(typeUser === "Administrator") ? "../images/administrador1.0.png" : "../images/normalUser2.0.png"} />{userName}</span></li>
                                                 </ul>
                                             </div>
                                             <div className="clear"></div>
@@ -99,11 +105,12 @@ export default class NavBar extends React.Component {
 
                                             <div className='cssmenu'>
                                                 <ul>
-                                                    <li><a onClick={() => this.props.onClick("Prestamos","loanForm")}><span>Prestamos</span></a></li>
-                                                    <li><a onClick={() => this.props.onClick("Solicitantes","applicantForm")}><span>Solicitantes</span></a></li>
-                                                    <li className="active"><a onClick={() => this.props.onClick("Audiovisuales","añadirAudio")}><span>Audiovisuales</span></a></li>
+                                                    <li><a onClick={() => this.props.onClick("Prestamos", "loanForm")}><span>Prestamos</span></a></li>
+                                                    <li><a onClick={() => this.props.onClick("Solicitantes", "applicantForm")}><span>Solicitantes</span></a></li>
+                                                    <li className="active"><a onClick={() => this.props.onClick("Audiovisuales", "añadirAudio")}><span>Audiovisuales</span></a></li>
                                                     <li><a onClick={() => this.props.onClick("Historial", "tableLoans")}><span>Historial</span></a></li>
-                                                    <li><a onClick={() => this.props.onClick("Estadisticas")}><span>Estadisticas</span></a></li>
+                                                    {(typeUser === "Administrator") ? statistics : ""}
+                                                    <li><span><img id="imgUser" src={(typeUser === "Administrator") ? "../images/administrador1.0.png" : "../images/normalUser2.0.png"} />{userName}</span></li>
                                                 </ul>
                                             </div>
                                             <div className="clear"></div>
@@ -133,11 +140,12 @@ export default class NavBar extends React.Component {
 
                                             <div className='cssmenu'>
                                                 <ul>
-                                                    <li><a onClick={() => this.props.onClick("Prestamos","loanForm")}><span>Prestamos</span></a></li>
-                                                    <li><a onClick={() => this.props.onClick("Solicitantes","applicantForm")}><span>Solicitantes</span></a></li>
-                                                    <li><a onClick={() => this.props.onClick("Audiovisuales","añadirAudio")}><span>Audiovisuales</span></a></li>
+                                                    <li><a onClick={() => this.props.onClick("Prestamos", "loanForm")}><span>Prestamos</span></a></li>
+                                                    <li><a onClick={() => this.props.onClick("Solicitantes", "applicantForm")}><span>Solicitantes</span></a></li>
+                                                    <li><a onClick={() => this.props.onClick("Audiovisuales", "añadirAudio")}><span>Audiovisuales</span></a></li>
                                                     <li className="active"><a onClick={() => this.props.onClick("Historial", "tableLoans")}><span>Historial</span></a></li>
-                                                    <li><a onClick={() => this.props.onClick("Estadisticas")}><span>Estadisticas</span></a></li>
+                                                    {(typeUser === "Administrator") ? statistics : ""}
+                                                    <li><span><img id="imgUser" src={(typeUser === "Administrator") ? "../images/administrador1.0.png" : "../images/normalUser2.0.png"} />{userName}</span></li>
                                                 </ul>
                                             </div>
                                             <div className="clear"></div>
@@ -167,11 +175,12 @@ export default class NavBar extends React.Component {
 
                                             <div className='cssmenu'>
                                                 <ul>
-                                                    <li><a onClick={() => this.props.onClick("Prestamos","loanForm")}><span>Prestamos</span></a></li>
-                                                    <li><a onClick={() => this.props.onClick("Solicitantes","applicantForm")}><span>Solicitantes</span></a></li>
-                                                    <li><a onClick={() => this.props.onClick("Audiovisuales","añadirAudio")}><span>Audiovisuales</span></a></li>
+                                                    <li><a onClick={() => this.props.onClick("Prestamos", "loanForm")}><span>Prestamos</span></a></li>
+                                                    <li><a onClick={() => this.props.onClick("Solicitantes", "applicantForm")}><span>Solicitantes</span></a></li>
+                                                    <li><a onClick={() => this.props.onClick("Audiovisuales", "añadirAudio")}><span>Audiovisuales</span></a></li>
                                                     <li><a onClick={() => this.props.onClick("Historial", "tableLoans")}><span>Historial</span></a></li>
-                                                    <li className="active"><a onClick={() => this.props.onClick("Estadisticas")}><span>Estadisticas</span></a></li>
+                                                    {(typeUser === "Administrator") ? statistics : ""}
+                                                    <li><span><img id="imgUser" src={(typeUser === "Administrator") ? "../images/administrador1.0.png" : "../images/normalUser2.0.png"} />{userName}</span></li>
                                                 </ul>
                                             </div>
                                             <div className="clear"></div>
