@@ -5,6 +5,7 @@ import { StudentForm } from '../components/StudentForm';
 import { ClerkForm } from '../components/ClerkForm';
 import { setSubcontent } from "../actions/sectionActions";
 import axios from "axios";
+import BootAlert  from "../components/FormsUI/BootAlert";
 
 import "../styles/Form.css";
 
@@ -297,6 +298,14 @@ class ApplicantForm extends React.Component {
         this. renderData(props)
     }
 
+    resetFields() {
+        this.setState({form :{...this.state.form,
+                                barcode : InputElement('text', 'Nombre', ''
+                                , "barcode", "Codigo Barras"), 
+                                model : InputElement('text', 'Modelo',''
+                                , "model", "Modelo")  
+                        }});
+    }
 
     onSubmitHandler = (event) => {
         event.preventDefault();
@@ -313,15 +322,16 @@ class ApplicantForm extends React.Component {
         if (this.props.function === "CREATE") {
             axios.post('http://localhost:8080/applicants/' + applicantType, formData)
                 .then(response => {
-                    alert('Solicitante Creado' + response);
-                    console.log("respuesta servidor:           " + response);
+                    document.getElementById('alert').hidden = false;
+                    this.stateInitialization(this.props);
                 });
         } else {
             console.log("old :****************    "  + this.state.old);
             formData["old"] = this.state.old;
             axios.put('http://localhost:8080/applicants/' + applicantType, formData)
                 .then(response => {
-                    alert('Solicitante Actualizado' + response);
+                    document.getElementById('alert').hidden = false;
+                    this.resetFields();
                 });
         }
     }
@@ -400,6 +410,8 @@ class ApplicantForm extends React.Component {
 
                     </form>
                 </div>
+                <br/>
+                <BootAlert id="alert" title="Exito!" message="La operacion ha sido realizada."/>
             </div>
 
         );

@@ -5,6 +5,7 @@ import "../styles/Form.css";
 import {Input, InputElement, SelectElement,InputChangedHandler} from "../components/FormsUI/Input";
 import axios from 'axios';
 import BootModal  from '../components/FormsUI/BootModal';
+import BootAlert  from "../components/FormsUI/BootAlert";
 
 class EquipmentForm extends React.Component {
 
@@ -44,6 +45,15 @@ class EquipmentForm extends React.Component {
         };
     }
 
+    resetFields() {
+        this.setState({form :{...this.state.form,
+                                barcode : InputElement('text', 'Nombre', ''
+                                , "barcode", "Codigo Barras"), 
+                                model : InputElement('text', 'Modelo',''
+                                , "model", "Modelo")  
+                        }});
+    }
+
  
     onSubmitHandler = (event) => {
         event.preventDefault();
@@ -55,7 +65,8 @@ class EquipmentForm extends React.Component {
             case 'CREATE':
                 axios.post('http://localhost:8080/av_equipments/av_equipment', formData)
                     .then(response => {
-                        alert("Equipo Creado \n Codigo de Barras: " + formData.barcode);
+                        document.getElementById('alert').hidden = false;
+                        this.resetFields();
                     });
             break;
             case 'UPDATE':
@@ -66,7 +77,8 @@ class EquipmentForm extends React.Component {
                 };
                 axios.put('http://localhost:8080/av_equipments/av_equipment/'+ data.old_barcode, data)
                     .then(response => {
-                        alert("Equipo Actualizado \n Codigo de Barras: " + formData.barcode);
+                        document.getElementById('alert').hidden = false;
+                        this.resetFields();
                     });
             break;
         }
@@ -182,11 +194,13 @@ class EquipmentForm extends React.Component {
                     <br/>
                     <BootModal modalID="brand" name="brand" label="Marca" url="av_equipments/brand"
                         renderData={this.renderData.bind(this)}/>
+
                 </div>
+                <br/>
+                    <BootAlert id="alert" title="Exito!" message="La operacion ha sido realizada."/>
             </div>
         );
     }
-
 }
 
 const mapStateToProps = (state) => {

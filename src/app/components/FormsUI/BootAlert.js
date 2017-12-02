@@ -1,11 +1,27 @@
 import React from 'react';
 
-export const BootAlert = (props) => {
+class BootAlert extends React.Component {
+    
+        constructor(props) {
+            super();
+            this.state = {
+                hidden : 'true'
+            };
+        }
 
-    return (
-        <div class="alert alert-success alert-dismissable fade in" id={props.id}>
-            <a href="#" class="close" data-dismiss="alert" aria-label="close" >&times;</a>
-            <strong>{props.title}</strong> {props.message}
-        </div>
-    );
+        hide () {
+            document.getElementById('alert').hidden = true;
+        }
+
+        render() {
+            return (
+                <div class="alert alert-success alert-dismissable fade in" id="alert" hidden={"true"}>
+                    <button class="close" onClick={() => this.hide()} aria-label="close" >&times;</button>
+                    <strong>{this.props.title}</strong> {this.props.message}
+                </div>
+            );
+        }
+
 };
+
+export default BootAlert;
