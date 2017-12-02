@@ -84,3 +84,30 @@
 .inputPUK{
     width: 50%;
 }
+
+
+#leftArrow:hover {
+    color:#ffcc00;
+}
+#rightArrow:hover {
+    color:#ffcc00;
+}
+#leftArrow{
+    cursor:pointer; 
+    cursor: hand;
+    
+    color: #053768;
+    padding-top: 2px;
+    font-size: 25px;
+    margin-right: 40%;
+    }
+
+#rightArrow{
+    cursor:pointer; 
+    cursor: hand;
+
+    color: #053768;
+    padding-top: 2px;
+    font-size: 25px;
+    margin-left: 40%;
+}
