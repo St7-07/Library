@@ -83,6 +83,7 @@ export default class LogIn extends React.Component {
         $(".pukDiv").slideDown("slow");
     }
 
+
     hideLogIn(type) {
         let username = "";
         let password = "";

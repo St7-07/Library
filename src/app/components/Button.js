@@ -11,7 +11,7 @@ export const Button = (props) => {
         case "Prestar":
             buttonHtml = (
                 <div className="grid_1_of_3 images_1_of_3">
-                    <a href="#"><img src="images/Prestar.png" onClick={() => props.clicked("loanForm")}/></a>
+                    <a href="#"><img src="images/Prestar.png" onClick={() => props.clicked("loanForm")} /></a>
                     <h3>&nbsp; Prestar</h3>
                 </div>
             );
@@ -20,7 +20,7 @@ export const Button = (props) => {
         case "Devolver":
             buttonHtml = (
                 <div className="grid_1_of_3 images_1_of_3">
-                    <a href="#"><img src="images/devolver.png" onClick={() => props.clicked("returnForm")}/></a>
+                    <a href="#"><img src="images/devolver.png" onClick={() => props.clicked("returnForm")} /></a>
                     <h3>&nbsp;Devolver</h3>
                 </div>
             );
@@ -29,7 +29,7 @@ export const Button = (props) => {
         case "Renovar":
             buttonHtml = (
                 <div className="grid_1_of_3 images_1_of_3">
-                    <a href="#"><img src="images/renovar.png" onClick={() => props.clicked("renewForm")}/></a>
+                    <a href="#"><img src="images/renovar.png" onClick={() => props.clicked("renewForm")} /></a>
                     <h3>&nbsp;Renovar</h3>
                 </div>
             );
@@ -38,7 +38,7 @@ export const Button = (props) => {
         case "Moroso":
             buttonHtml = (
                 <div className="grid_1_of_3 images_1_of_3">
-                    <a href="#"><img src="images/morosos.jpg" onClick={() => props.clicked("tableDefaulters")}/></a>
+                    <a href="#"><img src="images/morosos.jpg" onClick={() => props.clicked("tableDefaulters")} /></a>
                     <h3>&nbsp;Morosos</h3>
                 </div>
             );
@@ -47,7 +47,7 @@ export const Button = (props) => {
         case "Historial":
             buttonHtml = (
                 <div className="grid_1_of_3 images_1_of_3">
-                    <a href="#"><img src="images/historial.png" onClick={() => props.clicked("tableLoans")}/></a>
+                    <a href="#"><img src="images/historial.png" onClick={() => props.clicked("tableLoans")} /></a>
                     <h3>&nbsp;Historial</h3>
                 </div>
             );
@@ -56,7 +56,7 @@ export const Button = (props) => {
         case "listaAudio":
             buttonHtml = (
                 <div className="grid_1_of_3 images_1_of_3">
-                    <a href="#"><img src="images/listaAudioVisual.png" onClick={() => props.clicked("tableAV")}/></a>
+                    <a href="#"><img src="images/listaAudioVisual.png" onClick={() => props.clicked("tableAV")} /></a>
                     <h3>&nbsp;Listar</h3>
                 </div>
             );
@@ -74,7 +74,7 @@ export const Button = (props) => {
         case "añadirAudio":
             buttonHtml = (
                 <div className="grid_1_of_3 images_1_of_3">
-                    <a href="#"><img src="images/añadirAudioVisual.png"  onClick={() => props.clicked("añadirAudio")}/></a>
+                    <a href="#"><img src="images/añadirAudioVisual.png" onClick={() => props.clicked("añadirAudio")} /></a>
                     <h3>&nbsp;Añadir</h3>
                 </div>
             );
@@ -83,7 +83,7 @@ export const Button = (props) => {
         case "listarSolicitante":
             buttonHtml = (
                 <div className="grid_1_of_3 images_1_of_3">
-                    <a href="#"><img src="images/listarSolicitante.png" onClick={() => props.clicked("studentsTable")}/></a>
+                    <a href="#"><img src="images/listarSolicitante.png" onClick={() => props.clicked("studentsTable")} /></a>
                     <h3>&nbsp;Listar</h3>
                 </div>
             );
@@ -105,16 +105,19 @@ export const Button = (props) => {
                     <div id="userForm">
                         <label>
                             Usuario:
-                        <input type="text"   className="form-control" name="user" id="user" />
+                        <input type="text" className="form-control" name="user" id="user" />
                         </label>
                         <label>
                             Contraseña:
-                        <input type="password"   className="form-control" name="password" id="passwordUser"  />
+                        <input type="password" className="form-control" name="password" id="passwordUser" />
                         </label>
-                        <input type="submit" onClick={() => props.hideLogIn("NormalUser") } className="btn btn-primary" value="Log In" />
+
+
+                        <input type="submit" onClick={() => props.hideLogIn("NormalUser")} className="btn btn-primary" value="Log In" />
+                        <label onClick={() => showButton("normalUser")} id="rightArrow"><i class="fa fa-arrow-right" aria-hidden="true"></i></label>
                     </div>
-                    <a id="administrator">  <img src="images/administrador1.0.png"  onClick={() => hideButton("administrator")} />    <h3>&nbsp;&nbsp;Administrador</h3></a>
-                 
+                    <a id="administrator">  <img src="images/administrador1.0.png" onClick={() => hideButton("administrator")} />    <h3>&nbsp;&nbsp;Administrador</h3></a>
+
                 </div>
 
             );
@@ -127,11 +130,13 @@ export const Button = (props) => {
                     <div id="administratorForm">
                         <label>
                             Contraseña:
-                        <input className="form-control" type="password" name="passwordAdmin" id="passwordAdmin"/>
+                        <input className="form-control" type="password" name="passwordAdmin" id="passwordAdmin" />
                         </label>
-                        <input type="submit" onClick={() => props.hideLogIn("Administrator") } className="btn btn-primary" value="Log In" />
+                        <label id="leftArrow"  onClick={() => showButton("administrator")}><i class="fa fa-arrow-left" aria-hidden="true"></i></label>
+                        <input type="submit" onClick={() => props.hideLogIn("Administrator")} className="btn btn-primary" value="Log In" />
+
                     </div>
-                    <a id="normalUser"> <img src="images/normalUser2.0.png"  onClick={() => hideButton("normalUser")} /><h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Usuario</h3></a>
+                    <a id="normalUser"> <img src="images/normalUser2.0.png" onClick={() => hideButton("normalUser")} /><h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Usuario</h3></a>
 
                 </div>
 
@@ -146,6 +151,27 @@ export const Button = (props) => {
     return buttonHtml;
 }
 
+function showButton(e) {
+    console.log(e);
+
+    switch (e) {
+        case "administrator":
+            $("#administratorForm").fadeOut('slow', () => {
+                $("#normalUser").fadeIn('slow');
+            });
+            console.log(e);
+            break;
+            
+        case "normalUser":
+            $("#userForm").fadeOut('slow', () => {
+                $("#administrator").fadeIn('slow');
+            });
+            break;
+        default:
+            break;
+    }
+
+}
 
 
 function hideButton(e) {

@@ -10,7 +10,7 @@ const logInReducer = (state = {
                 case "Administrator":
                     state = {
                         typeUser: action.payload.typeUser,
-                        name : ""
+                        name : "admin"
                     }
                     break;
                 case "NormalUser":

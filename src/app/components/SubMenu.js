@@ -20,7 +20,7 @@ class SubMenu extends React.Component{
                     <div className="row">
                         <div className="row">
                         </div>
-                        <div className="col-xs-12 col-md-offset-2">
+                        <div className="col-xs-10 col-md-offset-2">
                             <Button buttonType={"Prestar"} clicked={this.props.setSubcontent}/>
                             <Button buttonType={"Renovar"} clicked={this.props.setSubcontent}/>
                             <Button buttonType={"Devolver"} clicked={this.props.setSubcontent}/>
@@ -34,7 +34,7 @@ class SubMenu extends React.Component{
                     <div className="row">
                         <div className="row">
                         </div>
-                        <div className="col-xs-12 col-md-offset-2">
+                        <div className="col-xs-10 col-md-offset-2">
                             <Button buttonType={"añadirSolicitante"} clicked={this.props.setSubcontent}/>
                             <Button buttonType={"listarSolicitante"} clicked={this.props.setSubcontent}/>
                             <Button buttonType={"Moroso"} clicked={this.props.setSubcontent}/>
@@ -46,7 +46,7 @@ class SubMenu extends React.Component{
             case "Audiovisuales":
                 subMenuHTML = (
                     <div className="row">
-                        <div className="col-xs-12 col-md-offset-2">
+                        <div className="col-xs-10 col-md-offset-2">
                             <Button buttonType={"añadirAudio"}  clicked={this.props.setSubcontent} />
                             <Button buttonType={"listaAudio"}  clicked={this.props.setSubcontent} />
                         </div>
@@ -57,7 +57,7 @@ class SubMenu extends React.Component{
             case "Historial":
                 subMenuHTML = (
                     <div className="row">
-                        <div className="col-xs-12 col-md-offset-2">
+                        <div className="col-xs-10 col-md-offset-2">
                         </div>
                     </div>
                 );
@@ -66,7 +66,7 @@ class SubMenu extends React.Component{
             case "Estadisticas":
                 subMenuHTML = (
                     <div className="row">
-                        <div className="col-xs-12 col-md-offset-2">
+                        <div className="col-xs-10 col-md-offset-2">
     
                         </div>
                     </div>
