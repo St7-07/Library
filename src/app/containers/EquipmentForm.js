@@ -20,14 +20,14 @@ class EquipmentForm extends React.Component {
             stateID:0,
             form: {
                 barcode : InputElement('text', 'Nombre', (UPDATE)?props.equipment.barcode:''
-                            , "barcode", "Codigo Barras"),
+                            , "barcode", "Codigo Barras",true,false,5,20),
         
                 category : SelectElement( [
                                 {value:'1', displayValue: 'toDeploy'},]
                                 ,'','category', "Categoria"),
         
                 model : InputElement('text', 'Modelo', (UPDATE)?props.equipment.model:''
-                            , "model", "Modelo"),
+                            , "model", "Modelo",true,false,5,20),
         
                 brand : SelectElement( [
                            {value:'1', displayValue: 'VAIO'},
@@ -41,7 +41,8 @@ class EquipmentForm extends React.Component {
             },
             loadedCategories: null,
             loadedBrands: null,
-            loadedStates: null
+            loadedStates: null,
+            formIsValid:false
         };
     }
 
@@ -176,7 +177,7 @@ class EquipmentForm extends React.Component {
                                                         
                             <div className="col-sm-4">
                                 <br/>
-                                <button type="submit" className="btn btn-primary">{(this.props.function === 'CREATE')?"Crear":"Actualizar"}</button>
+                                <button  disabled={!this.state.formIsValid} type="submit" className="btn btn-primary">{(this.props.function === 'CREATE')?"Crear":"Actualizar"}</button>
                             </div>  
                         </div>
                     </form>

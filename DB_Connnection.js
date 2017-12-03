@@ -2,8 +2,8 @@ const sql = require('mssql');
 
 const config = {
     user: 'sa',
-    password: 'root',
-    server: 'localhost\\SQLEXPRESS_2016', // You can use 'localhost\\instance' to connect to named instance
+    password: '.',
+    server: 'localhost\\MSSQLSERVER2016', // You can use 'localhost\\instance' to connect to named instance
     database: 'Biblioteca(Production)'
    
 }
