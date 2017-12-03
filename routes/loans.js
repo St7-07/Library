@@ -6,6 +6,8 @@ const sql = require('../DB_Connnection').sql;
 
 let Loan = require('../models/Loan');
 
+let IdentifierType = require('../models/IdentifierType');
+
 router.get('/', function (req, res, next) {
     db_connection.then(pool => {
         console.log("conecto");
@@ -20,13 +22,9 @@ router.get('/', function (req, res, next) {
 
 function popullateLoanPool(pool, req) { 
     let loan = req.body;
-    
 
-    if(loan.peopleLicenseOrId.length == 6){
-        loan.idType = 1; //Type 1 quiere decir estudiante
-    }else if (loan.peopleLicenseOrId.length == 10){
-        loan.idType = 2; //Type 2 quiere decir funcionario
-    }
+    let type = new IdentifierType(loan.peopleLicenseOrId) 
+    
     //Crea startDate
     let starDate = new Loan('actual','');
     let finishDate = new Loan('end',loan.endDate);
@@ -35,7 +33,7 @@ function popullateLoanPool(pool, req) {
     input('startDate', sql.DateTime, starDate.date).
     input('finishDate', sql.DateTime, finishDate.date).
     input('barcode', sql.NVarChar(50), loan.barcode).
-    input('idType', sql.Int, loan.idType);
+    input('idType', sql.Int, type.type);
 
 };
 

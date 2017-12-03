@@ -57,8 +57,10 @@ class LoanForm extends React.Component {
                     peopleLicenseOrId: InputElement('text', 'Carnet/Cedula', '', 'peopleLicenseOrId', 'Carnet'),
                     endDate: SelectElement(this.selectOptions, 
                         '', "finishDate",'Fecha Devolucion'),
-                }
-
+                },
+                loanedAvs : null,
+                delinquentsIdentifications: null,
+                delinquentsLicense: null,
             };
 
 
@@ -66,66 +68,165 @@ class LoanForm extends React.Component {
 
 
     onSubmitHandler = (event) => {
+        
         event.preventDefault();
         const formData = {};
+
         for (let formElementIdentifier in this.state.form) {
             formData[formElementIdentifier] = this.state.form[formElementIdentifier].value;
         }
 
-        switch (this.props.function) {
-            case 'CREATE':
-                axios.post('http://localhost:8080/loans/loan', formData)
+        
+            switch (this.props.function) {
+                case 'CREATE':
+                    if((!this.avAlreadyLoaned()) && (!this.isDelinquent())){
+                        axios.post('http://localhost:8080/loans/loan', formData)
+                        .then(response => {
+                            alert('Prestamo Creado' + response);
+                        });
+                    }else{
+                        alert("Este equipo ya se encuentra en préstamo o el solicitante está moroso")
+                    }
+                break;
+                case 'EDIT':
+                    axios.put('http://localhost:8080/loans/renew/', formData)
+                        .then(response => {
+                            alert('prestamo Renovado' + response);
+                        });
+                break;
+                case 'RETURN':
+                axios.put('http://localhost:8080/loans/return/', formData)
                     .then(response => {
-                        alert('Prestamo Creado' + response);
+                        alert('prestamo Devuelto' + response);
                     });
             break;
-            case 'EDIT':
-                axios.put('http://localhost:8080/loans/renew/', formData)
-                    .then(response => {
-                        alert('prestamo Renovado' + response);
-                    });
-            break;
-            case 'RETURN':
-            axios.put('http://localhost:8080/loans/return/', formData)
-                .then(response => {
-                    alert('prestamo Devuelto' + response);
-                });
-        break;
-        }
+            }
+      
     }
 
     formTypeHandler = () =>{
         switch(this.props.function){
             case "CREATE":
-                this.setState({form: {
+                this.setState({
+                    ...this.state,
+                    form: {
                     barcode: InputElement('text', 'Barcode', '', "barcode","Codigo de Barras"),
                     peopleLicenseOrId: InputElement('text', 'Carnet/Cedula', '', 'peopleLicenseOrId', 'Carnet'),
-                    endDate: InputElement('date','fecha', '', "endDate",'Fecha Devolucion'),
-                }});
-            break;
-            case "EDIT":
-                this.setState({form: {
-                    barcode: InputElement('text', 'Barcode', '', "barcode","Codigo de Barras"),
                     endDate: SelectElement(this.selectOptions, 
                         '', "finishDate",'Fecha Devolucion'),
                 }});
             break;
+            case "EDIT":
+            this.setState({
+                ...this.state,
+                form: {
+                barcode: InputElement('text', 'Barcode', '', "barcode","Codigo de Barras"),
+                endDate: SelectElement(this.selectOptions, 
+                    '', "finishDate",'Fecha Devolucion'),
+            }});
+            break;
             case "RETURN":
-                this.setState({form: {
-                    barcode: InputElement('text', 'Barcode', '', "barcode","Codigo de Barras")
-                }});
+            this.setState({
+                ...this.state,
+                form: {
+                barcode: InputElement('text', 'Barcode', '', "barcode","Codigo de Barras"),
+            }});
             break;
         }
+    }
+
+    avAlreadyLoaned = () => {
+        let barcode = this.state.form.barcode.value;
+        let avs = [];
+        let isLoaned= false;
+
+        if(this.state.loanedAvs){
+            avs = this.state.loanedAvs.map(av => {
+                return{
+                    loanedBarcode : av.barcode
+                }
+            });
+        }
+
+        for(let key in avs){
+            if(avs[key].loanedBarcode == barcode){
+                isLoaned = true;
+            }
+        }
+        return isLoaned;
+    }
+
+    isDelinquent = () =>{
+        let identifier = this.state.form.peopleLicenseOrId.value;
+        let delinquentsIds = [];
+        let delinquentsLicense = [];
+        let isDelinquent= false;
+
+        if(identifier.length == 6){ //In case that the identifier is a license
+            if(this.state.delinquentsLicense){
+                delinquentsLicense = this.state.delinquentsLicense.map(delq => {
+                    return{
+                        delinquentId : delq.studentLicense
+                    }
+                });
+            }
+            for(let key in delinquentsLicense){
+                if(delinquentsLicense[key].delinquentId == identifier){
+                    isDelinquent = true;
+                }
+            }
+
+        }else if(identifier.length == 10){//In case that the identifier is an identification
+            if(this.state.delinquentsIdentifications){
+                delinquentsIds = this.state.delinquentsIdentifications.map(delq => {
+                    return{
+                        delinquentId : delq.identification
+                    }
+                });
+            }
+            for(let key in delinquentsIds){
+                if(delinquentsIds[key].delinquentId == identifier){
+                    isDelinquent = true;
+                }
+            }
+        }
+
+        console.log(identifier.length);
+        console.log(identifier)
+        console.log(delinquentsIds)
+        console.log(delinquentsLicense)
+        return isDelinquent;
     }
 
     componentDidUpdate(nextProps){
         if(!(this.props.function == nextProps.function)){
             this.formTypeHandler();
         }
+
+        if(!this.state.loanedAvs){
+            axios.get('http://localhost:8080/av_equipments/loanedAVs')
+            .then(response =>{
+                this.setState({loanedAvs: response.data});
+            });
+        }
+
+        if(!this.state.delinquentsIdentifications){
+            axios.get('http://localhost:8080/delinquencies/identifications')
+            .then(response =>{
+                this.setState({delinquentsIdentifications: response.data});
+            });
+        }
+
+        if(!this.state.delinquentsLicense){
+            axios.get('http://localhost:8080/delinquencies/studentsLicense')
+            .then(response =>{
+                this.setState({delinquentsLicense: response.data});
+            });
+        }
+        
     }
 
     render() {
-    
         const formElementsArray = [];
         for (let key in this.state.form) { //Creates an array to loop through an object attributes
             formElementsArray.push({
@@ -149,7 +250,9 @@ class LoanForm extends React.Component {
                                         elementConfig={formElement.config.elementConfig}
                                         value={formElement.config.value}
                                         label = {formElement.config.label}
-                                        changed={(event) => this.setState({form: InputChangedHandler(event, formElement.id, this.state)})}
+                                        changed={(event) => this.setState({
+                                                ...this.state,
+                                                form: InputChangedHandler(event, formElement.id, this.state)})}
                                    />
                                 </div>
                             ))}

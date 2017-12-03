@@ -82,6 +82,8 @@ router.get('/students', function(req, res, next) {
   });
 });
 
+
+
 function popullatePersonPool(pool, req) {
     let applicant = req.body;
     //This is the applicant for the person object

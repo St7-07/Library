@@ -16,6 +16,16 @@ router.get('/', function (req, res, next) {
     });
 });
 
+router.get('/loanedAVs', function (req, res, next) {
+    db_connection.then(pool => {
+        return pool.request().execute('showLoanedAVs');
+    }).then(result => {
+        res.send(result.recordsets[0]);
+    }).catch(err => {
+        res.send('fallo al mostrar equipo' + err);
+    });
+});
+
 //show de los brands , categorys y models que se encuentran en la bd
 router.get('/brands', function (req, res, next) {
     db_connection.then(pool => {
