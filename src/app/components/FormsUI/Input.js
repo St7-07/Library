@@ -1,14 +1,15 @@
 import React from 'react';
 import './Input.css';
 
+import classes from './Input.css';
 
  export const Input = (props) => {
     let inputElement = null;
-    let error =
-    (
-        <p id='error'>Introduzca un {props.label} valido</p>
-    ) 
-    
+    const inputClasses = [classes.InputElement];
+
+    if (props.invalid && props.shouldValidate && props.touched) {
+        inputClasses.push(classes.Invalid);
+    }
     switch(props.elementType) {
         case('input'):
             inputElement = (<input 
@@ -34,15 +35,14 @@ import './Input.css';
     
     return (
         
-        <div className="form-group">
-            <label for={props.elementConfig.id}>{props.label + ":"}</label>
+        <div className={classes.Input}>
+            <label className={classes.Label}>{props.label}</label>
             {inputElement}
-            {/* {error} */}
         </div>
     );
 };
 
-export const InputElement = ( type, placeholder, value, name, label,required, valid, minLength, maxLength) => {
+export const InputElement = ( type, placeholder, value, name, label,required, valid, minLength, maxLength,touched) => {
     return {
         elementType: 'input',
         elementConfig: {
@@ -60,6 +60,7 @@ export const InputElement = ( type, placeholder, value, name, label,required, va
             maxLength: maxLength
         },
     valid: valid,
+    touched: touched
     };
 };
 
@@ -78,41 +79,39 @@ export const SelectElement =(options, value, name, label) => {
     };
 }
 
-export const CheckValidity = (value, rules) => {
+export const checkValidity = ( value, rules ) => {
     let isValid = true;
-    if (rules.required) {
+    if ( !rules ) {
+        return true;
+    }
+
+    if ( rules.required ) {
         isValid = value.trim() !== '' && isValid;
     }
-    if (rules.minLength) {
-        isValid = value.length >= rules.minLength && isValid;
+
+    if ( rules.minLength ) {
+        isValid = value.length >= rules.minLength && isValid
     }
-    if (rules.maxLength) {
-        isValid = value.length <= rules.maxLength && isValid;
+
+    if ( rules.maxLength ) {
+        isValid = value.length <= rules.maxLength && isValid
     }
-    return isValid
+
+    if ( rules.isEmail ) {
+        const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+        isValid = pattern.test( value ) && isValid
+    }
+
+    if ( rules.isNumeric ) {
+        const pattern = /^\d+$/;
+        isValid = pattern.test( value ) && isValid
+    }
+
+    return isValid;
 }
 
-export const InputChangedHandler = (event, inputIdentifier, state ) => {
-    const updatedform = {
-        ...state.form
-    }
-    const updatedFormElement = {
-        ...updatedform[inputIdentifier]
-    }
-    updatedFormElement.value = event.target.value;
-    updatedFormElement.valid = CheckValidity(updatedFormElement.value, updatedFormElement.validation);
-    console.log(updatedFormElement);
-    updatedform[inputIdentifier] = updatedFormElement;
-    let formIsValid = true;
-    for(let inputIdentifiers in updatedform) 
-    {
-        formIsValid = updatedform[inputIdentifier].valid &&  formIsValid
-        state.formIsValid = formIsValid
-    }
-    
-    console.log(state.formIsValid);
-    return updatedform;
-}
+
+
 
 export const InputChangedHandlerForm2 = (event, inputIdentifier, state) => {
     const updatedform = {
@@ -122,8 +121,15 @@ export const InputChangedHandlerForm2 = (event, inputIdentifier, state) => {
         ...updatedform[inputIdentifier]
     }
     updatedFormElement.value = event.target.value;
-    updatedFormElement.valid = CheckValidity(updatedFormElement.value, updatedFormElement.validation);
+    updatedFormElement.valid = checkValidity(updatedFormElement.value, updatedFormElement.validation);
     console.log(updatedFormElement);
     updatedform[inputIdentifier] = updatedFormElement;
     return updatedform;
 }
+
+export const updateObject = (oldObject, updatedProperties) => {
+    return {
+        ...oldObject,
+        ...updatedProperties
+    };
+};

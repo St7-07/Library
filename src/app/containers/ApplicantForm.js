@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
-import { Input, InputElement, SelectElement, InputChangedHandler, InputChangedHandlerForm2 } from '../components/FormsUI/Input';
+import { Input, InputElement, SelectElement, InputChangedHandler, InputChangedHandlerForm2 ,checkValidity} from '../components/FormsUI/Input';
 import { StudentForm } from '../components/StudentForm';
 import { ClerkForm } from '../components/ClerkForm';
 import { setSubcontent } from "../actions/sectionActions";
@@ -127,7 +127,8 @@ class ApplicantForm extends React.Component {
                 ID_district: SelectElement(districs, '', 'ID_district', "Distrito"),
                 signals: InputElement('text', 'Otras senales', '', 'signals', "Otras Senales"),
                 location: SelectElement(locations, '', 'location', "Recinto")
-            },
+            },formIsValid:false
+            
         });
 
     }
@@ -170,7 +171,8 @@ class ApplicantForm extends React.Component {
 
                     },
                     loadedDistricts: null,
-                    loadedLocations: null
+                    loadedLocations: null,
+                    formIsValid:false
                 }
             } else {
                 this.state = {
@@ -208,7 +210,8 @@ class ApplicantForm extends React.Component {
                         position: InputElement('text', 'Posicion', '', "position", 'Posicion')
                     },
                     loadedDistricts: null,
-                    loadedLocations: null
+                    loadedLocations: null,
+                    formIsValid:false
                 }
             }
 
@@ -252,7 +255,8 @@ class ApplicantForm extends React.Component {
                         studentID: InputElement('text', 'Carnet', props.applicant.studentID, "studentID", 'Carnet Estudiante')
                     },
                     loadedDistricts: null,
-                    loadedLocations: null
+                    loadedLocations: null,
+                    formIsValid:false
                 }
             } else {
                 this.state = {
@@ -291,7 +295,8 @@ class ApplicantForm extends React.Component {
                         position: InputElement('text', 'Posicion', props.applicant.position, "position", 'Posicion')
                     },
                     loadedDistricts: null,
-                    loadedLocations: null
+                    loadedLocations: null,
+                    formIsValid:false
                 }
             }
         }
@@ -334,6 +339,28 @@ class ApplicantForm extends React.Component {
                     this.resetFields();
                 });
         }
+    }
+
+    inputChangedHandler = (event, inputIdentifier) => {
+        const updatedForm =
+            {
+                ...this.state.form
+            };
+        const updatedFormElement =
+            {
+                ...updatedForm[inputIdentifier]
+            };
+        updatedFormElement.value = event.target.value;
+        updatedFormElement.valid = checkValidity(updatedFormElement.value, updatedFormElement.validation);
+        updatedFormElement.touched = true;
+        updatedForm[inputIdentifier] = updatedFormElement;
+         let formIsValid = true;
+      
+        for (let inputIdentifier in updatedForm) {
+            formIsValid = updatedForm[inputIdentifier].valid && formIsValid;
+        }
+        console.log(updatedFormElement);
+        this.setState({ form: updatedForm, formIsValid:formIsValid });   
     }
 
     render() {
@@ -385,7 +412,8 @@ class ApplicantForm extends React.Component {
                                         elementConfig={formElement.config.elementConfig}
                                         value={formElement.config.value}
                                         label={formElement.config.label}
-                                        changed={(event) => this.setState({ form: InputChangedHandler(event, formElement.id, this.state) })}
+                                        changed={(event) => this.inputChangedHandler(event, formElement.id)}
+                                        // changed={(event) => this.setState({ form: InputChangedHandler(event, formElement.id, this.state) })}
                                     />
                                 </div>
                             ))}

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import "../styles/Form.css";
-import { Input, InputElement, SelectElement ,InputChangedHandler} from "../components/FormsUI/Input";
+import { Input, InputElement, SelectElement ,InputChangedHandler,checkValidity} from "../components/FormsUI/Input";
 import axios from 'axios'
 
 class LoanForm extends React.Component {
@@ -53,30 +53,27 @@ class LoanForm extends React.Component {
         this.state =
             {
                 form: {
-                    barcode: InputElement('text', 'Barcode', '', "barcode","Codigo de Barras"),
-                    peopleLicenseOrId: InputElement('text', 'Carnet/Cedula', '', 'peopleLicenseOrId', 'Carnet'),
+                    barcode: InputElement('text', 'Barcode', '', "barcode","Codigo de Barras",true, false, 5, 20,false),
+                    peopleLicenseOrId: InputElement('text', 'Carnet/Cedula', '', 'peopleLicenseOrId', 'Carnet',true, false, 5, 20,false),
                     endDate: SelectElement(this.selectOptions, 
                         '', "finishDate",'Fecha Devolucion'),
                 },
                 loanedAvs : null,
                 delinquentsIdentifications: null,
                 delinquentsLicense: null,
+                formIsValid:false,
             };
 
 
     }
 
 
-    onSubmitHandler = (event) => {
-        
+    onSubmitHandler = (event) => {    
         event.preventDefault();
         const formData = {};
-
         for (let formElementIdentifier in this.state.form) {
             formData[formElementIdentifier] = this.state.form[formElementIdentifier].value;
         }
-
-        
             switch (this.props.function) {
                 case 'CREATE':
                     if((!this.avAlreadyLoaned()) && (!this.isDelinquent())){
@@ -110,26 +107,27 @@ class LoanForm extends React.Component {
                 this.setState({
                     ...this.state,
                     form: {
-                    barcode: InputElement('text', 'Barcode', '', "barcode","Codigo de Barras"),
-                    peopleLicenseOrId: InputElement('text', 'Carnet/Cedula', '', 'peopleLicenseOrId', 'Carnet'),
+                    barcode: InputElement('text', 'Barcode', '', "barcode","Codigo de Barras",true, false, 5, 20,false),
+                    peopleLicenseOrId: InputElement('text', 'Carnet/Cedula', '', 'peopleLicenseOrId', 'Carnet',true, false, 5, 20,false),
                     endDate: SelectElement(this.selectOptions, 
                         '', "finishDate",'Fecha Devolucion'),
-                }});
+                },formIsValid:false});
             break;
             case "EDIT":
             this.setState({
                 ...this.state,
                 form: {
-                barcode: InputElement('text', 'Barcode', '', "barcode","Codigo de Barras"),
+                barcode: InputElement('text', 'Barcode', '', "barcode","Codigo de Barras",true, false, 5, 20,false),
                 endDate: SelectElement(this.selectOptions, 
                     '', "finishDate",'Fecha Devolucion'),
-            }});
+            },formIsValid:false});
             break;
             case "RETURN":
             this.setState({
                 ...this.state,
                 form: {
-                barcode: InputElement('text', 'Barcode', '', "barcode","Codigo de Barras"),
+                barcode: InputElement('text', 'Barcode', '', "barcode","Codigo de Barras",true, false, 5, 20,false),
+                formIsValid:false
             }});
             break;
         }
@@ -226,6 +224,27 @@ class LoanForm extends React.Component {
         
     }
 
+    inputChangedHandler = (event, inputIdentifier) => {
+        const updatedForm =
+            {
+                ...this.state.form
+            };
+        const updatedFormElement =
+            {
+                ...updatedForm[inputIdentifier]
+            };
+        updatedFormElement.value = event.target.value;
+        updatedFormElement.valid = checkValidity(updatedFormElement.value, updatedFormElement.validation);
+        updatedFormElement.touched = true;
+        updatedForm[inputIdentifier] = updatedFormElement;
+         let formIsValid = true;
+        for (let inputIdentifier in updatedForm) {
+            formIsValid = updatedForm[inputIdentifier].valid && formIsValid;
+        }
+        console.log(updatedFormElement);
+        this.setState({ form: updatedForm, formIsValid:formIsValid });   
+    }
+
     render() {
         const formElementsArray = [];
         for (let key in this.state.form) { //Creates an array to loop through an object attributes
@@ -250,16 +269,20 @@ class LoanForm extends React.Component {
                                         elementConfig={formElement.config.elementConfig}
                                         value={formElement.config.value}
                                         label = {formElement.config.label}
-                                        changed={(event) => this.setState({
-                                                ...this.state,
-                                                form: InputChangedHandler(event, formElement.id, this.state)})}
+                                        invalid={!formElement.config.valid}
+                                        shouldValidate={formElement.config.validation}
+                                        touched={formElement.config.touched}
+                                        changed={(event) => this.inputChangedHandler(event, formElement.id)}
+                                        // changed={(event) => this.setState({
+                                        //         ...this.state,
+                                        //         form: InputChangedHandler(event, formElement.id, this.state)})}
                                    />
                                 </div>
                             ))}
                         </div>
 
                         <div className="col-sm-2">
-                            <button type="submit" className="btn btn-primary">{(this.props.function === 'CREATE') ? "Crear" : "Actualizar"}</button>
+                            <button disabled={!this.state.formIsValid} type="submit" className="btn btn-primary">{(this.props.function === 'CREATE') ? "Crear" : "Actualizar"}</button>
                         </div>
                     </form>
                 </div>
