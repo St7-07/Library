@@ -18,7 +18,6 @@ class Table extends Component {
             case 'students':
                 route = 'applicants/students';
                 break;
-
             case 'clerks':
                 route = 'applicants/clerks';
                 break;
@@ -272,7 +271,6 @@ class Table extends Component {
                             onClickHandler: this.optionSelectedHandler
                         }
                     });
-                    console.log(this.state.loadedData[0].expireDate);
                     break;
 
                 case 'clerks':
@@ -372,6 +370,7 @@ class Table extends Component {
             + "Table type: " + this.props.tableType + " Prev prop state..:")
         console.log(prevProps.tableType);
         if (prevState.tableType !== this.props.tableType) {
+
             let route = this.dataRouteHandler();
             console.log("Entra:" + route);
             axios.get('http://localhost:8080/' + route)
@@ -390,6 +389,7 @@ class Table extends Component {
                 this.setState({ loadedData: response.data });
             });
     }
+
 
     render() {
 
@@ -417,15 +417,21 @@ class Table extends Component {
             />
         }
 
+        
+        let table = <SpicyDatatable
+            tableKey={key}
+            columns={columns}
+            rows={rows}
+            config={config}
+            newTable = {true}
+        />;
+
         return (
             <div className='row'>
                 <div className='col-xs-10 col-xs-offset-1'>
-                    <SpicyDatatable
-                        tableKey={key}
-                        columns={columns}
-                        rows={rows}
-                        config={config}
-                    />
+                    <div id="spicy">
+                       {table}
+                    </div>
                 </div>
                 {modal}
             </div>
