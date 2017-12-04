@@ -328,7 +328,7 @@ class LoanForm extends React.Component {
                         </div>
 
                         <div className="col-sm-2">
-                            <button disabled={!this.state.formIsValid} type="submit" className="btn btn-primary">{(this.props.function === 'CREATE') ? "Crear" : "Actualizar"}</button>
+                            <button disabled={(this.props.function === 'CREATE')?!this.state.formIsValid : this.state.formIsValid} type="submit" className="btn btn-primary">{(this.props.function === 'CREATE') ? "Crear" : "Actualizar"}</button>
                         </div>
                     </form>
                 </div>

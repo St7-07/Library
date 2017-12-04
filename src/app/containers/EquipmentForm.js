@@ -211,7 +211,7 @@ class EquipmentForm extends React.Component {
 
                             <div className="col-sm-4">
                                 <br />
-                                <button disabled={!this.state.formIsValid} type="submit" className="btn btn-primary">{(this.props.function === 'CREATE') ? "Crear" : "Actualizar"}</button>
+                                <button disabled={(this.props.function === 'CREATE')?!this.state.formIsValid : this.state.formIsValid} type="submit" className="btn btn-primary">{(this.props.function === 'CREATE') ? "Crear" : "Actualizar"}</button>
                             </div>
                         </div>
                     </form>
