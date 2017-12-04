@@ -63,17 +63,24 @@ class LoanForm extends React.Component {
                 delinquentsIdentifications: null,
                 delinquentsLicense: null,
                 avFinishDate: null,
-                formIsValid:false
+                formIsValid:false,
+
+                alert :{
+                    message: "",
+                    type : "",
+                    title:""
+                },
+                delinquentBootAlert : null
             };
     }
 
     onSubmitHandler = (event) => {
-     
-
         document.getElementById('alert').hidden = true;
+        if(this.state.delinquentBootAlert){
+            document.getElementById('delqAlert').hidden = true;
+        }
         event.preventDefault();
         const formData = {};
-
 
         for (let formElementIdentifier in this.state.form) {
             formData[formElementIdentifier] = this.state.form[formElementIdentifier].value;
@@ -83,22 +90,46 @@ class LoanForm extends React.Component {
                 if((!this.avAlreadyLoaned()) && (!this.isDelinquent())){
                     axios.post('http://localhost:8080/loans/loan', formData)
                     .then(response => {
+                        this.setState({alert:{
+                                            message: "Prestamo realizado con exito",
+                                            type : "success",
+                                            title:"Exito!"
+                                        }});
                         document.getElementById('alert').hidden = false;
                         this.reloadData();
+                        console.log("Si se hizo prestamo")
                     });
                 }else{
-                    alert("Este equipo ya se encuentra en préstamo o el solicitante está moroso")
+                    this.setState({alert:{
+                        message: "El solicitante tiene una morosidad pendiente o el equipo ya está en prestamo",
+                        type : "danger",
+                        title:"Error!"
+                    }});
+                    document.getElementById('alert').hidden = false;
+                    console.log("No se hizo prestamo")
                 }
             break;
             case 'EDIT':
                 if(this.avAlreadyLoaned()){
                     axios.put('http://localhost:8080/loans/renew/', formData)
                     .then(response => {
+                        this.setState({alert:{
+                            message: "Prestamo renovado con exito",
+                            type : "success",
+                            title:"Exito!"
+                        }});
                         document.getElementById('alert').hidden = false;
                         this.reloadData();
+                        console.log("se renovo")
                     });
                 }else{
-                    alert("Equipo no se encuentra en préstamo")
+                    his.setState({alert:{
+                        message: "Equipo no se encuentra en prestamo",
+                        type : "danger",
+                        title:"Error!"
+                    }});
+                    document.getElementById('alert').hidden = false;
+                    console.log("no se renovo")
                 }     
             break;
             case 'RETURN':
@@ -106,17 +137,33 @@ class LoanForm extends React.Component {
                     axios.put('http://localhost:8080/loans/return/', formData)
                     .then(response => {
                         this.reloadData();
+                        this.setState({alert:{
+                            message: "Prestamo devuelto con exito",
+                            type : "success",
+                            title:"Exito!"
+                        }});
                         document.getElementById('alert').hidden = false;
                         this.validateDelinquency(this.getFinishDate());
+                        console.log("se devolvio")
                     });
                 }else{
-                    alert("Equipo no se encuentra en préstamo")
+                    his.setState({alert:{
+                        message: "Equipo no se encuentra en prestamo",
+                        type : "danger",
+                        title:"Error!"
+                    }});
+                    document.getElementById('alert').hidden = false;
+                    console.log("no se devolvio")
                 } 
             break;
         }
     }
 
     formTypeHandler = () =>{
+        document.getElementById('alert').hidden = true;
+        if(this.state.delinquentBootAlert){
+            document.getElementById('delqAlert').hidden = true;
+        }
         switch(this.props.function){
             case "CREATE":
                 this.setState({
@@ -231,7 +278,7 @@ class LoanForm extends React.Component {
         let finishD = new Date(finish);
         console.log(finishD);
         let hours = (today - finishD) / 36e5
-        if(hours > 0){
+        if(hours >= 1){
             let barcode = this.state.form.barcode.value;
             let numDays = Math.floor(hours);
             console.log(numDays);
@@ -239,7 +286,10 @@ class LoanForm extends React.Component {
                     numDays : numDays}
             axios.post('http://localhost:8080/delinquencies/create', data)
             .then(response =>{
-                alert(response.data)
+                this.setState({delinquentBootAlert : 
+                    <BootAlert alertType="warning" id="delqAlert" title="Alerta!"
+                    message={response.data}/>})
+                document.getElementById('delqAlert').hidden = false;
             })
         }
     }
@@ -328,14 +378,19 @@ class LoanForm extends React.Component {
                         </div>
 
                         <div className="col-sm-2">
-                            <button disabled={(this.props.function === 'CREATE')?!this.state.formIsValid : this.state.formIsValid} type="submit" className="btn btn-primary">{(this.props.function === 'CREATE') ? "Crear" : "Actualizar"}</button>
+                            <button disabled={!this.state.formIsValid } type="submit" className="btn btn-primary">{(this.props.function === 'CREATE') ? "Crear" : "Actualizar"}</button>
                         </div>
                     </form>
                 </div>
                 <br/>
-                    <BootAlert id="alert" title="Exito!" message="La operacion ha sido realizada."/>
+                    <BootAlert alertType={this.state.alert.type} id="alert" title={this.state.alert.title}
+                                message={this.state.alert.message}/>
+
+                    {this.state.delinquentBootAlert}
             </div>
         );
-    }
+    } 
 };
+
+
 export default LoanForm;
