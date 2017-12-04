@@ -15,8 +15,8 @@ export default class NavBar extends React.Component {
         let type = this.props.section;
         let subMenuHTML;
 
-        let statistics = (type === "Estadisticas") ? (<li className="active"><a onClick={() => this.props.onClick("Estadisticas")}><span>Estadisticas</span></a></li>) 
-        : (<li><a onClick={() => this.props.onClick("Estadisticas")}><span>Estadisticas</span></a></li>)  ;
+        let statistics = (type === "Estadisticas") ? (<li className="active"><a onClick={() => this.props.onClick("Estadisticas","statisticsForm")}><span>Estadisticas</span></a></li>) 
+        : (<li><a onClick={() => this.props.onClick("Estadisticas","statisticsForm")}><span>Estadisticas</span></a></li>)  ;
 
         switch (type) {
             case "Prestamos":
