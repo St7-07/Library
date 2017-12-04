@@ -21,7 +21,7 @@ module.exports = function(type,hour){
     }
 
     if(type == 'actual'){
-        today =  yyyy + '-'+mm+"-"+dd+"T"+hh+":"+mm+":00Z";
+        today =  yyyy + '-'+mm+"-"+dd+"T"+hh+":"+mn+":00Z";
     }else if(type == 'end'){
         today = yyyy + '-'+mm+"-"+dd+"T"+hour+":00Z";
     }

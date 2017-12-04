@@ -2,7 +2,8 @@ import React from 'react';
 
 import "../styles/Form.css";
 import { Input, InputElement, SelectElement ,InputChangedHandler,checkValidity} from "../components/FormsUI/Input";
-import axios from 'axios'
+import axios from 'axios';
+import BootAlert from '../components/FormsUI/BootAlert';
 
 class LoanForm extends React.Component {
     constructor(props) {
@@ -61,44 +62,58 @@ class LoanForm extends React.Component {
                 loanedAvs : null,
                 delinquentsIdentifications: null,
                 delinquentsLicense: null,
-                formIsValid:false,
+                avFinishDate: null,
+                formIsValid:false
             };
-
-
     }
 
+    onSubmitHandler = (event) => {
+     
 
-    onSubmitHandler = (event) => {    
+        document.getElementById('alert').hidden = true;
         event.preventDefault();
         const formData = {};
+
+
         for (let formElementIdentifier in this.state.form) {
             formData[formElementIdentifier] = this.state.form[formElementIdentifier].value;
         }
-            switch (this.props.function) {
-                case 'CREATE':
-                    if((!this.avAlreadyLoaned()) && (!this.isDelinquent())){
-                        axios.post('http://localhost:8080/loans/loan', formData)
-                        .then(response => {
-                            alert('Prestamo Creado' + response);
-                        });
-                    }else{
-                        alert("Este equipo ya se encuentra en préstamo o el solicitante está moroso")
-                    }
-                break;
-                case 'EDIT':
-                    axios.put('http://localhost:8080/loans/renew/', formData)
-                        .then(response => {
-                            alert('prestamo Renovado' + response);
-                        });
-                break;
-                case 'RETURN':
-                axios.put('http://localhost:8080/loans/return/', formData)
+        switch (this.props.function) {    
+            case 'CREATE':
+                if((!this.avAlreadyLoaned()) && (!this.isDelinquent())){
+                    axios.post('http://localhost:8080/loans/loan', formData)
                     .then(response => {
-                        alert('prestamo Devuelto' + response);
+                        document.getElementById('alert').hidden = false;
+                        this.reloadData();
                     });
+                }else{
+                    alert("Este equipo ya se encuentra en préstamo o el solicitante está moroso")
+                }
             break;
-            }
-      
+            case 'EDIT':
+                if(this.avAlreadyLoaned()){
+                    axios.put('http://localhost:8080/loans/renew/', formData)
+                    .then(response => {
+                        document.getElementById('alert').hidden = false;
+                        this.reloadData();
+                    });
+                }else{
+                    alert("Equipo no se encuentra en préstamo")
+                }     
+            break;
+            case 'RETURN':
+                if(this.avAlreadyLoaned()){
+                    axios.put('http://localhost:8080/loans/return/', formData)
+                    .then(response => {
+                        this.reloadData();
+                        document.getElementById('alert').hidden = false;
+                        this.validateDelinquency(this.getFinishDate());
+                    });
+                }else{
+                    alert("Equipo no se encuentra en préstamo")
+                } 
+            break;
+        }
     }
 
     formTypeHandler = () =>{
@@ -126,9 +141,8 @@ class LoanForm extends React.Component {
             this.setState({
                 ...this.state,
                 form: {
-                barcode: InputElement('text', 'Barcode', '', "barcode","Codigo de Barras",true, false, 5, 20,false),
-                formIsValid:false
-            }});
+                barcode: InputElement('text', 'Barcode', '', "barcode","Codigo de Barras",true, false, 5, 20,false)
+            },formIsValid:false });
             break;
         }
     }
@@ -173,7 +187,6 @@ class LoanForm extends React.Component {
                     isDelinquent = true;
                 }
             }
-
         }else if(identifier.length == 10){//In case that the identifier is an identification
             if(this.state.delinquentsIdentifications){
                 delinquentsIds = this.state.delinquentsIdentifications.map(delq => {
@@ -188,40 +201,57 @@ class LoanForm extends React.Component {
                 }
             }
         }
-
-        console.log(identifier.length);
-        console.log(identifier)
-        console.log(delinquentsIds)
-        console.log(delinquentsLicense)
         return isDelinquent;
+    }
+
+    getFinishDate = () =>{
+        let barcode = this.state.form.barcode.value;
+        let finishDates = [];
+        let finishDate = new Date();
+
+        if(this.state.avFinishDate){
+            finishDates = this.state.avFinishDate.map(finishDate => {
+                return{
+                    date : finishDate.loanFinishDate,
+                    barcode : finishDate.barcode
+                }
+            });
+        }
+        for(let key in finishDates){
+            if(finishDates[key].barcode == barcode){
+                finishDate = finishDates[key].date
+            }
+        }
+        return finishDate;
+    }
+
+    validateDelinquency = (finishDate) =>{
+        let today = new Date();
+        let finish = finishDate.slice(0, -5);
+        let finishD = new Date(finish);
+        console.log(finishD);
+        let hours = (today - finishD) / 36e5
+        if(hours > 0){
+            let barcode = this.state.form.barcode.value;
+            let numDays = Math.floor(hours);
+            console.log(numDays);
+            let data = {barcode: barcode, 
+                    numDays : numDays}
+            axios.post('http://localhost:8080/delinquencies/create', data)
+            .then(response =>{
+                alert(response.data)
+            })
+        }
     }
 
     componentDidUpdate(nextProps){
         if(!(this.props.function == nextProps.function)){
             this.formTypeHandler();
         }
-
-        if(!this.state.loanedAvs){
-            axios.get('http://localhost:8080/av_equipments/loanedAVs')
-            .then(response =>{
-                this.setState({loanedAvs: response.data});
-            });
+        if((!this.state.loanedAvs) || (!this.state.delinquentsIdentifications)
+            ||(!this.state.delinquentsLicense)){
+                this.reloadData();
         }
-
-        if(!this.state.delinquentsIdentifications){
-            axios.get('http://localhost:8080/delinquencies/identifications')
-            .then(response =>{
-                this.setState({delinquentsIdentifications: response.data});
-            });
-        }
-
-        if(!this.state.delinquentsLicense){
-            axios.get('http://localhost:8080/delinquencies/studentsLicense')
-            .then(response =>{
-                this.setState({delinquentsLicense: response.data});
-            });
-        }
-        
     }
 
     inputChangedHandler = (event, inputIdentifier) => {
@@ -245,6 +275,28 @@ class LoanForm extends React.Component {
         this.setState({ form: updatedForm, formIsValid:formIsValid });   
     }
 
+    reloadData(){
+        axios.get('http://localhost:8080/av_equipments/loanedAVs')
+        .then(response =>{
+            this.setState({loanedAvs: response.data});
+        });
+
+        axios.get('http://localhost:8080/delinquencies/identifications')
+        .then(response =>{
+            this.setState({delinquentsIdentifications: response.data});
+        });
+
+        axios.get('http://localhost:8080/delinquencies/studentsLicense')
+        .then(response =>{
+            this.setState({delinquentsLicense: response.data});
+        });
+
+        axios.get('http://localhost:8080/loans/finishDates/')
+        .then(response =>{
+            this.setState({avFinishDate:response.data})
+        });
+    }
+
     render() {
         const formElementsArray = [];
         for (let key in this.state.form) { //Creates an array to loop through an object attributes
@@ -253,8 +305,6 @@ class LoanForm extends React.Component {
                 config: this.state.form[key] //right side attribute
             });
         }
-
-
         return (
             <div className="formSpace">
                 <div className="row">
@@ -262,7 +312,6 @@ class LoanForm extends React.Component {
                         <div className="col-sm-2">
                             {formElementsArray.map(formElement => (
                                 <div>
-                                  
                                     <Input
                                         key={formElement.id}
                                         elementType={formElement.config.elementType}
@@ -273,29 +322,20 @@ class LoanForm extends React.Component {
                                         shouldValidate={formElement.config.validation}
                                         touched={formElement.config.touched}
                                         changed={(event) => this.inputChangedHandler(event, formElement.id)}
-                                        // changed={(event) => this.setState({
-                                        //         ...this.state,
-                                        //         form: InputChangedHandler(event, formElement.id, this.state)})}
                                    />
                                 </div>
                             ))}
                         </div>
 
                         <div className="col-sm-2">
-                            <button disabled={!this.state.formIsValid} type="submit" className="btn btn-primary">{(this.props.function === 'CREATE') ? "Crear" : "Actualizar"}</button>
+                            <button disabled={(this.props.function === 'CREATE')?!this.state.formIsValid : this.state.formIsValid} type="submit" className="btn btn-primary">{(this.props.function === 'CREATE') ? "Crear" : "Actualizar"}</button>
                         </div>
                     </form>
                 </div>
+                <br/>
+                    <BootAlert id="alert" title="Exito!" message="La operacion ha sido realizada."/>
             </div>
-
         );
-
     }
-
 };
-
-
-
-
-
 export default LoanForm;
