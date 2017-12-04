@@ -1,14 +1,15 @@
 import React from "react";
 import { connect } from 'react-redux';
-import { Input, InputElement, SelectElement, InputChangedHandler, InputChangedHandlerForm2 ,checkValidity} from '../components/FormsUI/Input';
+import { Input, InputElement, SelectElement,  checkValidity, DateElement } from '../components/FormsUI/Input';
+import { getActualTime } from '../components/util/util'
 import { StudentForm } from '../components/StudentForm';
 import { ClerkForm } from '../components/ClerkForm';
 import { setSubcontent } from "../actions/sectionActions";
 import axios from "axios";
-import BootAlert  from "../components/FormsUI/BootAlert";
+import BootAlert from "../components/FormsUI/BootAlert";
 
 import "../styles/Form.css";
-
+var time = getActualTime()
 
 class ApplicantForm extends React.Component {
 
@@ -61,9 +62,9 @@ class ApplicantForm extends React.Component {
         }
     }
 
-    componentWillMount(){
-        
-     }
+    componentWillMount() {
+
+    }
 
     renderData(props) {
         console.log(props);
@@ -115,20 +116,21 @@ class ApplicantForm extends React.Component {
         this.setState({
             form: {
                 //cedula nombre , mail , telefono , celular
-                identification: InputElement('text', 'Cedula', '', "identification", "Cedula"),
-                name: InputElement('text', 'Nombre', '', 'name', "Nombre"),
-                lastname: InputElement('text', 'Apellido', '', "lastname", "Apellido"),
-                email: InputElement('email', 'Email', '', 'email', "email"),
-                tel: InputElement('number', 'Telefono', '', "tel", "Telefono"),
-                cel: InputElement('text', 'Celular', '', 'cel', "Celular"),
+                identification: InputElement('text', 'Cedula', '', "identification", "Cedula",true, false, 8, 12,false,true),
+                name: InputElement('text', 'Nombre', '', 'name', "Nombre",true, false, 2, 15,false),
+                lastname: InputElement('text', 'Apellido', '', "lastname", "Apellido",true, false, 2, 15,false),
+                email: InputElement('email', 'Email', '', 'email', "email",true, false, 5, 30,false),
+                tel: InputElement('number', 'Telefono', '', "tel", "Telefono",true, false, 8, 12,false,true),
+                cel: InputElement('text', 'Celular', '', 'cel', "Celular",true, false, 8, 12,false,true),
             },
-            form2: {
-                expireDate: InputElement('date', 'Fecha Expiracion', '', "expireDate", 'Fecha Expiracion'),
-                ID_district: SelectElement(districs, '', 'ID_district', "Distrito"),
-                signals: InputElement('text', 'Otras senales', '', 'signals', "Otras Senales"),
-                location: SelectElement(locations, '', 'location', "Recinto")
-            },formIsValid:false
             
+            form2: {
+                expireDate: DateElement('date', 'Fecha Expiracion', '', "expireDate", 'Fecha Expiracion', '2025-10-10', time),
+                ID_district: SelectElement(districs, '', 'ID_district', "Distrito",true, false, 5, 20,false),
+                signals: InputElement('text', 'Otras senales', '', 'signals', "Otras Senales",true, false, 5, 20,false),
+                location: SelectElement(locations, '', 'location', "Recinto",true, false, 5, 20,false)
+            }, formIsValid: false
+
         });
 
     }
@@ -142,16 +144,16 @@ class ApplicantForm extends React.Component {
                     locationID: 0,
                     form: {
                         //cedula nombre , mail , telefono , celular
-                        identification: InputElement('text', 'Cedula', '', "identification", "Cedula"),
-                        name: InputElement('text', 'Nombre', '', 'name', "Nombre"),
-                        lastname: InputElement('text', 'Apellido', '', "lastname", "Apellido"),
-                        email: InputElement('email', 'Email', '', 'email', "email"),
-                        tel: InputElement('text', 'Telefono', '', "tel", "Telefono"),
-                        cel: InputElement('text', 'Celular', '', 'cel', "Celular")
+                        identification: InputElement('text', 'Cedula', '', "identification", "Cedula",true, false, 8, 12,false,true),
+                        name: InputElement('text', 'Nombre', '', 'name', "Nombre",true, false, 2, 15,false),
+                        lastname: InputElement('text', 'Apellido', '', "lastname", "Apellido",true, false, 2, 15,false),
+                        email: InputElement('email', 'Email', '', 'email', "email",true, false, 5, 30,false),
+                        tel: InputElement('text', 'Telefono', '', "tel", "Telefono",true, false, 8, 12,false,true),
+                        cel: InputElement('text', 'Celular', '', 'cel', "Celular",true, false, 8, 12,false,true)
                     },
                     //fecha expiracion , distrito , otras senales , sede o recinto
                     form2: {
-                        expireDate: InputElement('date', 'Fecha Expiracion', '', "expireDate", 'Fecha Expiracion'),
+                        expireDate: DateElement('date', 'Fecha Expiracion', '', "expireDate", 'Fecha Expiracion', '2025-10-10',time),
                         ID_district: SelectElement([
                             { value: '1', displayValue: 'San Roque' },
                             { value: '2', displayValue: 'Carrillos' },
@@ -166,13 +168,13 @@ class ApplicantForm extends React.Component {
                             { value: '3', displayValue: 'Alajuela' },
                             { value: '4', displayValue: 'Rodrigo' }]
                             , '', 'location', "Recinto"),
-                        career: InputElement('text', 'Carrera', '', "career", 'Carrera'),
-                        studentID: InputElement('text', 'Carnet', '', "studentId", 'Carnet Estudiante')
+                        career: InputElement('text', 'Carrera', '', "career", 'Carrera',true, false, 5, 20,false),
+                        studentID: InputElement('text', 'Carnet', '', "studentId", 'Carnet Estudiante',true, false, 3, 6,false)
 
                     },
                     loadedDistricts: null,
                     loadedLocations: null,
-                    formIsValid:false
+                    formIsValid: false
                 }
             } else {
                 this.state = {
@@ -180,17 +182,17 @@ class ApplicantForm extends React.Component {
                     locationID: 0,
                     form: {
                         //cedula nombre , mail , telefono , celular
-                        identification: InputElement('text', 'Cedula', '', "identification", "Cedula"),
-                        name: InputElement('text', 'Nombre', '', 'name', "Nombre"),
-                        lastname: InputElement('text', 'Apellido', '', "lastname", "Apellido"),
-                        email: InputElement('email', 'Email', '', 'email', "email"),
-                        tel: InputElement('text', 'Telefono', '', "tel", "Telefono"),
-                        cel: InputElement('text', 'Celular', '', 'cel', "Celular")
+                        identification: InputElement('text', 'Cedula', '', "identification", "Cedula",true, false, 8, 12,false,true),
+                        name: InputElement('text', 'Nombre', '', 'name', "Nombre",true, false, 2, 15,false),
+                        lastname: InputElement('text', 'Apellido', '', "lastname", "Apellido",true, false, 2, 15,false),
+                        email: InputElement('email', 'Email', '', 'email', "email",true, false, 5, 30,false),
+                        tel: InputElement('text', 'Telefono', '', "tel", "Telefono",true, false, 8, 12,false,true),
+                        cel: InputElement('text', 'Celular', '', 'cel', "Celular",true, false, 8, 12,false,true)
 
                     },
                     //fecha expiracion , distrito , otras senales , sede o recinto
                     form2: {
-                        expireDate: InputElement('date', 'Fecha Expiracion', '', "expireDate", 'Fecha Expiracion'),
+                        expireDate: DateElement('date', 'Fecha Expiracion', '', "expireDate", 'Fecha Expiracion', '2025-10-10', time),
                         ID_district: SelectElement([
                             { value: '1', displayValue: 'San Roque' },
                             { value: '2', displayValue: 'Carrillos' },
@@ -206,36 +208,38 @@ class ApplicantForm extends React.Component {
                             { value: '3', displayValue: 'Alajuela' },
                             { value: '4', displayValue: 'Rodrigo' }]
                             , '', 'location', "Recinto"),
-                        department: InputElement('text', 'Departamento', '', "department", 'Departamento'),
-                        position: InputElement('text', 'Posicion', '', "position", 'Posicion')
+                        department: InputElement('text', 'Departamento', '', "department", 'Departamento',true, false, 5, 20,false),
+                        position: InputElement('text', 'Posicion', '', "position", 'Posicion',true, false, 5, 20,false)
                     },
                     loadedDistricts: null,
                     loadedLocations: null,
-                    formIsValid:false
+                    formIsValid: false
                 }
             }
 
         } else {
             if (props.applicant.applicantType === 'STUDENT') {
 
-     
+
                 this.state = {
-                    old : props.applicant.studentID,
+                    old: props.applicant.studentID,
                     districtID: 0,
                     locationID: 0,
                     form: {
                         //cedula nombre , mail , telefono , celular
-                        identification: InputElement('text', 'Cedula', props.applicant.identification, "identification", "Cedula"),
-                        name: InputElement('text', 'Nombre', props.applicant.name, 'name', "Nombre"),
-                        lastname: InputElement('text', 'Apellido', props.applicant.lastname, "lastname", "Apellido"),
-                        email: InputElement('email', 'Email', props.applicant.email, 'email', "email"),
-                        tel: InputElement('text', 'Telefono', props.applicant.tel, "tel", "Telefono"),
-                        cel: InputElement('text', 'Celular', props.applicant.cel, 'cel', "Celular")
+                        identification: InputElement('text', 'Cedula', props.applicant.identification, 
+                        "identification", "Cedula",true, false, 8, 12,false,true),
+                        name: InputElement('text', 'Nombre', props.applicant.name, 'name', "Nombre",true, false, 2, 15,false),
+                        lastname: InputElement('text', 'Apellido', props.applicant.lastname, "lastname", "Apellido",true, false, 2, 15,false),
+                        email: InputElement('email', 'Email', props.applicant.email, 'email', "email",true, false, 5, 30,false),
+                        tel: InputElement('text', 'Telefono', props.applicant.tel, "tel", "Telefono",true, false, 8, 12,false,true),
+                        cel: InputElement('text', 'Celular', props.applicant.cel, 'cel', "Celular",true, false, 8, 12,false,true)
 
                     },
                     //fecha expiracion , distrito , otras senales , sede o recinto
                     form2: {
-                        expireDate: InputElement('date', 'Fecha Expiracion',props.applicant.expireDate, "expireDate", 'Fecha Expiracion'),
+                        expireDate: DateElement('date', 'Fecha Expiracion', props.applicant.expireDate, "expireDate",
+                            'Fecha Expiracion', '2025-10-10', getActualTime),
                         ID_district: SelectElement([
                             { value: '1', displayValue: 'San Roque' },
                             { value: '2', displayValue: 'Carrillos' },
@@ -256,26 +260,28 @@ class ApplicantForm extends React.Component {
                     },
                     loadedDistricts: null,
                     loadedLocations: null,
-                    formIsValid:false
+                    formIsValid: false
                 }
             } else {
                 this.state = {
-                    old : props.applicant.identification,
+                    old: props.applicant.identification,
                     districtID: 0,
                     locationID: 0,
                     form: {
                         //cedula nombre , mail , telefono , celular
-                        identification: InputElement('text', 'Cedula', props.applicant.identification, "identification", "Cedula"),
-                        name: InputElement('text', 'Nombre', props.applicant.name, 'name', "Nombre"),
-                        lastname: InputElement('text', 'Apellido', props.applicant.lastname, "lastname", "Apellido"),
-                        email: InputElement('email', 'Email', props.applicant.email, 'email', "email"),
-                        tel: InputElement('text', 'Telefono', props.applicant.tel, "tel", "Telefono"),
-                        cel: InputElement('text', 'Celular', props.applicant.cel, 'cel', "Celular")
+                        identification: InputElement('text', 'Cedula', props.applicant.identification, 
+                        "identification", "Cedula",true, false, 8, 12,false,true),
+                        name: InputElement('text', 'Nombre', props.applicant.name, 'name', "Nombre",true, false, 2, 15,false),
+                        lastname: InputElement('text', 'Apellido', props.applicant.lastname, "lastname", "Apellido",true, false, 2, 15,false),
+                        email: InputElement('email', 'Email', props.applicant.email, 'email', "email",true, false, 5, 30,false),
+                        tel: InputElement('text', 'Telefono', props.applicant.tel, "tel", "Telefono",true, false, 8, 12,false,true),
+                        cel: InputElement('text', 'Celular', props.applicant.cel, 'cel', "Celular",true, false, 8, 12,false,true)
 
                     },
                     //fecha expiracion , distrito , otras senales , sede o recinto
                     form2: {
-                        expireDate: InputElement('date', 'Fecha Expiracion', props.applicant.expireDate, "expireDate", 'Fecha Expiracion'),
+                        expireDate: DateElement('date', 'Fecha Expiracion', props.applicant.expireDate,
+                            "expireDate", 'Fecha Expiracion', '2025-10-10', time),
                         ID_district: SelectElement([
                             { value: '1', displayValue: 'San Roque' },
                             { value: '2', displayValue: 'Carrillos' },
@@ -291,25 +297,28 @@ class ApplicantForm extends React.Component {
                             { value: '3', displayValue: 'Alajuela' },
                             { value: '4', displayValue: 'Rodrigo' }]
                             , '', 'location', "Recinto"),
-                        department: InputElement('text', 'Departamento', props.applicant.department, "department", 'Departamento'),
-                        position: InputElement('text', 'Posicion', props.applicant.position, "position", 'Posicion')
+                        department: InputElement('text', 'Departamento', props.applicant.department, "department", 'Departamento',true, false, 5, 20,false),
+                        position: InputElement('text', 'Posicion', props.applicant.position, "position", 'Posicion',true, false, 5, 20,false)
                     },
                     loadedDistricts: null,
                     loadedLocations: null,
-                    formIsValid:false
+                    formIsValid: false
                 }
             }
         }
-        this. renderData(props)
+        this.renderData(props)
     }
 
     resetFields() {
-        this.setState({form :{...this.state.form,
-                                barcode : InputElement('text', 'Nombre', ''
-                                , "barcode", "Codigo Barras"), 
-                                model : InputElement('text', 'Modelo',''
-                                , "model", "Modelo")  
-                        }});
+        this.setState({
+            form: {
+                ...this.state.form,
+                barcode: InputElement('text', 'Nombre', ''
+                    , "barcode", "Codigo Barras"),
+                model: InputElement('text', 'Modelo', ''
+                    , "model", "Modelo")
+            }
+        });
     }
 
     onSubmitHandler = (event) => {
@@ -321,7 +330,7 @@ class ApplicantForm extends React.Component {
         for (let formElementIdentifier in this.state.form2) {
             formData[formElementIdentifier] = this.state.form2[formElementIdentifier].value;
         }
-         
+
         console.log(formData);
         let applicantType = ((this.props.applicant.applicantType === 'STUDENT') ? 'student' : 'clerk');
         if (this.props.function === "CREATE") {
@@ -331,7 +340,7 @@ class ApplicantForm extends React.Component {
                     this.stateInitialization(this.props);
                 });
         } else {
-            console.log("old :****************    "  + this.state.old);
+            console.log("old :****************    " + this.state.old);
             formData["old"] = this.state.old;
             axios.put('http://localhost:8080/applicants/' + applicantType, formData)
                 .then(response => {
@@ -354,13 +363,34 @@ class ApplicantForm extends React.Component {
         updatedFormElement.valid = checkValidity(updatedFormElement.value, updatedFormElement.validation);
         updatedFormElement.touched = true;
         updatedForm[inputIdentifier] = updatedFormElement;
-         let formIsValid = true;
-      
+      //  let formIsValid = true;
+
+        // for (let inputIdentifier in updatedForm) {
+        //     formIsValid = updatedForm[inputIdentifier].valid && formIsValid;
+        // }
+        // console.log(updatedFormElement);
+        console.log(updatedFormElement);
+         this.setState({ form: updatedForm});
+    }
+
+    InputChangedHandlerForm2 = (event, inputIdentifier) => {
+        const updatedForm = {
+            ...this.state.form2
+        }
+        const updatedFormElement = {
+            ...updatedForm[inputIdentifier]
+        }
+        updatedFormElement.value = event.target.value;
+        updatedFormElement.valid = checkValidity(updatedFormElement.value, updatedFormElement.validation);
+        updatedFormElement.touched = true;
+        updatedForm[inputIdentifier] = updatedFormElement;
+        let formIsValid = true;
+
         for (let inputIdentifier in updatedForm) {
             formIsValid = updatedForm[inputIdentifier].valid && formIsValid;
         }
         console.log(updatedFormElement);
-        this.setState({ form: updatedForm, formIsValid:formIsValid });   
+        this.setState({ form2: updatedForm, formIsValid: formIsValid });
     }
 
     render() {
@@ -368,10 +398,10 @@ class ApplicantForm extends React.Component {
         if (this.lastSection != this.props.applicant.applicantType) {
             this.stateInitialization(this.props);
             this.lastSection = this.props.applicant.applicantType;
-        } 
+        }
 
-      //  console.log("renderApp asdasdas");
-      //  this.populateSelects();
+        //  console.log("renderApp asdasdas");
+        //  this.populateSelects();
 
         const formElementsArray = [];
         for (let key in this.state.form) { //Creates an array to loop through an object attributes
@@ -412,8 +442,11 @@ class ApplicantForm extends React.Component {
                                         elementConfig={formElement.config.elementConfig}
                                         value={formElement.config.value}
                                         label={formElement.config.label}
+                                        invalid={!formElement.config.valid}
+                                        shouldValidate={formElement.config.validation}
+                                        touched={formElement.config.touched}
                                         changed={(event) => this.inputChangedHandler(event, formElement.id)}
-                                        // changed={(event) => this.setState({ form: InputChangedHandler(event, formElement.id, this.state) })}
+                                    // changed={(event) => this.setState({ form: InputChangedHandler(event, formElement.id, this.state) })}
                                     />
                                 </div>
                             ))}
@@ -427,19 +460,22 @@ class ApplicantForm extends React.Component {
                                         elementConfig={formElement.config.elementConfig}
                                         value={formElement.config.value}
                                         label={formElement.config.label}
-                                        changed={(event) => this.setState({ form2: InputChangedHandlerForm2(event, formElement.id, this.state) })}
+                                        invalid={!formElement.config.valid}
+                                        shouldValidate={formElement.config.validation}
+                                        touched={formElement.config.touched}
+                                        changed={(event) => this.InputChangedHandlerForm2(event, formElement.id)}
                                     />
                                 </div>
                             ))}
 
                         </div>
 
-                        <button type="submit" className="btn btn-primary">{(this.props.function === 'CREATE') ? "Crear" : "Actualizar"}</button>
+                        <button disabled={(this.props.function === 'CREATE')?!this.state.formIsValid : this.state.formIsValid} type="submit" className="btn btn-primary">{(this.props.function === 'CREATE') ? "Crear" : "Actualizar"}</button>
 
                     </form>
                 </div>
-                <br/>
-                <BootAlert id="alert" title="Exito!" message="La operacion ha sido realizada."/>
+                <br />
+                <BootAlert id="alert" title="Exito!" message="La operacion ha sido realizada." />
             </div>
 
         );

@@ -42,7 +42,7 @@ import classes from './Input.css';
     );
 };
 
-export const InputElement = ( type, placeholder, value, name, label,required, valid, minLength, maxLength,touched) => {
+export const InputElement = ( type, placeholder, value, name, label,required, valid, minLength, maxLength,touched,isNumeric,isEmail) => {
     return {
         elementType: 'input',
         elementConfig: {
@@ -57,7 +57,9 @@ export const InputElement = ( type, placeholder, value, name, label,required, va
         {
             required: required,
             minLength: minLength,
-            maxLength: maxLength
+            maxLength: maxLength,
+            isNumeric:isNumeric,
+            isEmail:isEmail
         },
     valid: valid,
     touched: touched
@@ -76,6 +78,28 @@ export const SelectElement =(options, value, name, label) => {
         value:value,
         validation: {},
         valid: true
+    };
+}
+
+export const DateElement = (type, placeholder, value, name, label ,max,min, required, touched) => {
+    return {
+        elementType: 'input',
+        elementConfig: {
+            type: type,
+            placeholder: placeholder,
+            name: name,
+            id: name,
+            max : max,
+            min : min  
+        },
+        label: label,
+        value: value,
+        validation:
+            {
+                required: required,
+               
+            },
+        touched: touched
     };
 }
 
@@ -110,22 +134,6 @@ export const checkValidity = ( value, rules ) => {
     return isValid;
 }
 
-
-
-
-export const InputChangedHandlerForm2 = (event, inputIdentifier, state) => {
-    const updatedform = {
-        ...state.form2
-    }
-    const updatedFormElement = {
-        ...updatedform[inputIdentifier]
-    }
-    updatedFormElement.value = event.target.value;
-    updatedFormElement.valid = checkValidity(updatedFormElement.value, updatedFormElement.validation);
-    console.log(updatedFormElement);
-    updatedform[inputIdentifier] = updatedFormElement;
-    return updatedform;
-}
 
 export const updateObject = (oldObject, updatedProperties) => {
     return {
