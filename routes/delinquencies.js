@@ -39,7 +39,7 @@ router.get('/identifications', function (req, res, next) {
         }).then(result => {
             res.send(result.recordsets[0]);
         }).catch(err => {
-            res.send('fallo al mostrar morosidades' + err);
+            res.send('fallo al mostrar  morosidades' + err);
         });
     });
 
@@ -47,9 +47,6 @@ router.post('/create', function (req, res, next) {
     let barcode = req.body.barcode;
     let numDays = req.body.numDays;
     let today = new Loan('actual','');
-
-    console.log(numDays);
-
     db_connection.then(pool =>  {
         return pool.request().
            input('barcode', sql.NVarChar(50), barcode).
