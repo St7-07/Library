@@ -157,6 +157,7 @@ function showButton(e) {
     switch (e) {
         case "administrator":
             $("#administratorForm").fadeOut('slow', () => {
+                document.getElementById("passwordAdmin").value = "";
                 $("#normalUser").fadeIn('slow');
             });
             console.log(e);
@@ -164,6 +165,8 @@ function showButton(e) {
             
         case "normalUser":
             $("#userForm").fadeOut('slow', () => {
+                document.getElementById("user").value = "";
+                document.getElementById("passwordUser").value = "";
                 $("#administrator").fadeIn('slow');
             });
             break;
