@@ -15,9 +15,6 @@ module.exports = {
         for(let key in delinquencies){
             if(isDelinquencyOver(delinquencies[key].delqDate, delinquencies[key].numDays )){
                 deleteDelinquency(delinquencies[key].id)
-                console.log("Se ha eliminado la morosidad del numero de cedula: "+delinquencies[key].id)
-            }else{
-                console.log("No se ha borrado la morosidad: "+delinquencies[key].id)
             }
         }
         return true;
@@ -34,7 +31,6 @@ function isDelinquencyOver(delqDate,numDays){
     let today = new Date();
     let delqDateD = new Date(delqDate.slice(0, -5));
     let daysDiff = (today - delqDateD) / (1000 * 60 * 60 * 24);
-    console.log("Diferencia entre dias: "+ daysDiff )
     if(daysDiff >= numDays){
         isOver = true;
     }
