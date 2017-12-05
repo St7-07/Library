@@ -20,26 +20,26 @@ router.get('/', function(req, res, next) {
   });
 });
 
-router.post('/user', function(req, res, next) {
-  let user = req.body;
-  let validatedUser = new User(user.id,user.username,user.password,user.tipo,user.estado,user.mail,user.name);
-  db_connection.then(pool => {
-      return pool.request()
-      .input('UserName', sql.VarChar(50), validatedUser.id)
-      .input('Password', sql.VarChar(50), validatedUser.password)
-      .input('type', sql.Bit, validatedUser.type)
-      .input('state', sql.VarChar(50), validatedUser.state)
-      .input('email', sql.VarChar(50), validatedUser.email)
-      .input('Name', sql.VarChar(50), validatedUser.name)
-      .output('ID', sql.Int)
-      .execute('createUser');
-  }).then(result => {
-      res.send(result.output);
-  }).catch(err => {
-    // ... error checks
-      res.send("Error to post user");
-  });
-});
+// router.post('/user', function(req, res, next) {
+//   let user = req.body;
+//   let validatedUser = new User(user.id,user.username,user.password,user.tipo,user.estado,user.mail,user.name);
+//   db_connection.then(pool => {
+//       return pool.request()
+//       .input('UserName', sql.VarChar(50), validatedUser.id)
+//       .input('Password', sql.VarChar(50), validatedUser.password)
+//       .input('type', sql.Bit, validatedUser.type)
+//       .input('state', sql.VarChar(50), validatedUser.state)
+//       .input('email', sql.VarChar(50), validatedUser.email)
+//       .input('Name', sql.VarChar(50), validatedUser.name)
+//       .output('ID', sql.Int)
+//       .execute('createUser');
+//   }).then(result => {
+//       res.send(result.output);
+//   }).catch(err => {
+//     // ... error checks
+//       res.send("Error to post user");
+//   });
+// });
 
 /*
 router.put('/user/:id', function(req, res, next) {
@@ -55,20 +55,20 @@ router.put('/user/:id', function(req, res, next) {
   res.send("You are updating user: " + req.params.id);
 });*/
 
-router.delete('/user/:id', function(req, res, next) {
-  let id = req.params.id;
-  db_connection.then(pool => {
-      return pool.request()
-      .input('id', sql.SmallInt, id)
-      .output('ID', sql.SmallInt)
-      .execute('deleteUser');
-  }).then(result => {
-    console.dir(result)
-  }).catch(err => {
-    // ... error checks
-    res.send("You are deleting user: " + req.params.id);
-  });
-});
+// router.delete('/user/:id', function(req, res, next) {
+//   let id = req.params.id;
+//   db_connection.then(pool => {
+//       return pool.request()
+//       .input('id', sql.SmallInt, id)
+//       .output('ID', sql.SmallInt)
+//       .execute('deleteUser');
+//   }).then(result => {
+//     console.dir(result)
+//   }).catch(err => {
+//     // ... error checks
+//     res.send("You are deleting user: " + req.params.id);
+//   });
+// });
 
 /*Validate user for login
   @param user {username, password}
@@ -87,14 +87,28 @@ router.post('/validate', function(req, res, next) {
   });
 });
 //restore password
-router.post('/restorePassword', function(req, res, next) {
-  db_connection.then(pool => {
-    return pool.request()
-    .input('usernameName',sql.NVarChar(50), req.body.username )
-    .output('pass', sql.NVarChar(50), "")
-    .execute('returnPass');
+// router.put('/a', function(req, res, next) {
+  
+//   db_connection.then(pool => {
+//     return pool.request()
+//     .input('username',sql.NVarChar(50), req.body.username)
+//     .output('pass', sql.NVarChar(50), req.body.password)
+//     .execute('returnPass');
+//   }).then(result => {
+//       res.send(result.output);
+//   }).catch(err => {
+//       res.send('Fallo al ejecutar procedimiento.' + err);
+//   });
+// });
+
+router.put('/pass', function(req, res, next) {
+    db_connection.then(pool => {
+      return pool.request()
+        .input('username',sql.NVarChar(50), req.body.username)
+        .output('pass', sql.NVarChar(50), req.body.password)
+        .execute('returnPass');
   }).then(result => {
-      res.send(result.output);
+      res.send(result);
   }).catch(err => {
       res.send('Fallo al ejecutar procedimiento.' + err);
   });
