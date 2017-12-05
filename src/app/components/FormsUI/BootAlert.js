@@ -26,6 +26,9 @@ class BootAlert extends React.Component {
                 case 'danger':
                 this.alertClass = 'alert alert-danger alert-dismissable fade in'
                 break;
+                case 'neutral':
+                this.alertClass = 'alert alert-info alert-dismissable fade in'
+                break;
                 default:
                 this.alertClass = 'alert alert-success alert-dismissable fade in';
                 break;

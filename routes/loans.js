@@ -42,10 +42,10 @@ router.post('/loan', function (req, res, next) {
     db_connection.then(pool => {
         let poolRequest = pool.request();
         popullateLoanPool(poolRequest, req);
-        return poolRequest.execute('createLoan');
+        return poolRequest.execute('loanCreator');
     }).then(result => {
-        res.send('loan created ' + result.output);
-        console.log(result.output);
+        res.send(result.recordsets[0]);
+        console.log(result.recordsets[0]);
     }).catch(err => {
         res.send('fallo al ejecutar el procedimiento ' + err)
         console.log(err);

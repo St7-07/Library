@@ -91,9 +91,9 @@ class LoanForm extends React.Component {
                     axios.post('http://localhost:8080/loans/loan', formData)
                     .then(response => {
                         this.setState({alert:{
-                                            message: "Prestamo realizado con exito",
-                                            type : "success",
-                                            title:"Exito!"
+                                            message: response.data[0].msg,
+                                            type : "neutral",
+                                            title:""
                                         }});
                         document.getElementById('alert').hidden = false;
                         this.reloadData();
