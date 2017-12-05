@@ -3,46 +3,57 @@ import './Input.css';
 
 import classes from './Input.css';
 
- export const Input = (props) => {
+export const Input = (props) => {
     let inputElement = null;
     const inputClasses = [classes.InputElement];
 
     if (props.invalid && props.shouldValidate && props.touched) {
         inputClasses.push(classes.Invalid);
     }
-    switch(props.elementType) {
-        case('input'):
-            inputElement = (<input 
-                                className="form-control input-sm"
-                                {...props.elementConfig}
-                                onChange={props.changed}
-                                value={props.value}/>);
-        break;
-        case('select'):
-                inputElement = (
-                 <select className="form-control"  value={props.value} onChange={props.changed}>
+    switch (props.elementType) {
+        case ('input'):
+            inputElement = (<input
+                className="form-control input-sm"
+                {...props.elementConfig}
+                onChange={props.changed}
+                value={props.value} />);
+            break;
+        case ('select'):
+            inputElement = (
+                <select className="form-control" value={props.value} onChange={props.changed}>
                     {props.elementConfig.options.map(option => (
                         <option key={option.value} value={option.value} >
                             {option.displayValue}
                         </option>
                     ))}
                 </select>
-                );
-        break;
+            );
+            break;
         default:
     }
-  
-    
+    let validationError = null;
+    if (props.invalid && props.touched) {
+
+        validationError = <div class="error-msg">
+            <i class="fa fa-times-circle"></i>
+            {props.label} invalido!
+      </div>
+        // validationError = <span class="label label-danger"> {props.label} no es valido!</span>
+        //validationError = <p>Please enter a valid </p>;
+    }
+
     return (
-        
+
         <div className={classes.Input}>
             <label className={classes.Label}>{props.label}</label>
             {inputElement}
+            {validationError}
+            <br />
         </div>
     );
 };
 
-export const InputElement = ( type, placeholder, value, name, label,required, valid, minLength, maxLength,touched,isNumeric,isEmail) => {
+export const InputElement = (type, placeholder, value, name, label, required, valid, minLength, maxLength, touched, isNumeric, isEmail) => {
     return {
         elementType: 'input',
         elementConfig: {
@@ -51,22 +62,22 @@ export const InputElement = ( type, placeholder, value, name, label,required, va
             name: name,
             id: name
         },
-        label:label,
-        value:value,
+        label: label,
+        value: value,
         validation:
-        {
-            required: required,
-            minLength: minLength,
-            maxLength: maxLength,
-            isNumeric:isNumeric,
-            isEmail:isEmail
-        },
-    valid: valid,
-    touched: touched
+            {
+                required: required,
+                minLength: minLength,
+                maxLength: maxLength,
+                isNumeric: isNumeric,
+                isEmail: isEmail
+            },
+        valid: valid,
+        touched: touched
     };
 };
 
-export const SelectElement =(options, value, name, label) => {
+export const SelectElement = (options, value, name, label) => {
     return {
         elementType: 'select',
         elementConfig: {
@@ -74,14 +85,14 @@ export const SelectElement =(options, value, name, label) => {
             name: name,
             id: name
         },
-        label:label,
-        value:value,
+        label: label,
+        value: value,
         validation: {},
         valid: true
     };
 }
 
-export const DateElement = (type, placeholder, value, name, label ,max,min, required, touched) => {
+export const DateElement = (type, placeholder, value, name, label, max, min, required, touched) => {
     return {
         elementType: 'input',
         elementConfig: {
@@ -89,50 +100,51 @@ export const DateElement = (type, placeholder, value, name, label ,max,min, requ
             placeholder: placeholder,
             name: name,
             id: name,
-            max : max,
-            min : min  
+            max: max,
+            min: min
         },
         label: label,
         value: value,
         validation:
             {
                 required: required,
-               
+
             },
         touched: touched
     };
 }
 
-export const checkValidity = ( value, rules ) => {
+export const checkValidity = (value, rules) => {
     let isValid = true;
-    if ( !rules ) {
+    if (!rules) {
         return true;
     }
 
-    if ( rules.required ) {
+    if (rules.required) {
         isValid = value.trim() !== '' && isValid;
     }
 
-    if ( rules.minLength ) {
+    if (rules.minLength) {
         isValid = value.length >= rules.minLength && isValid
     }
 
-    if ( rules.maxLength ) {
+    if (rules.maxLength) {
         isValid = value.length <= rules.maxLength && isValid
     }
 
-    if ( rules.isEmail ) {
+    if (rules.isEmail) {
         const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
-        isValid = pattern.test( value ) && isValid
+        isValid = pattern.test(value) && isValid
     }
 
-    if ( rules.isNumeric ) {
+    if (rules.isNumeric) {
         const pattern = /^\d+$/;
-        isValid = pattern.test( value ) && isValid
+        isValid = pattern.test(value) && isValid
     }
 
     return isValid;
 }
+
 
 
 export const updateObject = (oldObject, updatedProperties) => {
