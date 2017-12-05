@@ -107,6 +107,7 @@ router.put('/pass', function(req, res, next) {
         .output('pass', sql.NVarChar(50), req.body.password)
         .execute('updatePass');
   }).then(result => {
+    
       res.send(result);
   }).catch(err => {
       res.send('Fallo al ejecutar procedimiento.' + err);
