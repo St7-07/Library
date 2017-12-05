@@ -2,37 +2,30 @@ const db_connection = require('../DB_Connnection').db_connection;
 const sql = require('../DB_Connnection').sql;
 
 module.exports = {
-    validateDelinquencies: function(){
-                                db_connection.then(pool => {
-                                console.log("conecto");
-                                return pool.request().execute('showDelinquencies');
-                                }).then(result => {
-                                    checkDelinquencies(result.recordsets[0])
-                                }).catch(err => {
-                                    console.log(err);
-                                });
+
+    checkDelinquencies : function(records){
+        let delinquencies = records.map(record =>{
+            return{
+                delqDate : record.delqdDate,
+                numDays : record.numDays,
+                id: record.id_delinquency
+            }
+        });
+    
+        for(let key in delinquencies){
+            if(isDelinquencyOver(delinquencies[key].delqDate, delinquencies[key].numDays )){
+                deleteDelinquency(delinquencies[key].id)
+                console.log("Se ha eliminado la morosidad del numero de cedula: "+delinquencies[key].id)
+            }else{
+                console.log("No se ha borrado la morosidad: "+delinquencies[key].id)
+            }
+        }
+        return true;
     }
 } 
 
 //Makes map function to check if a delinquency has to be deleted
-function checkDelinquencies(records){
-    let delinquencies = records.map(record =>{
-        return{
-            delqDate : record.delqdDate,
-            numDays : record.numDays,
-            id: record.id_delinquency
-        }
-    });
 
-    for(let key in delinquencies){
-        if(isDelinquencyOver(delinquencies[key].delqDate, delinquencies[key].numDays )){
-            deleteDelinquency(delinquencies[key].id)
-            console.log("Se ha eliminado la morosidad del numero de cedula: "+delinquencies[key].id)
-        }else{
-            console.log("No se ha borrado la morosidad: "+delinquencies[key].id)
-        }
-    }
-}
 
 //checks if the diference between the delqDate and the actual day is great than numDays
 //if it is, returns true

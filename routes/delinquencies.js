@@ -9,42 +9,52 @@ const Loan = require('../models/Loan');
 const validator = require('../models/DelinquenciesValidator')
 
 router.get('/', function (req, res, next) {
-    validator.validateDelinquencies();//makes a refresh to delete the finished delinquencies before deploy data
-    db_connection.then(pool => {
-        console.log("conecto");
-        return pool.request().execute('showDelinquencies');
-    }).then(result => {
-        res.send(result.recordsets[0]);
-    }).catch(err => {
-        res.send('fallo al mostrar morosidades' + err);
-    });
+        db_connection.then(pool => {
+            return pool.request().execute('showDelinquencies');
+        }).then(
+            result => {
+            validator.checkDelinquencies(result.recordsets[0])
+            .then(
+                db_connection.then(pool => {
+                return pool.request().execute('showDelinquencies')})
+            .then(rest =>{
+            res.send(rest.recordsets[0])
+            }))
+        })
 });
 
 router.get('/studentsLicense', function (req, res, next) {
-    validator.validateDelinquencies();//makes a refresh to delete the finished delinquencies before deploy data
     db_connection.then(pool => {
-        console.log("conecto");
-        return pool.request()
-        .execute('showDelinquenciesStudentsLicense');
-    }).then(result => {
-        res.send(result.recordsets[0]);
-    }).catch(err => {
-        res.send('fallo al mostrar morosidades' + err);
-    });
+        return pool.request().execute('showDelinquencies');
+    }).then(
+        result => {
+        validator.checkDelinquencies(result.recordsets[0])
+        .then(
+            db_connection.then(pool => {
+            return pool.request()
+            .execute('showDelinquenciesStudentsLicense');
+            }).then(result => {
+            res.send(result.recordsets[0]);
+        }))
+    })
 });
 
 router.get('/identifications', function (req, res, next) {
-        validator.validateDelinquencies();//makes a refresh to delete the finished delinquencies before deploy data
+    db_connection.then(pool => {
+        return pool.request().execute('showDelinquencies');
+    }).then(
+        result => {
+        validator.checkDelinquencies(result.recordsets[0])
+        .then(
         db_connection.then(pool => {
             console.log("conecto");
             return pool.request()
             .execute('showDelinquenciesIdentifications');
         }).then(result => {
             res.send(result.recordsets[0]);
-        }).catch(err => {
-            res.send('fallo al mostrar  morosidades' + err);
-        });
-    });
+        }))
+    })
+});
 
 router.post('/create', function (req, res, next) {
     let barcode = req.body.barcode;
