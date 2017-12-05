@@ -5,14 +5,17 @@ import ApplicantForm from "../containers/ApplicantForm";
 import TableHandler from "../containers/TableHandler";
 import EquipmentForm from "../containers/EquipmentForm";
 import LoanForm from "../containers/LoanForm";
+import StatisticsForm from "../containers/StatisticsForm"
 class Content extends React.Component {
 
     render() {
-  
-        let subContent;
-        
 
-        switch(this.props.subcontentType){
+        let subContent;
+
+        switch (this.props.subcontentType) {
+            case "statisticsForm":
+                subContent = <StatisticsForm/>
+                break;
             case "applicantForm":
                 subContent = <ApplicantForm function="CREATE" />
                 break;
@@ -21,34 +24,34 @@ class Content extends React.Component {
                 break;
             case "clerksTable":
                 subContent = <TableHandler tableType='clerks' />
-            break;
+                break;
             case "tableDefaulters":
-                subContent = <TableHandler tableType='defaulters'/>
+                subContent = <TableHandler tableType='defaulters' />
                 break;
             case "tableAV":
-                subContent = <TableHandler tableType='av_equipment'/>
-            break;
+                subContent = <TableHandler tableType='av_equipment' />
+                break;
             case "tableLoans":
-            subContent = <TableHandler tableType='loans'/>
-            break;
+                subContent = <TableHandler tableType='loans' />
+                break;
             case "updateApplicant":
-            subContent= <ApplicantForm function="UPDATE"/>
-            break;
+                subContent = <ApplicantForm function="UPDATE" />
+                break;
             case "añadirAudio":
-            subContent= <EquipmentForm function="CREATE"/>
-            break;
+                subContent = <EquipmentForm function="CREATE" />
+                break;
             case "updateEquipment":
-            subContent= <EquipmentForm function="UPDATE"/>
-            break;
-            case "loanForm": 
-            subContent= <LoanForm function="CREATE"/>
-            break;
-            case "renewForm": 
-            subContent= <LoanForm function="EDIT"/>
-            break;
-            case "returnForm": 
-            subContent= <LoanForm function="RETURN"/>
-            break;
+                subContent = <EquipmentForm function="UPDATE" />
+                break;
+            case "loanForm":
+                subContent = <LoanForm function="CREATE" />
+                break;
+            case "renewForm":
+                subContent = <LoanForm function="EDIT" />
+                break;
+            case "returnForm":
+                subContent = <LoanForm function="RETURN" />
+                break;
 
         }
 

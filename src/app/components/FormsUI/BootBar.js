@@ -24,15 +24,15 @@ export const BootBar = (props) => {
         break;
     }
 
-    let classAtt = 'progress-bar progress-bar-striped active' + colorType;
+    let classAtt = 'progress-bar progress-bar-striped active  progress-bar-' + colorType;
     let percentage = 'width:' + props.average + '%';
     return (
         <div>
             <label>{props.label}</label>
             <div className="progress">
                 <div className={classAtt} role="progressbar"
-                    aria-valuenow={props.average} aria-valuemin="0" aria-valuemax="100" style={percentage}>
-                    {props.innerText}
+                    aria-valuenow={props.average} aria-valuemin="0" aria-valuemax={props.total} style={{width: ((props.average * 100) /props.total) +"%"}}>
+                      <label className="labelNumber" >{props.innerText}</label>  
                 </div>
             </div>
         </div>
