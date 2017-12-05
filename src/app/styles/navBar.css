@@ -29,6 +29,7 @@ nav.horizontal ul li{	display: inline-block;}/* horizontal menu */
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
 	-o-border-radius: 50%;
+	cursor:pointer; cursor: hand;
 }
 
 /*end reset*/

@@ -25,7 +25,7 @@ class App extends React.Component {
                     return (
                         <div id="admin" className="container-flow" style={{ display: "none" }}>
                             <NavBar onClick={this.props.setSection} section={this.props.sectionReducer.actualSection}  typeUser={this.props.logInReducer.typeUser} 
-                             userName={this.props.logInReducer.name}/>
+                             userName={this.props.logInReducer.name} setType={this.props.setType} />
                             <Content sectionType={this.props.sectionReducer.actualSection}
                                 subcontentType={this.props.sectionReducer.subcontent}
                             />
@@ -38,7 +38,7 @@ class App extends React.Component {
                 return (
                     <div id="admin" className="container-flow" style={{ display: "none" }}>
                         <NavBar onClick={this.props.setSection} section={this.props.sectionReducer.actualSection}  typeUser={this.props.logInReducer.typeUser} 
-                         userName={this.props.logInReducer.name} />
+                         userName={this.props.logInReducer.name} setType={this.props.setType} />
                         <Content sectionType={this.props.sectionReducer.actualSection}
                             subcontentType={this.props.sectionReducer.subcontent} />
                         <Footer />
@@ -84,7 +84,7 @@ const mapDispatchToProps = (dispatch) => {
         },
         setType: (type, name) => {
             dispatch(setType(type, name));
-        },
+        }
  
 
     };

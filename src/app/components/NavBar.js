@@ -1,13 +1,13 @@
 import React from "react";
 import "../styles/navBar.css";
-
+import Modal from './Modal'
 //export const NavBar = (props) => {
 export default class NavBar extends React.Component {
 
     constructor(props) {
         super();
     }
-//reminder para sebastian(IO), se puede editar los 5 case si uso la misma tecnica para estadisticas!! dejar para despues no hay tiempo 
+    //reminder para sebastian(IO), se puede editar los 5 case si uso la misma tecnica para estadisticas!! dejar para despues no hay tiempo 
     render() {
         console.log(this.props.userName);
         let userName = this.props.userName;
@@ -15,9 +15,12 @@ export default class NavBar extends React.Component {
         let type = this.props.section;
         let subMenuHTML;
 
-        let statistics = (type === "Estadisticas") ? (<li className="active"><a onClick={() => this.props.onClick("Estadisticas","statisticsForm")}><span>Estadisticas</span></a></li>) 
-        : (<li><a onClick={() => this.props.onClick("Estadisticas","statisticsForm")}><span>Estadisticas</span></a></li>)  ;
-
+        let statistics = (type === "Estadisticas") ? (<li className="active"><a onClick={() => this.props.onClick("Estadisticas", "statisticsForm")}><span>Estadisticas</span></a></li>)
+            : (<li><a onClick={() => this.props.onClick("Estadisticas", "statisticsForm")}><span>Estadisticas</span></a></li>);
+        let modal = (<Modal
+            type={"userMenu"}
+            setType={this.props.setType}
+        />)
         switch (type) {
             case "Prestamos":
                 subMenuHTML = (
@@ -40,7 +43,7 @@ export default class NavBar extends React.Component {
                                                     <li><a onClick={() => this.props.onClick("Audiovisuales", "añadirAudio")}><span>Audiovisuales</span></a></li>
                                                     <li><a onClick={() => this.props.onClick("Historial", "tableLoans")}><span>Historial</span></a></li>
                                                     {(typeUser === "Administrator") ? statistics : ""}
-                                                    <li><span><img id="imgUser" src={(typeUser === "Administrator") ? "../images/administrador1.0.png" : "../images/normalUser2.0.png"} />{userName}</span></li>
+                                                    <li><span><img id="imgUser" src={(typeUser === "Administrator") ? "../images/administrador1.0.png" : "../images/normalUser2.0.png"} onClick={() => { $('#myModal2').modal('show') }} />{userName}</span></li>
                                                 </ul>
                                             </div>
                                             <div className="clear"></div>
@@ -48,6 +51,7 @@ export default class NavBar extends React.Component {
                                     </div>
                                 </div>
                             </div>
+                            {modal}
                         </div>
                     </div>
                 );
@@ -75,7 +79,7 @@ export default class NavBar extends React.Component {
                                                     <li><a onClick={() => this.props.onClick("Audiovisuales", "añadirAudio")}><span>Audiovisuales</span></a></li>
                                                     <li><a onClick={() => this.props.onClick("Historial", "tableLoans")}><span>Historial</span></a></li>
                                                     {(typeUser === "Administrator") ? statistics : ""}
-                                                    <li><span><img id="imgUser" src={(typeUser === "Administrator") ? "../images/administrador1.0.png" : "../images/normalUser2.0.png"} />{userName}</span></li>
+                                                    <li><span><img id="imgUser" src={(typeUser === "Administrator") ? "../images/administrador1.0.png" : "../images/normalUser2.0.png"} onClick={() => { $('#myModal2').modal('show') }} />{userName}</span></li>
                                                 </ul>
                                             </div>
                                             <div className="clear"></div>
@@ -83,6 +87,7 @@ export default class NavBar extends React.Component {
                                     </div>
                                 </div>
                             </div>
+                            {modal}
                         </div>
                     </div>
                 );
@@ -110,7 +115,7 @@ export default class NavBar extends React.Component {
                                                     <li className="active"><a onClick={() => this.props.onClick("Audiovisuales", "añadirAudio")}><span>Audiovisuales</span></a></li>
                                                     <li><a onClick={() => this.props.onClick("Historial", "tableLoans")}><span>Historial</span></a></li>
                                                     {(typeUser === "Administrator") ? statistics : ""}
-                                                    <li><span><img id="imgUser" src={(typeUser === "Administrator") ? "../images/administrador1.0.png" : "../images/normalUser2.0.png"} />{userName}</span></li>
+                                                    <li><span><img id="imgUser" src={(typeUser === "Administrator") ? "../images/administrador1.0.png" : "../images/normalUser2.0.png"} onClick={() => { $('#myModal2').modal('show') }} />{userName}</span></li>
                                                 </ul>
                                             </div>
                                             <div className="clear"></div>
@@ -118,6 +123,7 @@ export default class NavBar extends React.Component {
                                     </div>
                                 </div>
                             </div>
+                            {modal}
                         </div>
                     </div>
                 );
@@ -145,7 +151,7 @@ export default class NavBar extends React.Component {
                                                     <li><a onClick={() => this.props.onClick("Audiovisuales", "añadirAudio")}><span>Audiovisuales</span></a></li>
                                                     <li className="active"><a onClick={() => this.props.onClick("Historial", "tableLoans")}><span>Historial</span></a></li>
                                                     {(typeUser === "Administrator") ? statistics : ""}
-                                                    <li><span><img id="imgUser" src={(typeUser === "Administrator") ? "../images/administrador1.0.png" : "../images/normalUser2.0.png"} />{userName}</span></li>
+                                                    <li><span><img id="imgUser" src={(typeUser === "Administrator") ? "../images/administrador1.0.png" : "../images/normalUser2.0.png"} onClick={() => { $('#myModal2').modal('show') }} />{userName}</span></li>
                                                 </ul>
                                             </div>
                                             <div className="clear"></div>
@@ -153,6 +159,7 @@ export default class NavBar extends React.Component {
                                     </div>
                                 </div>
                             </div>
+                            {modal}
                         </div>
                     </div>
                 );
@@ -180,7 +187,7 @@ export default class NavBar extends React.Component {
                                                     <li><a onClick={() => this.props.onClick("Audiovisuales", "añadirAudio")}><span>Audiovisuales</span></a></li>
                                                     <li><a onClick={() => this.props.onClick("Historial", "tableLoans")}><span>Historial</span></a></li>
                                                     {(typeUser === "Administrator") ? statistics : ""}
-                                                    <li><span><img id="imgUser" src={(typeUser === "Administrator") ? "../images/administrador1.0.png" : "../images/normalUser2.0.png"} />{userName}</span></li>
+                                                    <li><span><img id="imgUser" src={(typeUser === "Administrator") ? "../images/administrador1.0.png" : "../images/normalUser2.0.png"} onClick={() => { $('#myModal2').modal('show') }} />{userName}</span></li>
                                                 </ul>
                                             </div>
                                             <div className="clear"></div>
@@ -188,6 +195,7 @@ export default class NavBar extends React.Component {
                                     </div>
                                 </div>
                             </div>
+                            {modal}
                         </div>
                     </div>
                 );
