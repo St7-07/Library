@@ -53,7 +53,7 @@ export const Input = (props) => {
     );
 };
 
-export const InputElement = (type, placeholder, value, name, label, required, valid, minLength, maxLength, touched, isNumeric, isEmail) => {
+export const InputElement = (type, placeholder, value, name, label, required, valid, minLength, maxLength, touched, isNumeric, isEmail,lengthCedula) => {
     return {
         elementType: 'input',
         elementConfig: {
@@ -70,7 +70,8 @@ export const InputElement = (type, placeholder, value, name, label, required, va
                 minLength: minLength,
                 maxLength: maxLength,
                 isNumeric: isNumeric,
-                isEmail: isEmail
+                isEmail: isEmail,
+                lengthCedula:lengthCedula
             },
         valid: valid,
         touched: touched
@@ -140,6 +141,10 @@ export const checkValidity = (value, rules) => {
     if (rules.isNumeric) {
         const pattern = /^\d+$/;
         isValid = pattern.test(value) && isValid
+    }
+    if(rules.lengthCedula)
+    {
+    isValid = value.length == 10 || value.length == 6
     }
 
     return isValid;

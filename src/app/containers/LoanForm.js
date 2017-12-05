@@ -55,7 +55,7 @@ class LoanForm extends React.Component {
             {
                 form: {
                     barcode: InputElement('text', 'Barcode', '', "barcode","Codigo de Barras",true, false, 5, 20,false),
-                    peopleLicenseOrId: InputElement('text', 'Carnet/Cedula', '', 'peopleLicenseOrId', 'Carnet',true, false, 5, 20,false),
+                    peopleLicenseOrId: InputElement('text', 'Carnet/Cedula', '', 'peopleLicenseOrId', 'Carnet',true, false, 5, 20,false,false,null,true),
                     endDate: SelectElement(this.selectOptions, 
                         '', "finishDate",'Fecha Devolucion',true),
                 },
@@ -170,7 +170,7 @@ class LoanForm extends React.Component {
                     ...this.state,
                     form: {
                     barcode: InputElement('text', 'Barcode', '', "barcode","Codigo de Barras",true, false, 5, 20,false),
-                    peopleLicenseOrId: InputElement('text', 'Carnet/Cedula', '', 'peopleLicenseOrId', 'Carnet',true, false, 5, 20,false),
+                    peopleLicenseOrId: InputElement('text', 'Carnet/Cedula', '', 'peopleLicenseOrId', 'Carnet',true, false, 5, 20,false,false,null,true),
                     endDate: SelectElement(this.selectOptions, 
                         '', "finishDate",'Fecha Devolucion'),
                 },formIsValid:false});
