@@ -6,8 +6,10 @@ const sql = require('../DB_Connnection').sql;
 
 const IdentifierType = require("../models/IdentifierType");
 const Loan = require('../models/Loan');
+const validator = require('../models/DelinquenciesValidator')
 
 router.get('/', function (req, res, next) {
+    validator.validateDelinquencies();//makes a refresh to delete the finished delinquencies before deploy data
     db_connection.then(pool => {
         console.log("conecto");
         return pool.request().execute('showDelinquencies');
@@ -19,7 +21,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/studentsLicense', function (req, res, next) {
-
+    validator.validateDelinquencies();//makes a refresh to delete the finished delinquencies before deploy data
     db_connection.then(pool => {
         console.log("conecto");
         return pool.request()
@@ -32,6 +34,7 @@ router.get('/studentsLicense', function (req, res, next) {
 });
 
 router.get('/identifications', function (req, res, next) {
+        validator.validateDelinquencies();//makes a refresh to delete the finished delinquencies before deploy data
         db_connection.then(pool => {
             console.log("conecto");
             return pool.request()
@@ -61,5 +64,7 @@ router.post('/create', function (req, res, next) {
        console.log(err)
    });
 });
+
+
 
 module.exports = router;
