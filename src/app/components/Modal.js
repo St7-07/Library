@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { setSubcontent } from "../actions/sectionActions";
+
 import { connect } from "react-redux";
 import axios from 'axios';
 
-
+import { setSection } from "../actions/sectionActions";
+import { setSubcontent } from "../actions/sectionActions";
 
 import { setApplicant } from "../actions/applicantActions";
 
@@ -149,6 +150,7 @@ class Modal extends Component {
                 }
             case "logOut":
                 $('#myModal2').modal('hide');
+                this.props.setSection("Prestamos", "loanForm");
                 this.props.setType("none", "");
                 break;
             case "password":
@@ -192,7 +194,10 @@ const mapDispatchToProps = (dispatch) => {
                     dispatch({ type: "SET_EQUIPMENT_INFO", payload: selectedData });
                     break;
             }
-        },
+        }, setSection: (section,subcontent) => {
+            dispatch(setSection(section));
+            dispatch(setSubcontent(subcontent));
+        }
     };
 };
 
