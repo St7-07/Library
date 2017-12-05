@@ -24,7 +24,7 @@ class EquipmentForm extends React.Component {
 
                 category: SelectElement([
                     { value: '1', displayValue: 'toDeploy' },]
-                    , '', 'category', "Categoria"),
+                    , '', 'category', "Categoria",true),
 
                 model: InputElement('text', 'Modelo', (UPDATE) ? props.equipment.model : ''
                     , "model", "Modelo", true, false, 5, 20,false),
@@ -32,12 +32,12 @@ class EquipmentForm extends React.Component {
                 brand: SelectElement([
                     { value: '1', displayValue: 'VAIO' },
                     { value: '2', displayValue: 'Apple' }]
-                    , '', 'brand', "Marca"),
+                    , '', 'brand', "Marca",true),
 
                 state: SelectElement([
                     { value: '1', displayValue: 'Prestada' },
                     { value: '2', displayValue: 'Disponible' }]
-                    , '', 'state', "Estado")
+                    , '', 'state', "Estado",true)
             },
             loadedCategories: null,
             loadedBrands: null,

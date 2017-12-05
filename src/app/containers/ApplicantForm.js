@@ -126,9 +126,9 @@ class ApplicantForm extends React.Component {
             
             form2: {
                 expireDate: DateElement('date', 'Fecha Expiracion', '', "expireDate", 'Fecha Expiracion', '2025-10-10', time),
-                ID_district: SelectElement(districs, '', 'ID_district', "Distrito",true, false, 5, 20,false),
+                ID_district: SelectElement(districs, '', 'ID_district', "Distrito",true),
                 signals: InputElement('text', 'Otras senales', '', 'signals', "Otras Senales",true, false, 5, 20,false),
-                location: SelectElement(locations, '', 'location', "Recinto",true, false, 5, 20,false)
+                location: SelectElement(locations, '', 'location', "Recinto",true)
             }, formIsValid: false
 
         });
@@ -159,7 +159,7 @@ class ApplicantForm extends React.Component {
                             { value: '2', displayValue: 'Carrillos' },
                             { value: '3', displayValue: 'Tacares' },
                             { value: '4', displayValue: 'Los Angeles' }]
-                            , '', 'ID_district', "Distrito"),
+                            , '', 'ID_district', "Distrito",true),
 
                         signals: InputElement('text', 'Otras senales', '', 'signals', "Otras Senales"),
                         location: SelectElement([
@@ -167,7 +167,7 @@ class ApplicantForm extends React.Component {
                             { value: '2', displayValue: 'San Ramon' },
                             { value: '3', displayValue: 'Alajuela' },
                             { value: '4', displayValue: 'Rodrigo' }]
-                            , '', 'location', "Recinto"),
+                            , '', 'location', "Recinto",true),
                         career: InputElement('text', 'Carrera', '', "career", 'Carrera',true, false, 5, 20,false),
                         studentID: InputElement('text', 'Carnet', '', "studentId", 'Carnet Estudiante',true, false, 3, 6,false)
 
@@ -198,7 +198,7 @@ class ApplicantForm extends React.Component {
                             { value: '2', displayValue: 'Carrillos' },
                             { value: '3', displayValue: 'Tacares' },
                             { value: '4', displayValue: 'Los Angeles' }]
-                            , '', 'ID_district', "Distrito"),
+                            , '', 'ID_district', "Distrito",true),
 
                         signals: InputElement('text', 'Otras senales', '', 'signals', "Otras Senales"),
 
@@ -207,7 +207,7 @@ class ApplicantForm extends React.Component {
                             { value: '2', displayValue: 'San Ramon' },
                             { value: '3', displayValue: 'Alajuela' },
                             { value: '4', displayValue: 'Rodrigo' }]
-                            , '', 'location', "Recinto"),
+                            , '', 'location', "Recinto",true),
                         department: InputElement('text', 'Departamento', '', "department", 'Departamento',true, false, 5, 20,false),
                         position: InputElement('text', 'Posicion', '', "position", 'Posicion',true, false, 5, 20,false)
                     },
@@ -245,7 +245,7 @@ class ApplicantForm extends React.Component {
                             { value: '2', displayValue: 'Carrillos' },
                             { value: '3', displayValue: 'Tacares' },
                             { value: '4', displayValue: 'Los Angeles' }]
-                            , '', 'ID_district', "Distrito"),
+                            , '', 'ID_district', "Distrito",true),
 
                         signals: InputElement('text', 'Otras senales', '', 'signals', "Otras Senales"),
 
@@ -254,7 +254,7 @@ class ApplicantForm extends React.Component {
                             { value: '2', displayValue: 'San Ramon' },
                             { value: '3', displayValue: 'Alajuela' },
                             { value: '4', displayValue: 'Rodrigo' }]
-                            , '', 'location', "Recinto"),
+                            , '', 'location', "Recinto",true),
                         career: InputElement('text', 'Carrera', props.applicant.career, "career", 'Carrera'),
                         studentID: InputElement('text', 'Carnet', props.applicant.studentID, "studentID", 'Carnet Estudiante')
                     },
@@ -287,7 +287,7 @@ class ApplicantForm extends React.Component {
                             { value: '2', displayValue: 'Carrillos' },
                             { value: '3', displayValue: 'Tacares' },
                             { value: '4', displayValue: 'Los Angeles' }]
-                            , '', 'ID_district', "Distrito"),
+                            , '', 'ID_district', "Distrito",true),
 
                         signals: InputElement('text', 'Otras senales', '', 'signals', "Otras Senales"),
 
@@ -296,7 +296,7 @@ class ApplicantForm extends React.Component {
                             { value: '2', displayValue: 'San Ramon' },
                             { value: '3', displayValue: 'Alajuela' },
                             { value: '4', displayValue: 'Rodrigo' }]
-                            , '', 'location', "Recinto"),
+                            , '', 'location', "Recinto",true),
                         department: InputElement('text', 'Departamento', props.applicant.department, "department", 'Departamento',true, false, 5, 20,false),
                         position: InputElement('text', 'Posicion', props.applicant.position, "position", 'Posicion',true, false, 5, 20,false)
                     },
