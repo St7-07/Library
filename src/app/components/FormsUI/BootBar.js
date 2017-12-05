@@ -25,13 +25,18 @@ export const BootBar = (props) => {
     }
 
     let classAtt = 'progress-bar progress-bar-striped active  progress-bar-' + colorType;
-    let percentage = 'width:' + props.average + '%';
+    let percentage =  (isNaN(props.average * 100 /props.total) ? 0 + '%' : (props.average * 100 /props.total)  + '%');
+
+    
+    console.log(percentage );
+    console.log( props.average );
+    
     return (
         <div>
             <label>{props.label}</label>
             <div className="progress">
                 <div className={classAtt} role="progressbar"
-                    aria-valuenow={props.average} aria-valuemin="0" aria-valuemax={props.total} style={{width: ((props.average * 100) /props.total) +"%"}}>
+                    aria-valuenow={props.average} aria-valuemin="0" aria-valuemax={props.total} style={{width: percentage }}>
                       <label className="labelNumber" >{props.innerText}</label>  
                 </div>
             </div>

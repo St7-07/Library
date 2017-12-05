@@ -87,17 +87,19 @@ class StatisticsForm extends React.Component {
     }
 
     calculateStatistics() {
-        console.log("calculandoStadisticas");
+
 
 
         const id = this.state.form.category.value;
         axios.get('http://localhost:8080/statistics/' + id)
             .then(response => {
+           
                 this.setState({ total: response.data[0].Total })
             });
 
         axios.get('http://localhost:8080/statistics/delinquenciesStatistics/' + id)
             .then(response => {
+       
                 this.setState({ totalDelinquencies: response.data[0].totalDelinquencies })
             });
 
