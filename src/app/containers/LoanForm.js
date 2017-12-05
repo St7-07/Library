@@ -123,7 +123,7 @@ class LoanForm extends React.Component {
                         console.log("se renovo")
                     });
                 }else{
-                    his.setState({alert:{
+                    this.setState({alert:{
                         message: "Equipo no se encuentra en prestamo",
                         type : "danger",
                         title:"Error!"
@@ -147,7 +147,7 @@ class LoanForm extends React.Component {
                         console.log("se devolvio")
                     });
                 }else{
-                    his.setState({alert:{
+                    this.setState({alert:{
                         message: "Equipo no se encuentra en prestamo",
                         type : "danger",
                         title:"Error!"
