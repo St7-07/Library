@@ -100,4 +100,17 @@ router.post('/restorePassword', function(req, res, next) {
   });
 });
 
+router.put('/pass', function(req, res, next) {
+    db_connection.then(pool => {
+      return pool.request()
+        .input('username',sql.NVarChar(50), req.body.username)
+        .output('pass', sql.NVarChar(50), req.body.password)
+        .execute('updatePass');
+  }).then(result => {
+      res.send(result);
+  }).catch(err => {
+      res.send('Fallo al ejecutar procedimiento.' + err);
+  });
+});
+
 module.exports = router;
