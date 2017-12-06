@@ -465,11 +465,8 @@ class ApplicantForm extends React.Component {
                                     />
                                 </div>
                             ))}
-
-                        </div>
-
                         <button disabled={(this.props.function === 'CREATE')?!this.state.formIsValid : this.state.formIsValid} type="submit" className="btn btn-primary">{(this.props.function === 'CREATE') ? "Crear" : "Actualizar"}</button>
-
+                        </div>
                     </form>
                 </div>
                 <br />
