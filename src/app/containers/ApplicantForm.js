@@ -423,8 +423,8 @@ class ApplicantForm extends React.Component {
             <div className="formSpace">
                 <div className="row">
                     <div className="btn-group">
-                        <button type="button" className="btn btn-primary" onClick={() => this.props.onChangeApplicantType('STUDENT')}>Estudiante</button>
-                        <button type="button" className="btn btn-primary" onClick={() => this.props.onChangeApplicantType('CLERK')}>Funcionario</button>
+                        <button disabled={(this.props.function === 'CREATE')?false:true} type="button" className="btn btn-primary" onClick={() => this.props.onChangeApplicantType('STUDENT')}>Estudiante</button>
+                        <button disabled={(this.props.function === 'CREATE')?false:true} type="button" className="btn btn-primary" onClick={() => this.props.onChangeApplicantType('CLERK')}>Funcionario</button>
                     </div>
                     <br />
                     <br />
