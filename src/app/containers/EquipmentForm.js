@@ -69,7 +69,7 @@ class EquipmentForm extends React.Component {
             case 'CREATE':
                 axios.post('http://localhost:8080/av_equipments/av_equipment', formData)
                     .then(response => {
-                        document.getElementById('alert').hidden = false;
+                        document.getElementById('avAlert').hidden = false;
                         this.resetFields();
                     });
                 break;
@@ -81,7 +81,7 @@ class EquipmentForm extends React.Component {
                 };
                 axios.put('http://localhost:8080/av_equipments/av_equipment/' + data.old_barcode, data)
                     .then(response => {
-                        document.getElementById('alert').hidden = false;
+                        document.getElementById('avAlert').hidden = false;
                         this.resetFields();
                     });
                 break;
@@ -90,7 +90,6 @@ class EquipmentForm extends React.Component {
 
     renderData() {
         const UPDATE = (this.props.function == 'UPDATE') ? true : false;
-
         axios.get('http://localhost:8080/av_equipments/categories')
             .then(response => {
                 this.setState({ loadedCategories: response.data });
@@ -232,7 +231,7 @@ class EquipmentForm extends React.Component {
 
                 </div>
                 <br />
-                <BootAlert id="alert" title="Exito!" message="La operacion ha sido realizada." />
+                <BootAlert id='avAlert' title="Exito!" message="La operacion ha sido realizada." />
             </div>
         );
     }

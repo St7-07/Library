@@ -11,7 +11,7 @@ class BootAlert extends React.Component {
         }
 
         hide () {
-            document.getElementsByClassName(this.alertClass).hidden = true;
+            document.getElementById(this.props.id).hidden = true;
         }
 
         typeChanger = () => {

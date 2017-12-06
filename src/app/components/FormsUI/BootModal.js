@@ -1,6 +1,7 @@
 import React from 'react';
 import './Input.css';
 import axios from 'axios';
+import BootAlert from "./BootAlert";
 
 class BootModal extends React.Component {
 
@@ -15,13 +16,17 @@ class BootModal extends React.Component {
         event.preventDefault();
         axios.post('http://localhost:8080/' + this.props.url, this.state)
             .then(response => {
-                alert(this.props.label + ": " + this.state.value + " guardada.");
+                document.getElementById('modalAlert').hidden = false;
                 this.props.renderData();
             });
     }
 
     inputChangedHandler = (event) => {
         this.setState({ value: event.target.value });
+    }
+
+    closeModal = () => {
+        document.getElementById('modalAlert').hidden = true;
     }
 
     render() {
@@ -34,7 +39,8 @@ class BootModal extends React.Component {
 
                         <div className="modal-content">
                             <div className="modal-header">
-                                <button type="button" className="close" data-dismiss="modal">&times;</button>
+                                <button type="button" className="close" data-dismiss="modal" 
+                                onClick={() => this.closeModal()}>&times;</button>
                                 <h4 className="modal-title">Nueva {this.props.label}</h4>
                             </div>
                             <div className="modal-body">
@@ -46,10 +52,14 @@ class BootModal extends React.Component {
                                     </div>
                                     <br />
                                     <input type="submit" className="btn btn-success btn-sm" value="Guardar" />
+                                    <br />
+                                    <BootAlert id='modalAlert' title="Exito!" 
+                                    message= {this.props.label + ": " + this.state.value + " guardada."}/>
                                 </form>
                             </div>
                             <div className="modal-footer">
-                                <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" className="btn btn-default" 
+                                data-dismiss="modal" onClick={() => this.closeModal()}>Close</button>
                             </div>
                         </div>
                     </div>

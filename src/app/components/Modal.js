@@ -22,10 +22,6 @@ class Modal extends Component {
                             onClick={() => this.props.setSubcontent("updateApplicant", this.props.selectedData, "STUDENT")}>Editar</a>
                         <a href="#" className="list-group-item"
                             onClick={() => this.clickHandler("delete", this.props.selectedData, this.props.refresh.bind(this), "students")}>Eliminar</a>
-                        <a href="#" className="list-group-item"
-                            onClick={() => this.clickHandler("showLoans", this.props.selectedData)}>Ver Morosidades</a>
-                        <a href="#" className="list-group-item"
-                            onClick={() => this.clickHandler("showDefaulters", this.props.selectedData)}>Ver Prestamos</a>
                     </div>
                 break;
             case "clerks":
@@ -35,10 +31,6 @@ class Modal extends Component {
                             onClick={() => this.props.setSubcontent("updateApplicant", this.props.selectedData, "CLERK")}>Editar</a>
                         <a href="#" className="list-group-item"
                             onClick={() => this.clickHandler("delete", this.props.selectedData, this.props.refresh.bind(this), "clerks")}>Eliminar</a>
-                        <a href="#" className="list-group-item"
-                            onClick={() => this.clickHandler("showLoans", this.props.selectedData)}>Ver Morosidades</a>
-                        <a href="#" className="list-group-item"
-                            onClick={() => this.clickHandler("showDefaulters", this.props.selectedData)}>Ver Prestamos</a>
                     </div>
                 break;
             case "av_equipment":

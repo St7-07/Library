@@ -75,7 +75,7 @@ class LoanForm extends React.Component {
     }
 
     onSubmitHandler = (event) => {
-        document.getElementById('alert').hidden = true;
+        document.getElementById('loanAlert').hidden = true;
         if(this.state.delinquentBootAlert){
             document.getElementById('delqAlert').hidden = true;
         }
@@ -95,7 +95,7 @@ class LoanForm extends React.Component {
                                             type : "neutral",
                                             title:""
                                         }});
-                        document.getElementById('alert').hidden = false;
+                        document.getElementById('loanAlert').hidden = false;
                         this.reloadData();
                         console.log("Si se hizo prestamo")
                     });
@@ -105,7 +105,7 @@ class LoanForm extends React.Component {
                         type : "danger",
                         title:"Error!"
                     }});
-                    document.getElementById('alert').hidden = false;
+                    document.getElementById('loanAlert').hidden = false;
                     console.log("No se hizo prestamo")
                 }
             break;
@@ -118,7 +118,7 @@ class LoanForm extends React.Component {
                             type : "success",
                             title:"Exito!"
                         }});
-                        document.getElementById('alert').hidden = false;
+                        document.getElementById('loanAlert').hidden = false;
                         this.reloadData();
                         console.log("se renovo")
                     });
@@ -128,7 +128,7 @@ class LoanForm extends React.Component {
                         type : "danger",
                         title:"Error!"
                     }});
-                    document.getElementById('alert').hidden = false;
+                    document.getElementById('loanAlert').hidden = false;
                     console.log("no se renovo")
                 }     
             break;
@@ -142,7 +142,7 @@ class LoanForm extends React.Component {
                             type : "success",
                             title:"Exito!"
                         }});
-                        document.getElementById('alert').hidden = false;
+                        document.getElementById('loanAlert').hidden = false;
                         this.validateDelinquency(this.getFinishDate());
                         console.log("se devolvio")
                     });
@@ -152,7 +152,7 @@ class LoanForm extends React.Component {
                         type : "danger",
                         title:"Error!"
                     }});
-                    document.getElementById('alert').hidden = false;
+                    document.getElementById('loanAlert').hidden = false;
                     console.log("no se devolvio")
                 } 
             break;
@@ -160,7 +160,7 @@ class LoanForm extends React.Component {
     }
 
     formTypeHandler = () =>{
-        document.getElementById('alert').hidden = true;
+        document.getElementById('loanAlert').hidden = true;
         if(this.state.delinquentBootAlert){
             document.getElementById('delqAlert').hidden = true;
         }
@@ -383,7 +383,7 @@ class LoanForm extends React.Component {
                     </form>
                 </div>
                 <br/>
-                    <BootAlert alertType={this.state.alert.type} id="alert" title={this.state.alert.title}
+                    <BootAlert alertType={this.state.alert.type} id='loanAlert' title={this.state.alert.title}
                                 message={this.state.alert.message}/>
 
                     {this.state.delinquentBootAlert}

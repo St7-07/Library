@@ -334,7 +334,7 @@ class ApplicantForm extends React.Component {
         if (this.props.function === "CREATE") {
             axios.post('http://localhost:8080/applicants/' + applicantType, formData)
                 .then(response => {
-                    document.getElementById('alert').hidden = false;
+                    document.getElementById('applicantAlert').hidden = false;
                     this.stateInitialization(this.props);
                 });
         } else {
@@ -342,7 +342,7 @@ class ApplicantForm extends React.Component {
             formData["old"] = this.state.old;
             axios.put('http://localhost:8080/applicants/' + applicantType, formData)
                 .then(response => {
-                    document.getElementById('alert').hidden = false;
+                    document.getElementById('applicantAlert').hidden = false;
                     this.resetFields();
                 });
         }
@@ -473,7 +473,7 @@ class ApplicantForm extends React.Component {
                     </form>
                 </div>
                 <br />
-                <BootAlert id="alert" title="Exito!" message="La operacion ha sido realizada." />
+                <BootAlert id='applicantAlert' title="Exito!" message="La operacion ha sido realizada." />
             </div>
 
         );
