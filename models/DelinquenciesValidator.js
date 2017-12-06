@@ -15,6 +15,9 @@ module.exports = {
         for(let key in delinquencies){
             if(isDelinquencyOver(delinquencies[key].delqDate, delinquencies[key].numDays )){
                 deleteDelinquency(delinquencies[key].id)
+                console.log("Se borró:"+delinquencies[key].id)
+            }else{
+                console.log("No se borró:"+delinquencies[key].id)
             }
         }
         return true;
