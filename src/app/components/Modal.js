@@ -115,6 +115,7 @@ class Modal extends Component {
                         break;
                     case "clerks":
                         id = selectedData.id;
+                        console.log(selectedData.id);
                         axios.delete('http://localhost:8080/applicants/clerk/' + id)
                             .then(response => {
                                 console.log(response.data);
@@ -140,6 +141,7 @@ class Modal extends Component {
                     default:
                         break;
                 }
+                break;
             case "logOut":
                 $('#myModal2').modal('hide');
                 this.props.setSection("Prestamos", "loanForm");
