@@ -308,15 +308,15 @@ class ApplicantForm extends React.Component {
     }
 
     resetFields() {
-        this.setState({
-            form: {
-                ...this.state.form,
-                barcode: InputElement('text', 'Nombre', ''
-                    , "barcode", "Codigo Barras"),
-                model: InputElement('text', 'Modelo', ''
-                    , "model", "Modelo")
-            }
-        });
+        // this.setState({
+        //     form: {
+        //         ...this.state.form,
+        //         barcode: InputElement('text', 'Nombre', ''
+        //             , "barcode", "Codigo Barras"),
+        //         model: InputElement('text', 'Modelo', ''
+        //             , "model", "Modelo")
+        //     }
+        // });
     }
 
     onSubmitHandler = (event) => {
