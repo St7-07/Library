@@ -1,6 +1,7 @@
 import React from "react";
 import "../styles/navBar.css";
 import Modal from './Modal'
+import RestorePassModal from '../containers/RestorePassModal';
 //export const NavBar = (props) => {
 export default class NavBar extends React.Component {
 
@@ -17,10 +18,16 @@ export default class NavBar extends React.Component {
 
         let statistics = (type === "Estadisticas") ? (<li className="active"><a onClick={() => this.props.onClick("Estadisticas", "statisticsForm")}><span>Estadisticas</span></a></li>)
             : (<li><a onClick={() => this.props.onClick("Estadisticas", "statisticsForm")}><span>Estadisticas</span></a></li>);
-        let modal = (<Modal
-            type={"userMenu"}
+
+
+        let modal = (typeUser === "Administrator") ? (<Modal
+            type={"userMenuAdmin"}
+            setType={this.props.setType}
+        />) : (<Modal
+            type={"userMenuNormal"}
             setType={this.props.setType}
         />)
+
         switch (type) {
             case "Prestamos":
                 subMenuHTML = (
@@ -52,6 +59,7 @@ export default class NavBar extends React.Component {
                                 </div>
                             </div>
                             {modal}
+                            <RestorePassModal modalID={"passModal"} />
                         </div>
                     </div>
                 );
@@ -88,6 +96,7 @@ export default class NavBar extends React.Component {
                                 </div>
                             </div>
                             {modal}
+                            <RestorePassModal modalID={"passModal"} />
                         </div>
                     </div>
                 );
@@ -124,6 +133,7 @@ export default class NavBar extends React.Component {
                                 </div>
                             </div>
                             {modal}
+                            <RestorePassModal modalID={"passModal"} />
                         </div>
                     </div>
                 );
@@ -160,6 +170,7 @@ export default class NavBar extends React.Component {
                                 </div>
                             </div>
                             {modal}
+                            <RestorePassModal modalID={"passModal"} />
                         </div>
                     </div>
                 );
@@ -196,6 +207,7 @@ export default class NavBar extends React.Component {
                                 </div>
                             </div>
                             {modal}
+                            <RestorePassModal modalID={"passModal"} />
                         </div>
                     </div>
                 );

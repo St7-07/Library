@@ -116,7 +116,7 @@ class ApplicantForm extends React.Component {
         this.setState({
             form: {
                 //cedula nombre , mail , telefono , celular
-                identification: InputElement('text', 'Cedula', '', "identification", "Cedula",true, false, 8, 12,false,true),
+                identification: InputElement('text', 'Cedula', '', "identification", "Cedula",true, false, 10, 10,false,true),
                 name: InputElement('text', 'Nombre', '', 'name', "Nombre",true, false, 2, 15,false),
                 lastname: InputElement('text', 'Apellido', '', "lastname", "Apellido",true, false, 2, 15,false),
                 email: InputElement('email', 'Email', '', 'email', "email",true, false, 5, 30,false),
@@ -144,7 +144,7 @@ class ApplicantForm extends React.Component {
                     locationID: 0,
                     form: {
                         //cedula nombre , mail , telefono , celular
-                        identification: InputElement('text', 'Cedula', '', "identification", "Cedula",true, false, 8, 12,false,true),
+                        identification: InputElement('text', 'Cedula', '', "identification", "Cedula",true, false, 10, 10,false,true),
                         name: InputElement('text', 'Nombre', '', 'name', "Nombre",true, false, 2, 15,false),
                         lastname: InputElement('text', 'Apellido', '', "lastname", "Apellido",true, false, 2, 15,false),
                         email: InputElement('email', 'Email', '', 'email', "email",true, false, 5, 30,false),
@@ -169,7 +169,7 @@ class ApplicantForm extends React.Component {
                             { value: '4', displayValue: 'Rodrigo' }]
                             , '', 'location', "Recinto",true),
                         career: InputElement('text', 'Carrera', '', "career", 'Carrera',true, false, 5, 20,false),
-                        studentID: InputElement('text', 'Carnet', '', "studentId", 'Carnet Estudiante',true, false, 3, 6,false)
+                        studentID: InputElement('text', 'Carnet', '', "studentId", 'Carnet Estudiante',true, false, 6, 6,false)
 
                     },
                     loadedDistricts: null,
@@ -182,7 +182,7 @@ class ApplicantForm extends React.Component {
                     locationID: 0,
                     form: {
                         //cedula nombre , mail , telefono , celular
-                        identification: InputElement('text', 'Cedula', '', "identification", "Cedula",true, false, 8, 12,false,true),
+                        identification: InputElement('text', 'Cedula', '', "identification", "Cedula",true, false, 10, 10,false,true),
                         name: InputElement('text', 'Nombre', '', 'name', "Nombre",true, false, 2, 15,false),
                         lastname: InputElement('text', 'Apellido', '', "lastname", "Apellido",true, false, 2, 15,false),
                         email: InputElement('email', 'Email', '', 'email', "email",true, false, 5, 30,false),
@@ -219,8 +219,6 @@ class ApplicantForm extends React.Component {
 
         } else {
             if (props.applicant.applicantType === 'STUDENT') {
-
-
                 this.state = {
                     old: props.applicant.studentID,
                     districtID: 0,
@@ -228,7 +226,7 @@ class ApplicantForm extends React.Component {
                     form: {
                         //cedula nombre , mail , telefono , celular
                         identification: InputElement('text', 'Cedula', props.applicant.identification, 
-                        "identification", "Cedula",true, false, 8, 12,false,true),
+                        "identification", "Cedula",true, false, 10, 10,false,true),
                         name: InputElement('text', 'Nombre', props.applicant.name, 'name', "Nombre",true, false, 2, 15,false),
                         lastname: InputElement('text', 'Apellido', props.applicant.lastname, "lastname", "Apellido",true, false, 2, 15,false),
                         email: InputElement('email', 'Email', props.applicant.email, 'email', "email",true, false, 5, 30,false),
@@ -255,8 +253,8 @@ class ApplicantForm extends React.Component {
                             { value: '3', displayValue: 'Alajuela' },
                             { value: '4', displayValue: 'Rodrigo' }]
                             , '', 'location', "Recinto",true),
-                        career: InputElement('text', 'Carrera', props.applicant.career, "career", 'Carrera'),
-                        studentID: InputElement('text', 'Carnet', props.applicant.studentID, "studentID", 'Carnet Estudiante')
+                        career: InputElement('text', 'Carrera', props.applicant.career, "career", 'Carrera',true,false,5,20),
+                        studentID: InputElement('text', 'Carnet', props.applicant.studentID, "studentID", 'Carnet Estudiante',true,false,6,6,false)
                     },
                     loadedDistricts: null,
                     loadedLocations: null,
@@ -270,7 +268,7 @@ class ApplicantForm extends React.Component {
                     form: {
                         //cedula nombre , mail , telefono , celular
                         identification: InputElement('text', 'Cedula', props.applicant.identification, 
-                        "identification", "Cedula",true, false, 8, 12,false,true),
+                        "identification", "Cedula",true, false, 10, 10,false,true),
                         name: InputElement('text', 'Nombre', props.applicant.name, 'name', "Nombre",true, false, 2, 15,false),
                         lastname: InputElement('text', 'Apellido', props.applicant.lastname, "lastname", "Apellido",true, false, 2, 15,false),
                         email: InputElement('email', 'Email', props.applicant.email, 'email', "email",true, false, 5, 30,false),

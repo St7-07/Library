@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import { setSubcontent } from "../actions/sectionActions";
+
 import { connect } from "react-redux";
 import axios from 'axios';
+
+import { setSection } from "../actions/sectionActions";
+import { setSubcontent } from "../actions/sectionActions";
 
 import { setApplicant } from "../actions/applicantActions";
 
@@ -65,7 +68,19 @@ class Modal extends Component {
                             onClick={() => this.clickHandler("applicantInfo", this.props.selectedData, this.props.refresh.bind(this))}>Ver info solicitante</a>
                     </div>
                 break;
-            case "userMenu":
+            case "userMenuAdmin":
+                modal =
+                    <div className="list-group">
+                        <a href="#" className="list-group-item"
+                            onClick={() => this.clickHandler("password")}>Cambiar Contraseña</a>
+                        <a href="#" className="list-group-item"
+                            onClick={() => this.clickHandler("logOut")}>Cerrar Sesion</a>
+                        <div>
+                        
+                        </div>
+                    </div>
+                break;
+            case "userMenuNormal":
                 modal =
                     <div className="list-group">
                         <a href="#" className="list-group-item"
@@ -74,10 +89,9 @@ class Modal extends Component {
                 break;
         }
         return (
-           
-        
+
             <div className="modal fade bs-example-modal-sm" tabindex="-1" role="dialog"
-                aria-labelledby="mySmallModalLabel" id={(this.props.type === "userMenu") ? "myModal2":"myModal"}>
+                aria-labelledby="mySmallModalLabel" id={(this.props.type === "userMenuAdmin" || this.props.type === "userMenuNormal") ? "myModal2" : "myModal"}>
                 <div className="modal-dialog modal-sm" role="document">
                     <div className="modal-content">
                         {modal}
@@ -136,8 +150,12 @@ class Modal extends Component {
                 }
             case "logOut":
                 $('#myModal2').modal('hide');
+                this.props.setSection("Prestamos", "loanForm");
                 this.props.setType("none", "");
                 break;
+            case "password":
+                $('#myModal2').modal('hide');
+                $('#passModal').modal('show');
                 break;
             case "showLoans":
                 break;
@@ -176,7 +194,10 @@ const mapDispatchToProps = (dispatch) => {
                     dispatch({ type: "SET_EQUIPMENT_INFO", payload: selectedData });
                     break;
             }
-        },
+        }, setSection: (section,subcontent) => {
+            dispatch(setSection(section));
+            dispatch(setSubcontent(subcontent));
+        }
     };
 };
 

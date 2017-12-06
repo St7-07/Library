@@ -1,5 +1,4 @@
 import React from 'react';
-import './Input.css';
 import axios from 'axios';
 import BootAlert from "../components/FormsUI/BootAlert";
 
@@ -28,8 +27,9 @@ import BootAlert from "../components/FormsUI/BootAlert";
     }
 
     updatePassword() {
-        axios.put('http://localhost:8080/users/pass', {username: this.state.username, password: this.setState.newpass})
+        axios.put('http://localhost:8080/users/pass', {username: this.state.username, password: this.state.newpass})
         .then(response => {
+            console.log(response);
             document.getElementById('alert').hidden = false;
         });
     }
@@ -51,8 +51,6 @@ import BootAlert from "../components/FormsUI/BootAlert";
    render() {
         return (
                 <div>
-                    <button type="button" className="btn btn-info btn-sm" data-toggle="modal" data-target={'#'+this.props.modalID}>
-                        <span class="glyphicon glyphicon-cog"></span>Cambiar Contraseña  </button>
 
                         <div className="modal fade" id={this.props.modalID} role="dialog">
                         <div className="modal-dialog">
@@ -98,7 +96,7 @@ import BootAlert from "../components/FormsUI/BootAlert";
     }
 };
 
-export default BootModal;
+export default RestorePassModal;
 
 
 
