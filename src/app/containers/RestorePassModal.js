@@ -70,13 +70,13 @@ import BootAlert from "../components/FormsUI/BootAlert";
 
                                     <div className="form-group">
                                         <label for="pass">Nueva contraseña: </label>
-                                        <input className="form-control input-sm" type="text" name="pass" id="pass"
+                                        <input className="form-control input-sm" type="password" name="pass" id="pass"
                                             onChange={(event)=> this.inputChangedHandler(event, 'newpass')}/>
                                     </div>
 
                                      <div className="form-group">
                                         <label for="adminPass">Contraseña de Administrador: </label>
-                                        <input className="form-control input-sm" type="text" name="adminPass" id="adminPass"
+                                        <input className="form-control input-sm" type="password" name="adminPass" id="adminPass"
                                             onChange={(event)=> this.inputChangedHandler(event, 'adminpass')}/>
                                     </div>
                                     <br/>
