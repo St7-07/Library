@@ -317,7 +317,6 @@ class Table extends Component {
                             loanDate: row.loanStartDate,
                             returnDate: row.loanFinishDate,
                             returnedDate: row.returnedDate,
-                            onClickHandler: this.optionSelectedHandler
                         }
                     });
                     break;
@@ -335,7 +334,6 @@ class Table extends Component {
                             loanStartDate: row.loanStartDate,
                             loanFinishDate: row.loanFinishDate,
                             returnedDate: row.returnedDate,
-                            onClickHandler: this.optionSelectedHandler
                         }
                     });
                     break;
