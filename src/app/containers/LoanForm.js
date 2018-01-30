@@ -87,6 +87,7 @@ class LoanForm extends React.Component {
         }
         switch (this.props.function) {    
             case 'CREATE':
+                
                 if((!this.avAlreadyLoaned()) && (!this.isDelinquent())){
                     axios.post('http://localhost:8080/loans/loan', formData)
                     .then(response => {
@@ -136,7 +137,7 @@ class LoanForm extends React.Component {
                 if(this.avAlreadyLoaned()){
                     axios.put('http://localhost:8080/loans/return/', formData)
                     .then(response => {
-                        this.reloadData();
+                        //this.reloadData();
                         this.setState({alert:{
                             message: "Prestamo devuelto con exito",
                             type : "success",
@@ -144,7 +145,7 @@ class LoanForm extends React.Component {
                         }});
                         document.getElementById('loanAlert').hidden = false;
                         this.validateDelinquency(this.getFinishDate());
-                        console.log("se devolvio")
+                        this.reloadData();
                     });
                 }else{
                     this.setState({alert:{
@@ -297,6 +298,7 @@ class LoanForm extends React.Component {
     componentDidUpdate(nextProps){
         if(!(this.props.function == nextProps.function)){
             this.formTypeHandler();
+            //this.reloadData();
         }
         if((!this.state.loanedAvs) || (!this.state.delinquentsIdentifications)
             ||(!this.state.delinquentsLicense)){
