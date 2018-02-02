@@ -34,6 +34,9 @@ class Content extends React.Component {
             case "tableLoans":
                 subContent = <TableHandler tableType='loans' />
                 break;
+            case "tableActiveLoans":
+                subContent = <TableHandler tableType='activeLoans' />
+                break;
             case "updateApplicant":
                 subContent = <ApplicantForm function="UPDATE" />
                 break;

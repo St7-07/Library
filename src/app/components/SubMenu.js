@@ -58,6 +58,8 @@ class SubMenu extends React.Component{
                 subMenuHTML = (
                     <div className="row">
                         <div className="col-xs-10 col-md-offset-2">
+                            <Button buttonType={"historial"}  clicked={this.props.setSubcontent} />
+                            <Button buttonType={"pendientes"}  clicked={this.props.setSubcontent} />
                         </div>
                     </div>
                 );

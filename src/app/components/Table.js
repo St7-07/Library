@@ -33,6 +33,10 @@ class Table extends Component {
             case 'defaulters':
                 route = 'delinquencies';
                 break;
+
+            case 'activeLoans':
+                route = 'loans/activeLoans';
+                break;
         }
         return route;
     }
@@ -203,7 +207,35 @@ class Table extends Component {
                         }
                     ];
                 break;
-
+            case 'activeLoans':
+                columns =
+                    [
+                        {
+                            key: 'barcode',
+                            label: 'Codigo de Barras',
+                        },
+                        {
+                            key: 'id',
+                            label: 'Cedula',
+                        },
+                        {
+                            key: 'name',
+                            label: 'Nombre',
+                        },
+                        {
+                            key: 'lastname',
+                            label: 'Apellidos',
+                        },
+                        {
+                            key: 'loanDate',
+                            label: 'Fecha Prestamo',
+                        },
+                        {
+                            key: 'returnedDate',
+                            label: 'Fecha Devuelto',
+                        }
+                    ];
+                break;
             case 'defaulters':
                 columns =
                     [
@@ -316,6 +348,20 @@ class Table extends Component {
                             barcode: row.barcode,
                             loanDate: row.loanStartDate,
                             returnDate: row.loanFinishDate,
+                            returnedDate: row.returnedDate,
+                        }
+                    });
+                    break;
+
+                case 'activeLoans':
+                    rows = this.state.loadedData.map(row => {
+                        return {
+                            id: row.identification,
+                            name: row.name,
+                            lastname: row.lastname,
+                            studentId: row.carnet,
+                            barcode: row.barcode,
+                            loanDate: row.loanStartDate,
                             returnedDate: row.returnedDate,
                         }
                     });

@@ -103,4 +103,18 @@ router.get('/finishDates', function (req, res, next) {
     });
 });
 
+router.get('/activeLoans', function (req, res, next) {
+    let barcode = req.params.barcode;
+    console.log(barcode);
+    db_connection.then(pool => {
+        console.log("conecto");
+        return pool.request()
+        .execute('showActiveLoans');
+    }).then(result => {
+        res.send(result.recordsets[0]);
+    }).catch(err => {
+        res.send('fallo al mostrar morosidades' + err);
+    });
+});
+
 module.exports = router;
