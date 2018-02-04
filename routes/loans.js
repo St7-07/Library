@@ -21,13 +21,26 @@ router.get('/', function (req, res, next) {
 
 
 function popullateLoanPool(pool, req) { 
-    let loan = req.body;
-
+    var loan = req.body;
+    
+    let finishDate ={
+        date:null
+    };
     let type = new IdentifierType(loan.peopleLicenseOrId) 
     
     //Crea startDate
     let starDate = new Loan('actual','');
-    let finishDate = new Loan('end',loan.endDate);
+    if(loan.type == 'AUTO'){
+        console.log("ENTRA A AUTO")
+        finishDate = new Loan('end',loan.endDate);
+    }
+
+    if(loan.type == 'MANUAL'){
+        console.log("ENTRA A MANUAL")
+        finishDate.date = new Date(loan.endDate+'T23:59Z');
+    }
+    
+    //console.log(loan.endDate)
 
     pool.input('peopleLicenseOrId', sql.NVarChar(50), loan.peopleLicenseOrId).
     input('startDate', sql.DateTime, starDate.date).

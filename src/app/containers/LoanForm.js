@@ -1,9 +1,10 @@
 import React from 'react';
-
+import { connect } from "react-redux";
 import "../styles/Form.css";
 import { Input, InputElement, SelectElement ,InputChangedHandler,checkValidity} from "../components/FormsUI/Input";
 import axios from 'axios';
 import BootAlert from '../components/FormsUI/BootAlert';
+import {setSubcontent} from "../actions/sectionActions";
 
 class LoanForm extends React.Component {
     constructor(props) {
@@ -80,15 +81,31 @@ class LoanForm extends React.Component {
             document.getElementById('delqAlert').hidden = true;
         }
         event.preventDefault();
-        const formData = {};
+        let formData = {};
 
         for (let formElementIdentifier in this.state.form) {
             formData[formElementIdentifier] = this.state.form[formElementIdentifier].value;
         }
         switch (this.props.function) {    
             case 'CREATE':
-                
+            case 'MANUAL': 
+                console.log(this.props.function);  
                 if((!this.avAlreadyLoaned()) && (!this.isDelinquent())){
+                   // formData.push('AUTO');
+                   if(this.props.function == 'MANUAL'){
+                        formData = {
+                            ...formData,
+                            type: 'MANUAL'
+                        }
+                   }
+                   if(this.props.function == 'CREATE'){
+                        formData = {
+                            ...formData,
+                            type: 'AUTO'
+                        }
+                        console.log(formData.type)
+                   }
+
                     axios.post('http://localhost:8080/loans/loan', formData)
                     .then(response => {
                         this.setState({alert:{
@@ -110,6 +127,8 @@ class LoanForm extends React.Component {
                     console.log("No se hizo prestamo")
                 }
             break;
+            
+
             case 'EDIT':
                 if(this.avAlreadyLoaned()){
                     axios.put('http://localhost:8080/loans/renew/', formData)
@@ -191,6 +210,15 @@ class LoanForm extends React.Component {
                 form: {
                 barcode: InputElement('text', 'Barcode', '', "barcode","Codigo de Barras",true, false, 5, 20,false)
             },formIsValid:false });
+            break;
+            case "MANUAL":
+            this.setState({
+                ...this.state,
+                form: {
+                    barcode: InputElement('text', 'Barcode', '', "barcode","Codigo de Barras",true, false, 5, 20,false),
+                    peopleLicenseOrId: InputElement('text', 'Carnet/Cedula', '', 'peopleLicenseOrId', 'Carnet',true, false, 5, 20,false,false,null,true),
+                    endDate: InputElement('date', 'Fecha Devolucion', '', 'finishDate', 'Fecha de Devolucion',true, false, 5, 20,false,false,null,true),
+                },formIsValid:false});
             break;
         }
     }
@@ -349,7 +377,17 @@ class LoanForm extends React.Component {
         });
     }
 
+
+
     render() {
+        let buttons = null;
+        if((this.props.function === 'CREATE') || (this.props.function === 'MANUAL')){
+            buttons = <div className="btn-group">
+                <button hidden={(this.props.function === 'CREATE') || (this.props.function === 'MANUAL')?false:true} type="button" className="btn btn-primary" onClick={() => this.props.setSubcontent('loanForm')}>Automático</button>
+                <button hidden={(this.props.function === 'CREATE') || (this.props.function === 'MANUAL')?false:true} type="button" className="btn btn-primary" onClick={() => this.props.setSubcontent('manualForm')}>Manual</button>
+                </div>
+                
+        }
         const formElementsArray = [];
         for (let key in this.state.form) { //Creates an array to loop through an object attributes
             formElementsArray.push({
@@ -360,6 +398,10 @@ class LoanForm extends React.Component {
         return (
             <div className="formSpace">
                 <div className="row">
+                {buttons}
+                <br />
+                <br />
+                <br />
                     <form onSubmit={(event) => this.onSubmitHandler(event)}>
                         <div className="col-sm-2">
                             {formElementsArray.map(formElement => (
@@ -391,5 +433,19 @@ class LoanForm extends React.Component {
     } 
 };
 
+const mapStateToProps = (state) => {
+    return {
+        sectionReducer: state.sectionReducer
+    };
+};
 
-export default LoanForm;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setSubcontent: (type) => {
+            dispatch(setSubcontent(type));
+        }
+
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoanForm);
