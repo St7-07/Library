@@ -65,11 +65,14 @@ class LoanForm extends React.Component {
                 delinquentsLicense: null,
                 avFinishDate: null,
                 formIsValid:false,
+                expireLicense: null,
+                expireIdentifications: null,
 
                 alert :{
                     message: "",
                     type : "",
-                    title:""
+                    title:"",
+                    link: ""
                 },
                 delinquentBootAlert : null
             };
@@ -89,43 +92,55 @@ class LoanForm extends React.Component {
         switch (this.props.function) {    
             case 'CREATE':
             case 'MANUAL': 
-                console.log(this.props.function);  
-                if((!this.avAlreadyLoaned()) && (!this.isDelinquent())){
-                   // formData.push('AUTO');
-                   if(this.props.function == 'MANUAL'){
-                        formData = {
-                            ...formData,
-                            type: 'MANUAL'
-                        }
-                   }
-                   if(this.props.function == 'CREATE'){
-                        formData = {
-                            ...formData,
-                            type: 'AUTO'
-                        }
-                        console.log(formData.type)
-                   }
-
-                    axios.post('http://localhost:8080/loans/loan', formData)
-                    .then(response => {
-                        this.setState({alert:{
-                                            message: response.data[0].msg,
-                                            type : "neutral",
-                                            title:""
-                                        }});
-                        document.getElementById('loanAlert').hidden = false;
-                        this.reloadData();
-                        console.log("Si se hizo prestamo")
-                    });
-                }else{
+                console.log(this.props.function);
+                if(this.isExpired()){
                     this.setState({alert:{
-                        message: "El solicitante tiene una morosidad pendiente o el equipo ya está en prestamo",
-                        type : "danger",
-                        title:"Error!"
+                        message: "El solicitante se encuentra desactualizado",
+                        type : "warning",
+                        title:"Alerta!",
+                        link:"Actualizar"
                     }});
                     document.getElementById('loanAlert').hidden = false;
                     console.log("No se hizo prestamo")
-                }
+                }else{
+                    if((!this.avAlreadyLoaned()) && (!this.isDelinquent())){
+                        // formData.push('AUTO');
+                        if(this.props.function == 'MANUAL'){
+                             formData = {
+                                 ...formData,
+                                 type: 'MANUAL'
+                             }
+                        }
+                        if(this.props.function == 'CREATE'){
+                             formData = {
+                                 ...formData,
+                                 type: 'AUTO'
+                             }
+                             console.log(formData.type)
+                        }
+     
+                         axios.post('http://localhost:8080/loans/loan', formData)
+                         .then(response => {
+                             this.setState({alert:{
+                                                 message: response.data[0].msg,
+                                                 type : "neutral",
+                                                 title:""
+                                             }});
+                             document.getElementById('loanAlert').hidden = false;
+                             this.reloadData();
+                             console.log("Si se hizo prestamo")
+                         });
+                     }else{
+                         this.setState({alert:{
+                             message: "El solicitante tiene una morosidad pendiente o el equipo ya está en prestamo",
+                             type : "danger",
+                             title:"Error!"
+                         }});
+                         document.getElementById('loanAlert').hidden = false;
+                         console.log("No se hizo prestamo")
+                     }
+                }  
+                
             break;
             
 
@@ -263,7 +278,7 @@ class LoanForm extends React.Component {
                     isDelinquent = true;
                 }
             }
-        }else if(identifier.length == 10){//In case that the identifier is an identification
+        }else if(identifier.length == 10 || identifier.length == 9){//In case that the identifier is an identification
             if(this.state.delinquentsIdentifications){
                 delinquentsIds = this.state.delinquentsIdentifications.map(delq => {
                     return{
@@ -278,6 +293,42 @@ class LoanForm extends React.Component {
             }
         }
         return isDelinquent;
+    }
+
+    isExpired = () => {
+        let identifier = this.state.form.peopleLicenseOrId.value;
+        let expireIDS = [];
+        let expireLicense = [];
+        let isExpired= false;
+
+        if(identifier.length == 6){ //In case that the identifier is a license
+            if(this.state.expireLicense){
+                expireLicense = this.state.expireLicense.map(expired => {
+                    return{
+                        expired_Id : expired.studentLicense
+                    }
+                });
+            }
+            for(let key in expireLicense){
+                if(expireLicense[key].expired_Id == identifier){
+                    isExpired = true;
+                }
+            }
+        }else if(identifier.length == 10 || identifier.length == 9){//In case that the identifier is an identification
+            if(this.state.expireIdentifications){
+                expireIDS = this.state.expireIdentifications.map(expired => {
+                    return{
+                        expired_Id : expired.identification
+                    }
+                });
+            }
+            for(let key in expireIDS){
+                if(expireIDS[key].expired_Id == identifier){
+                    isExpired = true;
+                }
+            }
+        }
+        return isExpired;
     }
 
     getFinishDate = () =>{
@@ -375,6 +426,16 @@ class LoanForm extends React.Component {
         .then(response =>{
             this.setState({avFinishDate:response.data})
         });
+
+        axios.get('http://localhost:8080/applicants/identificationsExpireDate/')
+        .then(response =>{
+            this.setState({expireIdentifications : response.data})
+        });
+
+        axios.get('http://localhost:8080/applicants/licensesExpireDate/')
+        .then(response =>{
+            this.setState({expireLicense : response.data})
+        });
     }
 
 
@@ -425,7 +486,7 @@ class LoanForm extends React.Component {
                 </div>
                 <br/>
                     <BootAlert alertType={this.state.alert.type} id='loanAlert' title={this.state.alert.title}
-                                message={this.state.alert.message}/>
+                                message={this.state.alert.message} link={this.state.alert.link}/>
 
                     {this.state.delinquentBootAlert}
             </div>

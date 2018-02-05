@@ -40,7 +40,7 @@ class BootAlert extends React.Component {
             return (
                 <div class={this.alertClass} id={this.props.id} hidden={"true"}>
                     <button class="close" onClick={() => this.hide()} aria-label="close" >&times;</button>
-                    <strong>{this.props.title}</strong> {this.props.message}
+                    <strong>{this.props.title}</strong> {this.props.message} <a>{this.props.link}</a>
                 </div>
             );
         }

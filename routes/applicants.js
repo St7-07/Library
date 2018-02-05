@@ -82,6 +82,33 @@ router.get('/students', function(req, res, next) {
   });
 });
 
+router.get('/licensesExpireDate', function(req, res, next) {
+   
+    //res.writeHead(200,{'Content-Type':'application/json'});
+    DB_Connnection.then(pool => {
+      console.log("conecto");
+      return pool.request().execute('getLicenseExpirationDates');
+    }).then(result => {
+        res.send(result.recordsets[0]);
+    }).catch(err => {
+      console.log(err);
+        res.send('Fallo al ejecutar procedimiento.' + err);
+    });
+  });
+
+  router.get('/identificationsExpireDate', function(req, res, next) {
+   
+    //res.writeHead(200,{'Content-Type':'application/json'});
+    DB_Connnection.then(pool => {
+      console.log("conecto");
+      return pool.request().execute('getIdentificationsExpirationDates');
+    }).then(result => {
+        res.send(result.recordsets[0]);
+    }).catch(err => {
+      console.log(err);
+        res.send('Fallo al ejecutar procedimiento.' + err);
+    });
+  });
 
 
 function popullatePersonPool(pool, req) {
@@ -100,7 +127,7 @@ function popullatePersonPool(pool, req) {
                   console.log(person.districtID);
                   console.log(applicant.signals);
                   console.log(applicant.location);
-    pool.input('identification',sql.Int, person.identification)
+    pool.input('identification',sql.NVarChar(50), person.identification)
         .input('name', sql.NVarChar(50),person.name)
         .input('lastname', sql.NVarChar(50), person.lastname)
         .input('email', sql.NVarChar(50), person.email)
