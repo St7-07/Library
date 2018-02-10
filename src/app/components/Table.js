@@ -231,8 +231,8 @@ class Table extends Component {
                             label: 'Fecha Prestamo',
                         },
                         {
-                            key: 'returnedDate',
-                            label: 'Fecha Devuelto',
+                            key: 'loanFinishDate',
+                            label: 'Fecha Retorno',
                         }
                     ];
                 break;
@@ -362,7 +362,7 @@ class Table extends Component {
                             studentId: row.carnet,
                             barcode: row.barcode,
                             loanDate: row.loanStartDate,
-                            returnedDate: row.returnedDate,
+                            loanFinishDate: row.loanFinishDate,
                         }
                     });
                     break;

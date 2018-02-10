@@ -28,7 +28,7 @@ export default class LogIn extends React.Component {
                         <Button buttonType={"administrator"} hideLogIn={this.hideLogIn.bind(this)} />
                         <Button buttonType={"normalUser"} hideLogIn={this.hideLogIn.bind(this)} />
                         <label className="labelError" id="errorMessage" >Contraseña o nombre de usuario incorrecto trate de nuevo!</label>
-                        <label className="labelError" id="forgotPassword" onClick={() => this.showPuk()}>Se te olvido la contraseña? Recuperara!</label>
+                        <label className="labelError" id="forgotPassword" onClick={() => this.showPuk()}>Se te olvido la contraseña? Recuperar!</label>
                         <div className="pukDiv">
                             <div className="pukDivContent">
                                 <label>Ingrese el nombre de usuario y el codigo PUK para recuperar la contraseña</label><br />

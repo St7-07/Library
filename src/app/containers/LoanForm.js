@@ -5,6 +5,7 @@ import { Input, InputElement, SelectElement ,InputChangedHandler,checkValidity} 
 import axios from 'axios';
 import BootAlert from '../components/FormsUI/BootAlert';
 import {setSubcontent} from "../actions/sectionActions";
+import { setApplicant } from "../actions/applicantActions";
 
 class LoanForm extends React.Component {
     constructor(props) {
@@ -67,7 +68,7 @@ class LoanForm extends React.Component {
                 formIsValid:false,
                 expireLicense: null,
                 expireIdentifications: null,
-
+                outdated: null,
                 alert :{
                     message: "",
                     type : "",
@@ -77,6 +78,7 @@ class LoanForm extends React.Component {
                 delinquentBootAlert : null
             };
     }
+
 
     onSubmitHandler = (event) => {
         document.getElementById('loanAlert').hidden = true;
@@ -95,7 +97,7 @@ class LoanForm extends React.Component {
                 console.log(this.props.function);
                 if(this.isExpired()){
                     this.setState({alert:{
-                        message: "El solicitante se encuentra desactualizado",
+                        message: "El solicitante se encuentra desactualizado. ",
                         type : "warning",
                         title:"Alerta!",
                         link:"Actualizar"
@@ -300,6 +302,7 @@ class LoanForm extends React.Component {
         let expireIDS = [];
         let expireLicense = [];
         let isExpired= false;
+        let data = ''; 
 
         if(identifier.length == 6){ //In case that the identifier is a license
             if(this.state.expireLicense){
@@ -312,8 +315,15 @@ class LoanForm extends React.Component {
             for(let key in expireLicense){
                 if(expireLicense[key].expired_Id == identifier){
                     isExpired = true;
+                    data = identifier+'.'+2;
+                    console.log(data)
+                    this.getOudatedData(data);
                 }
             }
+            // this.setState({outdated:{
+            //                     type:  
+            //                 }
+            //                 })
         }else if(identifier.length == 10 || identifier.length == 9){//In case that the identifier is an identification
             if(this.state.expireIdentifications){
                 expireIDS = this.state.expireIdentifications.map(expired => {
@@ -325,6 +335,9 @@ class LoanForm extends React.Component {
             for(let key in expireIDS){
                 if(expireIDS[key].expired_Id == identifier){
                     isExpired = true;
+                    data = identifier+'.'+1;
+                    console.log(data)
+                    this.getOudatedData(data);
                 }
             }
         }
@@ -438,6 +451,14 @@ class LoanForm extends React.Component {
         });
     }
 
+    getOudatedData= (data) => {
+        console.log(data)
+        axios.get('http://localhost:8080/applicants/outdated/'+data)
+        .then(response =>{
+            this.setState({outdated : response.data})
+        });
+    }
+
 
 
     render() {
@@ -486,7 +507,10 @@ class LoanForm extends React.Component {
                 </div>
                 <br/>
                     <BootAlert alertType={this.state.alert.type} id='loanAlert' title={this.state.alert.title}
-                                message={this.state.alert.message} link={this.state.alert.link}/>
+                                message={this.state.alert.message} link={this.state.alert.link} 
+                                clicked={() => this.props.setSubcontent2("updateApplicant",
+                                                           this.state.outdated[0], 
+                                                           this.state.outdated[0].type)}/>
 
                     {this.state.delinquentBootAlert}
             </div>
@@ -504,6 +528,13 @@ const mapDispatchToProps = (dispatch) => {
     return {
         setSubcontent: (type) => {
             dispatch(setSubcontent(type));
+        }
+        ,
+        setSubcontent2:(type,data,applicantType) =>{
+            console.log(applicantType)
+            dispatch(setSubcontent(type));
+            dispatch({ type: "CHANGE_APPLICANT_TYPE", payload: applicantType });
+            dispatch(setApplicant(type, data));
         }
 
     };

@@ -218,6 +218,22 @@ router.get('/clerks', function(req, res, next) {
   });
 });
 
+router.get('/outdated/:data', function(req, res, next) {
+    //res.writeHead(200,{'Content-Type':'application/json'});
+    let dataArray = req.params.data.split('.');
+    DB_Connnection.then(pool => {
+      return pool.request()
+                    .input('id', sql.NVarChar, dataArray[0])
+                    .input('type', sql.Int, dataArray[1])
+                    .execute('showOutdatedData');
+    }).then(result => {
+        res.send(result.recordsets[0]);
+        console.log(result.recordsets[0])
+    }).catch(err => {
+        res.send('Fallo al ejecutar procedimiento.' + err);
+    });
+  });
+
 //create the new clerk 
 router.post('/clerk', function(req, res, next) {
     let clerk = req.body;
